@@ -1,0 +1,1316 @@
+#===========================================================
+# CONSTANTS
+#===========================================================
+HDFQL_VERSION <- "1.5.0"
+
+HDFQL_BUFFER_SIZE <- 1024
+
+HDFQL_YES <- 0
+
+HDFQL_NO <- -1
+
+HDFQL_ENABLED <- 0
+
+HDFQL_DISABLED <- -1
+
+HDFQL_DEFAULT <- -1
+
+HDFQL_UNLIMITED <- -1
+
+HDFQL_UNDEFINED <- -1
+
+HDFQL_GLOBAL <- 1
+
+HDFQL_LOCAL <- 2
+
+HDFQL_ASCEND <- 1
+
+HDFQL_DESCEND <- 2
+
+HDFQL_REVERSE <- 4
+
+HDFQL_TOP <- 1
+
+HDFQL_BOTTOM <- 2
+
+HDFQL_TRACKED <- 1
+
+HDFQL_INDEXED <- 2
+
+HDFQL_DOS <- 1
+
+HDFQL_UNIX <- 2
+
+HDFQL_VALUE <- 1
+
+HDFQL_TEXT <- 2
+
+HDFQL_BINARY <- 4
+
+HDFQL_MEMORY <- 8
+
+
+HDFQL_DIRECTORY <- 1
+
+HDFQL_FILE <- 2
+
+HDFQL_GROUP <- 4
+
+HDFQL_DATASET <- 8
+
+HDFQL_ATTRIBUTE <- 16
+
+HDFQL_SOFT_LINK <- 32
+
+HDFQL_HARD_LINK <- 64
+
+HDFQL_EXTERNAL_LINK <- 128
+
+
+HDFQL_CONTIGUOUS <- 1
+
+HDFQL_COMPACT <- 2
+
+HDFQL_CHUNKED <- 4
+
+
+HDFQL_TINYINT <- 1
+
+HDFQL_UNSIGNED_TINYINT <- 2
+
+HDFQL_SMALLINT <- 4
+
+HDFQL_UNSIGNED_SMALLINT <- 8
+
+HDFQL_INT <- 16
+
+HDFQL_UNSIGNED_INT <- 32
+
+HDFQL_BIGINT <- 64
+
+HDFQL_UNSIGNED_BIGINT <- 128
+
+HDFQL_FLOAT <- 256
+
+HDFQL_DOUBLE <- 512
+
+HDFQL_CHAR <- 1024
+
+HDFQL_VARTINYINT <- 2048
+
+HDFQL_UNSIGNED_VARTINYINT <- 4096
+
+HDFQL_VARSMALLINT <- 8192
+
+HDFQL_UNSIGNED_VARSMALLINT <- 16384
+
+HDFQL_VARINT <- 32768
+
+HDFQL_UNSIGNED_VARINT <- 65536
+
+HDFQL_VARBIGINT <- 131072
+
+HDFQL_UNSIGNED_VARBIGINT <- 262144
+
+HDFQL_VARFLOAT <- 524288
+
+HDFQL_VARDOUBLE <- 1048576
+
+HDFQL_VARCHAR <- 2097152
+
+HDFQL_OPAQUE <- 4194304
+
+HDFQL_BITFIELD <- 8388608
+
+HDFQL_ENUMERATION <- 16777216
+
+HDFQL_COMPOUND <- 33554432
+
+
+HDFQL_NATIVE_ENDIAN <- 1
+
+HDFQL_LITTLE_ENDIAN <- 2
+
+HDFQL_BIG_ENDIAN <- 4
+
+
+HDFQL_ASCII <- 1
+
+HDFQL_UTF8 <- 2
+
+
+HDFQL_EARLIEST <- 1
+
+HDFQL_LATEST <- 2
+
+HDFQL_VERSION_18 <- 4
+
+
+HDFQL_SUCCESS <- 0
+
+HDFQL_ERROR_PARSE <- -1
+
+HDFQL_ERROR_NOT_FOUND <- -2
+
+HDFQL_ERROR_NO_ACCESS <- -3
+
+HDFQL_ERROR_NOT_OPEN <- -4
+
+HDFQL_ERROR_INVALID_FILE <- -5
+
+HDFQL_ERROR_NOT_ENOUGH_SPACE <- -6
+
+HDFQL_ERROR_NOT_ENOUGH_MEMORY <- -7
+
+HDFQL_ERROR_ALREADY_EXISTS <- -8
+
+HDFQL_ERROR_EMPTY <- -9
+
+HDFQL_ERROR_FULL <- -10
+
+HDFQL_ERROR_BEFORE_FIRST <- -11
+
+HDFQL_ERROR_AFTER_LAST <- -12
+
+HDFQL_ERROR_OUTSIDE_LIMIT <- -13
+
+HDFQL_ERROR_NO_ADDRESS <- -14
+
+HDFQL_ERROR_UNEXPECTED_TYPE <- -15
+
+HDFQL_ERROR_UNEXPECTED_DATATYPE <- -16
+
+HDFQL_ERROR_NOT_REGISTERED <- -17
+
+HDFQL_ERROR_INVALID_REGULAR_EXPRESSION  <- -18
+
+HDFQL_ERROR_UNKNOWN <- -99
+
+
+
+#===========================================================
+# VARIABLES
+#===========================================================
+hdfql_variable_list <- rep(-1, 16)
+
+
+
+#===========================================================
+# CLASSES
+#===========================================================
+hdfql_cursor_ <- setRefClass("hdfql_cursor_", field = list(address = "numeric"), method = list(finalize = function(){.Call("_hdfql_cursor_destroy", .self$address)}))
+
+
+
+#===========================================================
+# GENERAL FUNCTIONS
+#===========================================================
+hdfql_execute <- function(script)
+{
+
+	if (is.character(script) == FALSE)
+	{
+		return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+	}
+
+	return (.Call("hdfql_execute", script))
+
+}
+
+
+
+hdfql_execute_get_status <- function()
+{
+
+	return (.Call("hdfql_execute_get_status"))
+
+}
+
+
+
+hdfql_error_get_line <- function()
+{
+
+	return (.Call("hdfql_error_get_line"))
+
+}
+
+
+
+hdfql_error_get_position <- function()
+{
+
+	return (.Call("hdfql_error_get_position"))
+
+}
+
+
+
+hdfql_error_get_message <- function()
+{
+
+	return (.Call("hdfql_error_get_message"))
+
+}
+
+
+
+hdfql_get_canonical_path <- function(object_name)
+{
+
+	if (is.character(object_name) == FALSE)
+	{
+		return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+	}
+
+	return (.Call("hdfql_get_canonical_path", object_name))
+
+}
+
+
+
+#===========================================================
+# CURSOR FUNCTIONS
+#===========================================================
+hdfql_cursor <- function()
+{
+
+	cursor <- hdfql_cursor_()
+
+	cursor$address = .Call("_hdfql_cursor_create")
+
+	return (cursor)
+
+}
+
+
+
+hdfql_cursor_initialize <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_initialize", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_initialize", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_use <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_use", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_use", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_use_default <- function()
+{
+
+	return (.Call("hdfql_cursor_use_default"))
+
+}
+
+
+
+hdfql_cursor_clear <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_clear", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_clear", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_clone <- function(cursor_original = NULL, cursor_clone)
+{
+
+	if (is.null(cursor_original) == TRUE)
+	{
+		if (is(cursor_clone, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_clone", NULL, cursor_clone$address))
+	}
+	else
+	{
+		if (is(cursor_original, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		if (is(cursor_clone, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_clone", cursor_original$address, cursor_clone$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_datatype <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_datatype", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_datatype", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_count <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_count", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_count", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_count <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_count", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_count", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_position <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_position", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_position", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_position <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_position", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_position", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_first <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_first", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_first", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_first <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_first", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_first", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_last <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_last", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_last", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_last <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_last", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_last", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_next <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_next", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_next", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_next <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_next", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_next", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_previous <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_previous", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_previous", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_previous <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_previous", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_previous", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_absolute <- function(cursor = NULL, position)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_absolute", NULL, position))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_absolute", cursor$address, position))
+	}
+
+}
+
+
+
+hdfql_subcursor_absolute <- function(cursor = NULL, position)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_absolute", NULL, position))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_absolute", cursor$address, position))
+	}
+
+}
+
+
+
+hdfql_cursor_relative <- function(cursor = NULL, position)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_relative", NULL, position))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_relative", cursor$address, position))
+	}
+
+}
+
+
+
+hdfql_subcursor_relative <- function(cursor = NULL, position)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_relative", NULL, position))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		if (is.integer(position) == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_relative", cursor$address, position))
+	}
+
+}
+
+
+
+hdfql_cursor_get_size <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_size", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_size", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_size <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_size", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_size", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_tinyint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_tinyint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_tinyint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_tinyint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_tinyint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_tinyint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_unsigned_tinyint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_unsigned_tinyint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_unsigned_tinyint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_unsigned_tinyint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_unsigned_tinyint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_unsigned_tinyint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_smallint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_smallint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_smallint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_smallint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_smallint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_smallint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_unsigned_smallint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_unsigned_smallint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_unsigned_smallint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_unsigned_smallint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_unsigned_smallint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_unsigned_smallint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_int <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_int", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_int", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_int <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_int", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_int", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_unsigned_int <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_unsigned_int", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_unsigned_int", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_unsigned_int <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_unsigned_int", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_unsigned_int", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_bigint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_bigint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_bigint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_bigint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_bigint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_bigint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_unsigned_bigint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_unsigned_bigint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_unsigned_bigint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_unsigned_bigint <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_unsigned_bigint", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_unsigned_bigint", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_float <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_float", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_float", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_float <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_float", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_float", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_double <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_double", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_double", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_double <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_double", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_double", cursor$address))
+	}
+
+}
+
+
+
+hdfql_cursor_get_char <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_cursor_get_char", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_cursor_get_char", cursor$address))
+	}
+
+}
+
+
+
+hdfql_subcursor_get_char <- function(cursor = NULL)
+{
+
+	if (is.null(cursor) == TRUE)
+	{
+		return (.Call("hdfql_subcursor_get_char", NULL))
+	}
+	else
+	{
+		if (is(cursor, "hdfql_cursor_") == FALSE)
+		{
+			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		}
+		return (.Call("hdfql_subcursor_get_char", cursor$address))
+	}
+
+}
+
+
+
+#===========================================================
+# VARIABLE FUNCTIONS
+#===========================================================
+hdfql_variable_register <- function(variable)
+{
+
+	return (.Call("hdfql_variable_register", variable))
+
+}
+
+
+
+hdfql_variable_unregister <- function(variable)
+{
+
+	return (.Call("hdfql_variable_unregister", variable))
+
+}
+
+
+
+hdfql_variable_get_number <- function(variable)
+{
+
+	return (.Call("hdfql_variable_get_number", variable))
+
+}
+
+
+
+hdfql_variable_get_datatype <- function(variable)
+{
+
+	return (.Call("hdfql_variable_get_datatype", variable))
+
+}
+
+
+
+hdfql_variable_get_count <- function(variable)
+{
+
+	return (.Call("hdfql_variable_get_count", variable))
+
+}
+
+
+
+hdfql_variable_get_size <- function(variable)
+{
+
+	return (.Call("hdfql_variable_get_size", variable))
+
+}
+
+
+
+hdfql_variable_get_dimension_count <- function(variable)
+{
+
+	return (.Call("hdfql_variable_get_dimension_count", variable))
+
+}
+
+
+
+hdfql_variable_get_dimension <- function(variable, index)
+{
+
+	return (.Call("hdfql_variable_get_dimension", variable, index))
+
+}
+
+
+
+#===========================================================
+# REFRESH R OBJECT TABLE
+#===========================================================
+cacheMetaData(1)
+
