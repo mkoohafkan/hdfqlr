@@ -1,11 +1,13 @@
+#' HDFql DLLs
+#'
+#' The HDFql DLLs are part of the Hierarchical Data Format query language (HDFql).
+#'
+#' @details Copyright (C) 2016-2017.
+#' For more information about HDFql, please visit the website http://www.hdfql.com.
+#'
+#' @name HDFql 
 #' @useDynLib HDFql
 NULL
-
-# Copyright (C) 2016-2017
-# This file is part of the Hierarchical Data Format query language (HDFql)
-# For more information about HDFql, please visit the website http://www.hdfql.com
-
-# $Rev: 157 $
 
 .onLoad = function(libname, pkgname){
   # LOAD HDFQL SHARED LIBRARY
