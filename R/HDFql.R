@@ -1,7 +1,13 @@
+# Copyright (C) 2016-2017
+# This file is part of the Hierarchical Data Format query language (HDFql)
+# For more information about HDFql, please visit the website http://www.hdfql.com
+
+# $Rev: 157 $
+
 #===========================================================
 # CONSTANTS
 #===========================================================
-HDFQL_VERSION <- "1.5.0"
+HDFQL_VERSION <- "1.5.1"
 
 HDFQL_BUFFER_SIZE <- 1024
 
