@@ -8,6 +8,8 @@ get_error = function() {
 get_dimension = function(path, otype) {
   if(missing(otype))
     otype = hdfql.keywords[[(get_type(path))]]
+  if (otype == "HDFQL_ATTRIBUTE")
+    otype = ""
   out = integer(32) 
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
@@ -21,7 +23,9 @@ get_dimension = function(path, otype) {
 
 get_datatype = function(path, otype) {
   if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
+    otype = hdfql.keywords[[get_type(path)]]
+ # if (otype == "HDFQL_ATTRIBUTE")
+ #   otype = ""
   out = integer(1)
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
@@ -31,13 +35,6 @@ get_datatype = function(path, otype) {
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
   names(hdfql.dtypes)[which(hdfql.dtypes == out)]
-}
-
-get_string = function(path, otype) {
-  if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
-
-
 }
 
 
@@ -99,8 +96,11 @@ rtype_to_htype = function(rtype, as.int = TRUE) {
 get_data = function(path, otype) {
   if(missing(otype))
     otype = hdfql.keywords[[(get_type(path))]]
+  hdtype = get_datatype(path, otype)
+  if (hdtype == "HDFQL_CHAR")
+    return(get_char_data(path, otype))
+  dtype = htype_to_rtype(hdtype)
   dims = get_dimension(path, otype)
-  dtype = htype_to_rtype(get_datatype(path))
   out = array(vector(dtype, prod(dims)), dim = rev(dims))
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
@@ -113,8 +113,35 @@ get_data = function(path, otype) {
     out
   else
     aperm(out)
+  }
+
+
+get_char_data = function(path, otype) {
+  total.size = get_size(path)
+  column.length = get_dimension(path)
+  if (identical(column.length, integer(0)))
+    column.length = 1
+  string.size = total.size %/% column.length
+  dims = c(column.length, string.size)
+  dtype = "integer"
+  out = array(vector(dtype, prod(dims)), dim = rev(dims))
+  if (hdfql_variable_register(out) < 0L)
+    stop("error registering variable")
+  on.exit(hdfql_variable_unregister(out))
+  script = sprintf('SELECT FROM %s "%s" INTO MEMORY %d',
+    otype, path, hdfql_variable_get_number(out))
+  if (hdfql_execute(script) < 0L)
+    stop(hdfql_error_get_message())
+  apply(out, 2, function(x) int_to_char(x))
 }
 
+int_to_char = function(x) {
+  y = readBin(as.raw(x), "raw", length(x))
+  # handle embedded nuls
+  y[y == as.raw(0)] = as.raw(0x20)
+  # remove whitespace
+  trimws(rawToChar(y), "both")
+}
 
 use_file = function(path) {
   script = sprintf('USE FILE "%s"', path)
@@ -130,4 +157,17 @@ close_file = function(path) {
   invisible(TRUE)
 }
 
-
+get_attr_names = function(path) {
+  if (missing(path))
+    path = ""
+  script = sprintf('SHOW ATTRIBUTE "%s/"', path)
+  if (hdfql_execute(script) < 0L)
+    stop(hdfql_error_get_message())
+  num.attr = hdfql_cursor_get_count()
+  attr.names = vector("character", num.attr)
+  for (i in 1:num.attr) {
+    hdfql_cursor_next()
+    attr.names[i] = hdfql_cursor_get_char()
+  }
+  attr.names
+}
