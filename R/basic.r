@@ -93,7 +93,7 @@ rtype_to_htype = function(rtype, as.int = TRUE) {
 }
 
 
-get_data = function(path, otype) {
+get_data = function(path, otype, transpose = TRUE) {
   if(missing(otype))
     otype = hdfql.keywords[[(get_type(path))]]
   hdtype = get_datatype(path, otype)
@@ -109,11 +109,14 @@ get_data = function(path, otype) {
     otype, path, hdfql_variable_get_number(out))
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
-  if (identical(dims, 1L))
+  if (identical(dims, 1L)) {
     out
-  else
+  } else if (transpose) {
     aperm(out)
+  } else {
+    out
   }
+}
 
 
 get_char_data = function(path, otype) {
@@ -136,11 +139,17 @@ get_char_data = function(path, otype) {
 }
 
 int_to_char = function(x) {
-  y = readBin(as.raw(x), "raw", length(x))
-  # handle embedded nuls
-  y[y == as.raw(0)] = as.raw(0x20)
+  y = tryCatch(rawToChar(as.raw(x)),
+    error = function(e) e)
+  if ("error" %in% class(y)) {
+    warning(y$message, call. = FALSE)
+    # handle embedded nuls
+    y = readBin(as.raw(x), "raw", length(x))
+    y[y == as.raw(0)] = as.raw(0x20)
+    y = rawToChar(y)
+  }
   # remove whitespace
-  trimws(rawToChar(y), "both")
+  trimws(y, "both")
 }
 
 use_file = function(path) {
@@ -165,9 +174,10 @@ get_attr_names = function(path) {
     stop(hdfql_error_get_message())
   num.attr = hdfql_cursor_get_count()
   attr.names = vector("character", num.attr)
-  for (i in 1:num.attr) {
+  for (i in seq_along(attr.names)) {
     hdfql_cursor_next()
     attr.names[i] = hdfql_cursor_get_char()
   }
   attr.names
 }
+
