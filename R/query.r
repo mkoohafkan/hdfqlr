@@ -2,7 +2,7 @@
 #'
 #' Generic helper for executing HDFql queries.
 #'
-#' @parameter script The HDFQL query to execute. Do not include `INTO` statements.
+#' @param script The HDFQL query to execute. Do not include `INTO` statements.
 query = function(script, retrieve = FALSE) {
   if (!retrieve) {
     if (hdfql_execute(script) < 0L)
