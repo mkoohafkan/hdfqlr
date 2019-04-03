@@ -1,15 +1,15 @@
-# Copyright (C) 2016-2017
+# Copyright (C) 2016-2019
 # This file is part of the Hierarchical Data Format query language (HDFql)
 # For more information about HDFql, please visit the website http://www.hdfql.com
 
-# $Rev: 157 $
+# $Rev: 192 $
+
+
 
 #===========================================================
 # CONSTANTS
 #===========================================================
-HDFQL_VERSION <- "1.5.1"
-
-HDFQL_BUFFER_SIZE <- 1024
+HDFQL_VERSION <- "2.0.0"
 
 HDFQL_YES <- 0
 
@@ -19,41 +19,33 @@ HDFQL_ENABLED <- 0
 
 HDFQL_DISABLED <- -1
 
-HDFQL_DEFAULT <- -1
-
 HDFQL_UNLIMITED <- -1
 
 HDFQL_UNDEFINED <- -1
+
 
 HDFQL_GLOBAL <- 1
 
 HDFQL_LOCAL <- 2
 
-HDFQL_ASCEND <- 1
-
-HDFQL_DESCEND <- 2
-
-HDFQL_REVERSE <- 4
-
-HDFQL_TOP <- 1
-
-HDFQL_BOTTOM <- 2
 
 HDFQL_TRACKED <- 1
 
 HDFQL_INDEXED <- 2
 
-HDFQL_DOS <- 1
 
-HDFQL_UNIX <- 2
+HDFQL_CONTIGUOUS <- 1
 
-HDFQL_VALUE <- 1
+HDFQL_COMPACT <- 2
 
-HDFQL_TEXT <- 2
+HDFQL_CHUNKED <- 4
 
-HDFQL_BINARY <- 4
 
-HDFQL_MEMORY <- 8
+HDFQL_EARLY <- 1
+
+HDFQL_INCREMENTAL <- 2
+
+HDFQL_LATE <- 4
 
 
 HDFQL_DIRECTORY <- 1
@@ -71,13 +63,6 @@ HDFQL_SOFT_LINK <- 32
 HDFQL_HARD_LINK <- 64
 
 HDFQL_EXTERNAL_LINK <- 128
-
-
-HDFQL_CONTIGUOUS <- 1
-
-HDFQL_COMPACT <- 2
-
-HDFQL_CHUNKED <- 4
 
 
 HDFQL_TINYINT <- 1
@@ -132,17 +117,26 @@ HDFQL_ENUMERATION <- 16777216
 
 HDFQL_COMPOUND <- 33554432
 
+HDFQL_ARRAY <- 67108864
 
-HDFQL_NATIVE_ENDIAN <- 1
+HDFQL_REFERENCE <- 134217728
 
-HDFQL_LITTLE_ENDIAN <- 2
 
-HDFQL_BIG_ENDIAN <- 4
+HDFQL_LITTLE_ENDIAN <- 1
+
+HDFQL_BIG_ENDIAN <- 2
 
 
 HDFQL_ASCII <- 1
 
 HDFQL_UTF8 <- 2
+
+
+HDFQL_FILL_DEFAULT <- 1
+
+HDFQL_FILL_USER_DEFINED <- 2
+
+HDFQL_FILL_UNDEFINED <- 4
 
 
 HDFQL_EARLIEST <- 1
@@ -164,40 +158,35 @@ HDFQL_ERROR_NOT_OPEN <- -4
 
 HDFQL_ERROR_INVALID_FILE <- -5
 
-HDFQL_ERROR_NOT_ENOUGH_SPACE <- -6
+HDFQL_ERROR_NOT_SUPPORTED <- -6
 
-HDFQL_ERROR_NOT_ENOUGH_MEMORY <- -7
+HDFQL_ERROR_NOT_ENOUGH_SPACE <- -7
 
-HDFQL_ERROR_ALREADY_EXISTS <- -8
+HDFQL_ERROR_NOT_ENOUGH_MEMORY <- -8
 
-HDFQL_ERROR_EMPTY <- -9
+HDFQL_ERROR_ALREADY_EXISTS <- -9
 
-HDFQL_ERROR_FULL <- -10
+HDFQL_ERROR_EMPTY <- -10
 
-HDFQL_ERROR_BEFORE_FIRST <- -11
+HDFQL_ERROR_FULL <- -11
 
-HDFQL_ERROR_AFTER_LAST <- -12
+HDFQL_ERROR_BEFORE_FIRST <- -12
 
-HDFQL_ERROR_OUTSIDE_LIMIT <- -13
+HDFQL_ERROR_AFTER_LAST <- -13
 
-HDFQL_ERROR_NO_ADDRESS <- -14
+HDFQL_ERROR_OUTSIDE_LIMIT <- -14
 
-HDFQL_ERROR_UNEXPECTED_TYPE <- -15
+HDFQL_ERROR_NO_ADDRESS <- -15
 
-HDFQL_ERROR_UNEXPECTED_DATATYPE <- -16
+HDFQL_ERROR_UNEXPECTED_TYPE <- -16
 
-HDFQL_ERROR_NOT_REGISTERED <- -17
+HDFQL_ERROR_UNEXPECTED_DATA_TYPE <- -17
 
-HDFQL_ERROR_INVALID_REGULAR_EXPRESSION  <- -18
+HDFQL_ERROR_NOT_REGISTERED <- -18
+
+HDFQL_ERROR_INVALID_REGULAR_EXPRESSION  <- -19
 
 HDFQL_ERROR_UNKNOWN <- -99
-
-
-
-#===========================================================
-# VARIABLES
-#===========================================================
-hdfql_variable_list <- rep(-1, 16)
 
 
 
@@ -216,7 +205,7 @@ hdfql_execute <- function(script)
 
 	if (is.character(script) == FALSE)
 	{
-		return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 	}
 
 	return (.Call("hdfql_execute", script))
@@ -266,7 +255,7 @@ hdfql_get_canonical_path <- function(object_name)
 
 	if (is.character(object_name) == FALSE)
 	{
-		return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+		return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 	}
 
 	return (.Call("hdfql_get_canonical_path", object_name))
@@ -302,7 +291,7 @@ hdfql_cursor_initialize <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_initialize", cursor$address))
 	}
@@ -322,7 +311,7 @@ hdfql_cursor_use <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_use", cursor$address))
 	}
@@ -351,7 +340,7 @@ hdfql_cursor_clear <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_clear", cursor$address))
 	}
@@ -367,7 +356,7 @@ hdfql_cursor_clone <- function(cursor_original = NULL, cursor_clone)
 	{
 		if (is(cursor_clone, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_clone", NULL, cursor_clone$address))
 	}
@@ -375,11 +364,11 @@ hdfql_cursor_clone <- function(cursor_original = NULL, cursor_clone)
 	{
 		if (is(cursor_original, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		if (is(cursor_clone, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_clone", cursor_original$address, cursor_clone$address))
 	}
@@ -388,20 +377,20 @@ hdfql_cursor_clone <- function(cursor_original = NULL, cursor_clone)
 
 
 
-hdfql_cursor_get_datatype <- function(cursor = NULL)
+hdfql_cursor_get_data_type <- function(cursor = NULL)
 {
 
 	if (is.null(cursor) == TRUE)
 	{
-		return (.Call("hdfql_cursor_get_datatype", NULL))
+		return (.Call("hdfql_cursor_get_data_type", NULL))
 	}
 	else
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
-		return (.Call("hdfql_cursor_get_datatype", cursor$address))
+		return (.Call("hdfql_cursor_get_data_type", cursor$address))
 	}
 
 }
@@ -419,7 +408,7 @@ hdfql_cursor_get_count <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_count", cursor$address))
 	}
@@ -439,7 +428,7 @@ hdfql_subcursor_get_count <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_count", cursor$address))
 	}
@@ -459,7 +448,7 @@ hdfql_cursor_get_position <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_position", cursor$address))
 	}
@@ -479,7 +468,7 @@ hdfql_subcursor_get_position <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_position", cursor$address))
 	}
@@ -499,7 +488,7 @@ hdfql_cursor_first <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_first", cursor$address))
 	}
@@ -519,7 +508,7 @@ hdfql_subcursor_first <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_first", cursor$address))
 	}
@@ -539,7 +528,7 @@ hdfql_cursor_last <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_last", cursor$address))
 	}
@@ -559,7 +548,7 @@ hdfql_subcursor_last <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_last", cursor$address))
 	}
@@ -579,7 +568,7 @@ hdfql_cursor_next <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_next", cursor$address))
 	}
@@ -599,7 +588,7 @@ hdfql_subcursor_next <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_next", cursor$address))
 	}
@@ -619,7 +608,7 @@ hdfql_cursor_previous <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_previous", cursor$address))
 	}
@@ -639,7 +628,7 @@ hdfql_subcursor_previous <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_previous", cursor$address))
 	}
@@ -655,7 +644,7 @@ hdfql_cursor_absolute <- function(cursor = NULL, position)
 	{
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_absolute", NULL, position))
 	}
@@ -663,11 +652,11 @@ hdfql_cursor_absolute <- function(cursor = NULL, position)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_absolute", cursor$address, position))
 	}
@@ -683,7 +672,7 @@ hdfql_subcursor_absolute <- function(cursor = NULL, position)
 	{
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_absolute", NULL, position))
 	}
@@ -691,11 +680,11 @@ hdfql_subcursor_absolute <- function(cursor = NULL, position)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_absolute", cursor$address, position))
 	}
@@ -711,7 +700,7 @@ hdfql_cursor_relative <- function(cursor = NULL, position)
 	{
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_relative", NULL, position))
 	}
@@ -719,11 +708,11 @@ hdfql_cursor_relative <- function(cursor = NULL, position)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_relative", cursor$address, position))
 	}
@@ -739,7 +728,7 @@ hdfql_subcursor_relative <- function(cursor = NULL, position)
 	{
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_relative", NULL, position))
 	}
@@ -747,11 +736,11 @@ hdfql_subcursor_relative <- function(cursor = NULL, position)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		if (is.integer(position) == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_relative", cursor$address, position))
 	}
@@ -771,7 +760,7 @@ hdfql_cursor_get_size <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_size", cursor$address))
 	}
@@ -791,7 +780,7 @@ hdfql_subcursor_get_size <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_size", cursor$address))
 	}
@@ -811,7 +800,7 @@ hdfql_cursor_get_tinyint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_tinyint", cursor$address))
 	}
@@ -831,7 +820,7 @@ hdfql_subcursor_get_tinyint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_tinyint", cursor$address))
 	}
@@ -851,7 +840,7 @@ hdfql_cursor_get_unsigned_tinyint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_unsigned_tinyint", cursor$address))
 	}
@@ -871,7 +860,7 @@ hdfql_subcursor_get_unsigned_tinyint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_unsigned_tinyint", cursor$address))
 	}
@@ -891,7 +880,7 @@ hdfql_cursor_get_smallint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_smallint", cursor$address))
 	}
@@ -911,7 +900,7 @@ hdfql_subcursor_get_smallint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_smallint", cursor$address))
 	}
@@ -931,7 +920,7 @@ hdfql_cursor_get_unsigned_smallint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_unsigned_smallint", cursor$address))
 	}
@@ -951,7 +940,7 @@ hdfql_subcursor_get_unsigned_smallint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_unsigned_smallint", cursor$address))
 	}
@@ -971,7 +960,7 @@ hdfql_cursor_get_int <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_int", cursor$address))
 	}
@@ -991,7 +980,7 @@ hdfql_subcursor_get_int <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_int", cursor$address))
 	}
@@ -1011,7 +1000,7 @@ hdfql_cursor_get_unsigned_int <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_unsigned_int", cursor$address))
 	}
@@ -1031,7 +1020,7 @@ hdfql_subcursor_get_unsigned_int <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_unsigned_int", cursor$address))
 	}
@@ -1051,7 +1040,7 @@ hdfql_cursor_get_bigint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_bigint", cursor$address))
 	}
@@ -1071,7 +1060,7 @@ hdfql_subcursor_get_bigint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_bigint", cursor$address))
 	}
@@ -1091,7 +1080,7 @@ hdfql_cursor_get_unsigned_bigint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_unsigned_bigint", cursor$address))
 	}
@@ -1111,7 +1100,7 @@ hdfql_subcursor_get_unsigned_bigint <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_unsigned_bigint", cursor$address))
 	}
@@ -1131,7 +1120,7 @@ hdfql_cursor_get_float <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_float", cursor$address))
 	}
@@ -1151,7 +1140,7 @@ hdfql_subcursor_get_float <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_float", cursor$address))
 	}
@@ -1171,7 +1160,7 @@ hdfql_cursor_get_double <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_double", cursor$address))
 	}
@@ -1191,7 +1180,7 @@ hdfql_subcursor_get_double <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_double", cursor$address))
 	}
@@ -1211,7 +1200,7 @@ hdfql_cursor_get_char <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_cursor_get_char", cursor$address))
 	}
@@ -1231,7 +1220,7 @@ hdfql_subcursor_get_char <- function(cursor = NULL)
 	{
 		if (is(cursor, "hdfql_cursor_") == FALSE)
 		{
-			return (HDFQL_ERROR_UNEXPECTED_DATATYPE)
+			return (HDFQL_ERROR_UNEXPECTED_DATA_TYPE)
 		}
 		return (.Call("hdfql_subcursor_get_char", cursor$address))
 	}
@@ -1270,10 +1259,10 @@ hdfql_variable_get_number <- function(variable)
 
 
 
-hdfql_variable_get_datatype <- function(variable)
+hdfql_variable_get_data_type <- function(variable)
 {
 
-	return (.Call("hdfql_variable_get_datatype", variable))
+	return (.Call("hdfql_variable_get_data_type", variable))
 
 }
 
@@ -1310,6 +1299,27 @@ hdfql_variable_get_dimension <- function(variable, index)
 {
 
 	return (.Call("hdfql_variable_get_dimension", variable, index))
+
+}
+
+
+
+#===========================================================
+# MPI FUNCTIONS
+#===========================================================
+hdfql_mpi_get_size <- function()
+{
+
+	return (.Call("hdfql_mpi_get_size"))
+
+}
+
+
+
+hdfql_mpi_get_rank <- function()
+{
+
+	return (.Call("hdfql_mpi_get_rank"))
 
 }
 
