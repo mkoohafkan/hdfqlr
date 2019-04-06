@@ -12,8 +12,10 @@ NULL
 
 
 .onLoad = function(libname, pkgname) {
-  oldwd = getwd()
-  setwd(system.file("src", package = packageName()))
+	dllpath <<- system.file("src", package = pkgname)
+
+	oldwd = getwd()
+  setwd(dllpath)
   on.exit(setwd(oldwd))
 
   #===========================================================
@@ -28,23 +30,21 @@ NULL
     {
     dyn.load("libHDFqlR.dylib")
   }
+	#===========================================================
+	# INITIALIZE HDFQL R WRAPPER SHARED LIBRARY
+	#===========================================================
+	hdfql_initialize_status = .Call("_hdfql_initialize")
+	if (!is.null(hdfql_initialize_status)) {
+		stop(hdfql_initialize_status)
+	}
 }
 
-.onAttach = function(libname, pkgname) {
-  #===========================================================
-  # INITIALIZE HDFQL R WRAPPER SHARED LIBRARY
-  #===========================================================
-  hdfql_initialize_status = .Call("_hdfql_initialize")
-  if (!is.null(hdfql_initialize_status)) {
-    stop(hdfql_initialize_status)
-  }
 
-
-}
 .onUnload <- function (libpath) {
-  oldwd = getwd()
-  setwd(system.file("src", package = packageName()))
-  on.exit(setwd(oldwd))
+	oldwd = getwd()
+	setwd(dllpath)
+	on.exit(setwd(oldwd))
+
   if (hdfql_operating_system == "Windows") {
     dyn.unload("HDFqlR.dll")
   } else if (hdfql_operating_system == "Linux") {
