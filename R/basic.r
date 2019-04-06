@@ -30,7 +30,7 @@ get_datatype = function(path, otype) {
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
   on.exit(hdfql_variable_unregister(out))
-  script = sprintf('SHOW %s DATATYPE "%s" INTO MEMORY %d',
+  script = sprintf('SHOW %s DATA TYPE "%s" INTO MEMORY %d',
     otype, path, hdfql_variable_get_number(out))
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
