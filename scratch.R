@@ -1,14 +1,19 @@
-fpath = "C:/TESTING/Sediment Diversion/NoWeirs.p11/NoWeirs.p11.hdf"
+devtools::load_all()
 
 
-path = "Geometry/Cross Sections/Bank Stations"
+fpath = "C:/RAS/Example Data/Sediment Transport/Simple Sediment Transport Example/MBex.p04.hdf"
 
+path = "Geometry/Cross Section Interpolation Surfaces/XSIDs"
+path = "Results/Sediment/Geometry Info/Cross Section Only"
 
 
 read_dataset(fpath, path)
+read_attributes(fpath)
 
-devtools::load_all()
-fpath = "C:/TESTING/Sediment Diversion/NoWeirs.p11/NoWeirs.p11.hdf"
+
+
+
+
 use_file(fpath)
 path = "Geometry/Terrain Filename"
 
@@ -20,7 +25,7 @@ get_data(path)
 
 
 get_dimension(path)
-get_dataset(path)
+get_data(path)
 
 
 path = "Geometry/Cross Sections/Attributes"
@@ -59,3 +64,7 @@ path = "base/test"
 get_dimension(path)
 get_size(path)
 get_data(path)
+
+
+
+
