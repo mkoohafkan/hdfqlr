@@ -9,27 +9,26 @@
 #' @useDynLib HDFqlR
 NULL
 
-
-
 .onLoad = function(libname, pkgname) {
-	dllpath <<- system.file("src", package = pkgname)
-
+	hdfql_operating_system = switch(Sys.info()[["sysname"]],
+		"Linux" = "Linux",
+		"Windows" = "Windows",
+		"OSX"
+	)
+	hdfql_machine = ifelse(grepl("64", Sys.info()[["machine"]]),
+		"x64", "i386")
+	dllpath <<- system.file(paste0("libs/", hdfql_machine),
+		package = pkgname)
+	dllname <<- switch(hdfql_operating_system,
+		"Windows" = "HDFqlR.dll",
+		"Linux" = "libHDFqlR.so",
+		"OSX" = "libHDFqlR"
+	)
 	oldwd = getwd()
-  setwd(dllpath)
-  on.exit(setwd(oldwd))
-
-  #===========================================================
-  # LOAD HDFQL R WRAPPER SHARED LIBRARY
-  #===========================================================
-  hdfql_operating_system = Sys.info()[["sysname"]]
-  if (hdfql_operating_system == "Windows") {
-    dyn.load("HDFqlR.dll")
-  } else if (hdfql_operating_system == "Linux") {
-    dyn.load("libHDFqlR.so")
-  } else # macOS
-    {
-    dyn.load("libHDFqlR.dylib")
-  }
+	setwd(dllpath)
+	on.exit(setwd(oldwd))
+	dyn.load(dllname)
+	
 	#===========================================================
 	# INITIALIZE HDFQL R WRAPPER SHARED LIBRARY
 	#===========================================================
@@ -44,14 +43,6 @@ NULL
 	oldwd = getwd()
 	setwd(dllpath)
 	on.exit(setwd(oldwd))
-
-  if (hdfql_operating_system == "Windows") {
-    dyn.unload("HDFqlR.dll")
-  } else if (hdfql_operating_system == "Linux") {
-    dyn.unload("libHDFqlR.so")
-  } else # macOS
-    {
-    dyn.unload("libHDFqlR.dylib")
-  }
+	dyn.unload(dllname)
 }
 
