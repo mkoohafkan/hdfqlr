@@ -1,29 +1,8 @@
-#' HDFql DLLs
+#' hdfqlr: an HDF API based on HDFql
 #'
-#' The HDFql DLLs are part of the Hierarchical Data Format query language (HDFql).
+#' This package provides an R interface to HDF files using the
+#' [HDFql](http://www.hdfql.com).
 #'
-#' @details Copyright (C) 2016-2017.
-#' For more information about HDFql, please visit the website http://www.hdfql.com.
-#'
-#' @name HDFql
-#' @useDynLib HDFqlR
-#' @useDynLib HDFql_dll
-NULL
-
-.onLoad = function(libname, pkgname) {
-  library.dynam("HDFqlR", pkgname, libname)
-	
-	#===========================================================
-	# INITIALIZE HDFQL R WRAPPER SHARED LIBRARY
-	#===========================================================
-	hdfql_initialize_status = .Call("_hdfql_initialize")
-	if (!is.null(hdfql_initialize_status)) {
-		stop(hdfql_initialize_status)
-	}
-}
-
-
-.onUnload <- function (libpath) {
-	library.dynam.unload("HDFqlR", libpath)
-}
-
+#' @docType package
+#' @name hdfqlr
+"_PACKAGE"
