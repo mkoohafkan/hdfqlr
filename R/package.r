@@ -7,6 +7,7 @@
 #'
 #' @name HDFql
 #' @useDynLib HDFqlR
+#' @useDynLib HDFql_dll
 NULL
 
 .onLoad = function(libname, pkgname) {
