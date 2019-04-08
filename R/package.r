@@ -10,24 +10,7 @@
 NULL
 
 .onLoad = function(libname, pkgname) {
-	hdfql_operating_system = switch(Sys.info()[["sysname"]],
-		"Linux" = "Linux",
-		"Windows" = "Windows",
-		"OSX"
-	)
-	hdfql_machine = ifelse(grepl("64", Sys.info()[["machine"]]),
-		"x64", "i386")
-	dllpath <<- system.file(paste0("libs/", hdfql_machine),
-		package = pkgname)
-	dllname <<- switch(hdfql_operating_system,
-		"Windows" = "HDFqlR.dll",
-		"Linux" = "libHDFqlR.so",
-		"OSX" = "libHDFqlR"
-	)
-	oldwd = getwd()
-	setwd(dllpath)
-	on.exit(setwd(oldwd))
-	dyn.load(dllname)
+  library.dynam("HDFqlR", pkgname, libname)
 	
 	#===========================================================
 	# INITIALIZE HDFQL R WRAPPER SHARED LIBRARY
@@ -40,9 +23,6 @@ NULL
 
 
 .onUnload <- function (libpath) {
-	oldwd = getwd()
-	setwd(dllpath)
-	on.exit(setwd(oldwd))
-	dyn.unload(dllname)
+	library.dynam.unload("HDFqlR", libpath)
 }
 
