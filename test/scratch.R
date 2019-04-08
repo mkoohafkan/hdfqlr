@@ -1,7 +1,7 @@
 devtools::load_all()
 
 
-fpath = "C:/RAS/Example Data/Sediment Transport/Simple Sediment Transport Example/MBex.p04.hdf"
+fpath = "C:/HEC Example Data/HEC-RAS/Example Data/Sediment Transport/Simple Sediment Transport Example/MBex.p04.hdf"
 
 path = "Geometry/Cross Section Interpolation Surfaces/XSIDs"
 path = "Results/Sediment/Geometry Info/Cross Section Only"

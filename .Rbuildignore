@@ -1,0 +1,16 @@
+﻿^CRAN-RELEASE$
+^\.travis\.yml$
+^cran-comments\.md$
+README.md
+.gitignore
+.rhistory
+.gitattribute
+.vs
+.git
+.rproj
+.rxproj
+.sln
+^.*\.Rproj$
+^\.Rproj\.user$
+test
+oldR
