@@ -1,0 +1,16 @@
+﻿language: r
+r:
+  - oldrel
+  - release
+  - devel
+sudo: required
+cache: packages
+
+# Be strict when checking our package
+warnings_are_errors: true
+
+# System dependencies for HTTP calling
+
+r_binary_packages:
+ - knitr
+ - rmarkdown
