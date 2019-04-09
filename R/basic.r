@@ -81,7 +81,9 @@ get_size = function(path, otype) {
 
 
 htype_to_rtype = function(htype) {
-  hdfql.Rtypes[[htype]]
+  rtype = hdfql.Rtypes[[htype]]
+  if (rtype == "integer64" & !requireNamespace("bit64"))
+    stop("Support for ", htype, 'requires package "bit64"')
 }
 
 rtype_to_htype = function(rtype, as.int = TRUE) {

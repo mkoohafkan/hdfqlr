@@ -1,5 +1,5 @@
 devtools::load_all()
-
+load_hdfql("C:/Programs/HDFql-2.0.1")
 
 fpath = "C:/HEC Example Data/HEC-RAS/Example Data/Sediment Transport/Simple Sediment Transport Example/MBex.p04.hdf"
 
@@ -7,7 +7,7 @@ path = "Geometry/Cross Section Interpolation Surfaces/XSIDs"
 path = "Results/Sediment/Geometry Info/Cross Section Only"
 
 
-hdfqlr:::read_dataset(fpath, path)
+read_dataset(fpath, path)
 read_attributes(fpath)
 
 

@@ -5,8 +5,19 @@ Authors@R: person("Michael", "Koohafkan", email = "michael.koohafkan@gmail.com",
 Description: Provides an interface to HDFql and helper functions for
     reading data from and writing data to HDF5 files.
 Depends: R (>= 3.4.3)
+Suggests: bit64 (>= 0.9)
 SystemRequirements: HDFql (>= 2.0.1)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Collate: 
+    'HDFql.R'
+    'basic.r'
+    'connect.r'
+    'helper.r'
+    'package.r'
+    'query.r'
+    'read.r'
+    'reference.r'
+    'zzz.r'
