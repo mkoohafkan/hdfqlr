@@ -36,12 +36,10 @@ load_hdfql = function(path) {
   }
   dllpath = normalizePath(dllpath, mustWork = TRUE)
 
-  lapply(dllpath, dyn.load)
+  lapply(dllpath, function(x) dyn.load(x, DLLpath = dirname(x)))
   hdfql_path <<- dllpath
 
-  hdfql_initialize_status = eval(parse(
-    text = '.Call("_hdfql_initialize")'),
-    envir = .GlobalEnv)
+  hdfql_initialize_status = .Call("_hdfql_initialize")
   if (!is.null(hdfql_initialize_status)) {
     stop(hdfql_initialize_status)
   }
