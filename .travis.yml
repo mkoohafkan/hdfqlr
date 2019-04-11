@@ -19,7 +19,7 @@ before_install:
  - wget http://www.hdfql.com/releases/2.0.1/HDFql-2.0.1_Linux64_GCC-4.9.zip
  - echo $PWD
  - unzip HDFql-2.0.1_Linux64_GCC-4.9.zip
- - export HDFQL_DIR=~$USER/HDFql-2.0.1
+ - export HDFQL_DIR=~/HDFql-2.0.1
  - echo $HDFQL_DIR
  - cd ~- 
  - cp -f inst/HDFql.R $HDFQL_DIR/wrapper/R/HDFql.R 
