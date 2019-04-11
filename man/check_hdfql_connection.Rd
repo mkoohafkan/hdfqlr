@@ -9,4 +9,3 @@ check_hdfql_connection()
 \description{
 Check HDFql DLLs are loaded
 }
-\keyword{internal}

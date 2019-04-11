@@ -1,5 +1,3 @@
-hdfql_dll_path = NULL
-
 #' HDFql DLL Paths
 #'
 #' @keywords internal
@@ -17,7 +15,7 @@ hdfql_wrapper_path = function() {
 
 #' Check HDFql DLLs are loaded
 #'
-#' @keywords internal
+#' @export
 check_hdfql_connection = function() {
   if (all(basename(hdfql_dll_path()) %in% names(getLoadedDLLs()))) {
     TRUE
@@ -50,7 +48,7 @@ hdfql_load = function(path) {
 #    local = getNamespace(packageName()))
 
   hdfql_initialize_status = .Call("_hdfql_initialize",
-  PACKAGE = "HDFqlR")
+    PACKAGE = "HDFqlR")
   if (!is.null(hdfql_initialize_status)) {
     stop(hdfql_initialize_status)
   }
