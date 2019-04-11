@@ -15,10 +15,10 @@ r_binary_packages:
  - rmarkdown
 
 before_install:
+ - cd ./../
  - wget http://www.hdfql.com/releases/2.0.1/HDFql-2.0.1_Linux64_GCC-4.9.zip
  - unzip HDFql-2.0.1_Linux64_GCC-4.9.zip -d HDFQLINSTALLDIR
  - export HDFQL_DIR=$PWD/HDFQLINSTALLDIR/HDFql-2.0.1
  - echo $HDFQL_DIR
-
-before_script:
+ - cd ./hdfqlr 
  - cp -f inst/HDFql.R $HDFQL_DIR/wrapper/R/HDFql.R 
