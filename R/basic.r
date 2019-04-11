@@ -5,9 +5,21 @@ get_error = function() {
   on.exit(hdfql_variable_unregister(out))
 }
 
+get_type = function(path) {
+  out = integer(1)
+  if (hdfql_variable_register(out) < 0L)
+    stop("error registering variable")
+  on.exit(hdfql_variable_unregister(out))
+  script = sprintf('SHOW TYPE "%s" INTO MEMORY %d',
+    path, hdfql_variable_get_number(out))
+  if (hdfql_execute(script) < 0L)
+    stop(hdfql_error_get_message())
+  get_key(out, hdfql_otypes(), TRUE)
+}
+
 get_dimension = function(path, otype) {
   if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
+    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
   if (otype == "HDFQL_ATTRIBUTE")
     otype = ""
   out = integer(32) 
@@ -23,7 +35,7 @@ get_dimension = function(path, otype) {
 
 get_datatype = function(path, otype) {
   if(missing(otype))
-    otype = hdfql.keywords[[get_type(path)]]
+    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
  # if (otype == "HDFQL_ATTRIBUTE")
  #   otype = ""
   out = integer(1)
@@ -34,13 +46,13 @@ get_datatype = function(path, otype) {
     otype, path, hdfql_variable_get_number(out))
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
-  names(hdfql.dtypes)[which(hdfql.dtypes == out)]
+  get_key(out, hdfql_dtypes(), TRUE)
 }
 
 
 get_charset = function(path, otype) {
   if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
+    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
   out = integer(1)
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
@@ -49,25 +61,12 @@ get_charset = function(path, otype) {
     otype, path, hdfql_variable_get_number(out))
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
-  names(hdfql.charsets)[which(hdfql.charsets == out)]
-}
-
-
-get_type = function(path) {
-  out = integer(1)
-  if (hdfql_variable_register(out) < 0L)
-    stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
-  script = sprintf('SHOW TYPE "%s" INTO MEMORY %d',
-    path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
-  names(hdfql.otypes)[which(hdfql.otypes == out)]
+  get_key(out, hdfql_charsets(), TRUE)
 }
 
 get_size = function(path, otype) {
   if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
+    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
   out = integer(1)
   if (hdfql_variable_register(out) < 0L)
     stop("error registering variable")
@@ -81,9 +80,10 @@ get_size = function(path, otype) {
 
 
 htype_to_rtype = function(htype) {
-  rtype = hdfql.Rtypes[[htype]]
+  rtype = get_key(htype, hdfql_Rtypes(), FALSE)
   if (rtype == "integer64" & !requireNamespace("bit64"))
     stop("Support for ", htype, 'requires package "bit64"')
+  rtype
 }
 
 rtype_to_htype = function(rtype, as.int = TRUE) {
@@ -97,11 +97,11 @@ rtype_to_htype = function(rtype, as.int = TRUE) {
 
 get_data = function(path, otype, transpose = TRUE) {
   if(missing(otype))
-    otype = hdfql.keywords[[(get_type(path))]]
-  hdtype = get_datatype(path, otype)
-  if (hdtype == "HDFQL_CHAR")
+    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+  htype = get_datatype(path, otype)
+  if (htype == "HDFQL_CHAR")
     return(get_char_data(path, otype))
-  dtype = htype_to_rtype(hdtype)
+  dtype = htype_to_rtype(htype)
   dims = get_dimension(path, otype)
   out = array(vector(dtype, prod(dims)), dim = rev(dims))
   if (hdfql_variable_register(out) < 0L)

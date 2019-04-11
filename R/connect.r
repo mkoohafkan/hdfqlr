@@ -11,6 +11,10 @@ hdfql_dll_path = function() {
   }
 }
 
+hdfql_wrapper_path = function() {
+  "wrapper/R/HDFql.R"
+}
+
 #' Check HDFql DLLs are loaded
 #'
 #' @keywords internal
@@ -29,25 +33,34 @@ check_hdfql_connection = function() {
 #'
 #' @param path The path to the HDFql installation. 
 #' @export
-load_hdfql = function(path) {
+hdfql_load = function(path) {
   if (!check_hdfql_connection()) {
     dllpath = file.path(path, paste0(hdfql_dll_path(),
       .Platform$dynlib.ext))
   }
+  # get paths to DLLs and wrapper
   dllpath = normalizePath(dllpath, mustWork = TRUE)
-
-  lapply(dllpath, function(x) dyn.load(x, DLLpath = dirname(x)))
+  wrapperpath = normalizePath(file.path(path, hdfql_wrapper_path()),
+    mustWork = TRUE)
+  # load DLLs
+  lapply(dllpath, dyn.load)
   hdfql_path <<- dllpath
+  # source wrapper code
+#  source(textConnection(tail(readLines(wrapperpath), -26)),
+#    local = getNamespace(packageName()))
 
-  hdfql_initialize_status = .Call("_hdfql_initialize")
+  hdfql_initialize_status = .Call("_hdfql_initialize",
+  PACKAGE = "HDFqlR")
   if (!is.null(hdfql_initialize_status)) {
     stop(hdfql_initialize_status)
   }
+
+
 }
 
-#' @rdname load_hdfql
+#' @rdname hdfql_load
 #' @export
-unload_hdfql = function() {
+hdfql_unload = function() {
   if (check_hdfql_connection()) {
     lapply(hdfql_path, dyn.unload)
   }
