@@ -1,9 +1,14 @@
-#' HDFql query
+#' HDFql Operation
 #'
-#' Generic helper for executing HDFql queries.
+#' Generic helper for executing HDFql operations.
 #'
-#' @param script The HDFQL query to execute. Do not include `INTO` statements.
-query = function(script, retrieve = FALSE) {
+#' @param script The HDFQL operation to execute. 
+#'   Do not include `INTO` statements.
+#' @param retrieve If `TRUE`, read the operation output
+#'   into R.
+#' @export
+hdfql_operation = function(script, retrieve = FALSE) {
+  hdfql_stop_not_connected()
   if (!retrieve) {
     if (hdfql_execute(script) < 0L)
       stop(hdfql_error_get_message())
@@ -25,15 +30,18 @@ query = function(script, retrieve = FALSE) {
 #'
 #' Construct an R object for reading HDFql query result into memory.
 #'
-#' @inheritParams query
+#' @inheritParams hdfql_operation
 #' @return An empty R object of the correct size and type.
+#'
+#' @keywords internal
 construct_output = function(script) {
+  hdfql_stop_not_connected()
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
-    dtype = hdfql_cursor_get_datatype()
-    dcount = hdfql_cursor_get_count()
-    rtype = hdfql.Rtypes[[names(hdfql.dtypes)[which(hdfql.dtypes == dtype)]]]
-    vector(rtype, dcount)
+  dtype = get_key(hdfql_cursor_get_datatype(), hdfql_dtypes, TRUE)
+  dcount = hdfql_cursor_get_count()
+  rtype = htype_to_rtype(dtype)
+  vector(rtype, dcount)
 }
 
 

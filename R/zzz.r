@@ -1,10 +1,10 @@
 .onLoad = function(libname, pkgname) {
-  if (!is.null(options("hdfqlr.hdfqldir"))) {
+  if (!is.null(options("hdfqlr.dir"))) {
     packageStartupMessage('Using existing HDFql directory ',
       'from option "hdfqlr.dir".')
-    hdfql_load(options("hdfqlr.dir"))
+    hdfql_load(options("hdfqlr.dir")[[1]])
   } else if (nchar(Sys.getenv("HDFQL_DIR")) > 0L) {
-    set_key(Sys.getenv("HDFQLR_DIR"))
+    hdfql_load(Sys.getenv("HDFQL_DIR"))
     packageStartupMessage("Using existing HDFql directory from ",
       '"HDFQL_DIR" environment variable.')
   }  else {

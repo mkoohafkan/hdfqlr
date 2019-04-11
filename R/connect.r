@@ -1,3 +1,5 @@
+hdfql_path = NULL
+
 #' HDFql DLL Paths
 #'
 #' @keywords internal
@@ -15,8 +17,11 @@ hdfql_wrapper_path = function() {
 
 #' Check HDFql DLLs are loaded
 #'
+#' Check if the HDFql DLLs are loaded.
+#'
+#' @return Logical `TRUE` if DLLs are found, `FALSE` otherwise.
 #' @export
-check_hdfql_connection = function() {
+hdfql_check_connection = function() {
   if (all(basename(hdfql_dll_path()) %in% names(getLoadedDLLs()))) {
     TRUE
   } else {
@@ -24,6 +29,11 @@ check_hdfql_connection = function() {
   }
 }
 
+hdfql_stop_not_connected = function() {
+  if (!hdfql_check_connection())
+    stop("HDFql is not loaded.")
+  invisible(NULL)
+}
 
 #' Load HDFql DLLs
 #'
@@ -32,7 +42,7 @@ check_hdfql_connection = function() {
 #' @param path The path to the HDFql installation. 
 #' @export
 hdfql_load = function(path) {
-  if (!check_hdfql_connection()) {
+  if (!hdfql_check_connection()) {
     dllpath = file.path(path, paste0(hdfql_dll_path(),
       .Platform$dynlib.ext))
   }
@@ -44,25 +54,17 @@ hdfql_load = function(path) {
   lapply(dllpath, dyn.load)
   hdfql_path <<- dllpath
   # source wrapper code
-#  source(textConnection(tail(readLines(wrapperpath), -26)),
-#    local = getNamespace(packageName()))
-
-  hdfql_initialize_status = .Call("_hdfql_initialize",
-    PACKAGE = "HDFqlR")
-  if (!is.null(hdfql_initialize_status)) {
-    stop(hdfql_initialize_status)
-  }
-
-
+  source(textConnection(tail(readLines(wrapperpath), -26)),
+    local = getNamespace(packageName()))
 }
 
 #' @rdname hdfql_load
 #' @export
 hdfql_unload = function() {
-  if (check_hdfql_connection()) {
+  if (hdfql_check_connection()) {
     lapply(hdfql_path, dyn.unload)
   }
-  if (check_hdfql_connection()) {
+  if (hdfql_check_connection()) {
     stop("HDFql DLLs could not be unloaded.")
   }
   invisible(NULL)

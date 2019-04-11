@@ -7,7 +7,8 @@
 construct_output(script)
 }
 \arguments{
-\item{script}{The HDFQL query to execute. Do not include `INTO` statements.}
+\item{script}{The HDFQL operation to execute. 
+Do not include `INTO` statements.}
 }
 \value{
 An empty R object of the correct size and type.
@@ -15,3 +16,4 @@ An empty R object of the correct size and type.
 \description{
 Construct an R object for reading HDFql query result into memory.
 }
+\keyword{internal}
