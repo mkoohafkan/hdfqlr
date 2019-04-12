@@ -102,23 +102,34 @@ hdfql_Rtypes = function() {
 }
 
 
-hdfql_cursorget = function() {
+hdfql_data_cursors = function() {
   c(
     HDFQL_TINYINT = HDFql.constants$hdfql_cursor_get_tinyint,
+    HDFQL_VARTINYINT = HDFql.constants$hdfql_cursor_get_tinyint,
     HDFQL_UNSIGNED_TINYINT = HDFql.constants$hdfql_cursor_get_unsigned_tinyint,
+    HDFQL_UNSIGNED_VARTINYINT = HDFql.constants$hdfql_cursor_get_unsigned_tinyint,
     HDFQL_SMALLINT = HDFql.constants$hdfql_cursor_get_smallint,
+    HDFQL_VARSMALLINT = HDFql.constants$hdfql_cursor_get_smallint,
     HDFQL_UNSIGNED_SMALLINT = HDFql.constants$hdfql_cursor_get_unsigned_smallint,
+    HDFQL_UNSIGNED_VARSMALLINT = HDFql.constants$hdfql_cursor_get_unsigned_smallint,
     HDFQL_INT = HDFql.constants$hdfql_cursor_get_int,
+    HDFQL_VARINT = HDFql.constants$hdfql_cursor_get_int,
     HDFQL_UNSIGNED_INT = HDFql.constants$hdfql_cursor_get_unsigned_int,
+    HDFQL_UNSIGNED_VARINT = HDFql.constants$hdfql_cursor_get_unsigned_int,
     HDFQL_BIGINT = HDFql.constants$hdfql_cursor_get_bigint,
+    HDFQL_VARBIGINT = HDFql.constants$hdfql_cursor_get_bigint,
     HDFQL_UNSIGNED_BIGINT = HDFql.constants$hdfql_cursor_get_unsigned_bigint,
+    HDFQL_UNSIGNED_VARBIGINT = HDFql.constants$hdfql_cursor_get_unsigned_bigint,
     HDFQL_FLOAT = HDFql.constants$hdfql_cursor_get_float,
+    HDFQL_VARFLOAT = HDFql.constants$hdfql_cursor_get_float,
     HDFQL_DOUBLE = HDFql.constants$hdfql_cursor_get_double,
-    HDFQL_CHAR = HDFql.constants$hdfql_cursor_get_char
+    HDFQL_VARDOUBLE = HDFql.constants$hdfql_cursor_get_double,
+    HDFQL_CHAR = HDFql.constants$hdfql_cursor_get_char,
+    HDFQL_VARCHAR = HDFql.constants$hdfql_cursor_get_char
   )
 }
 
-hdfql.subcursorget = function() {
+hdfql_data_subcursors = function() {
   c(
     HDFQL_TINYINT = HDFql.constants$hdfql_subcursor_get_tinyint,
     HDFQL_UNSIGNED_TINYINT = HDFql.constants$hdfql_subcursor_get_unsigned_tinyint,
