@@ -1,18 +1,44 @@
-hdfql_path = NULL
+# Environments containing information related to the 
+# HDFql library on the user's system.
+HDFql.constants = new.env()
+HDFql.paths = new.env()
 
-#' HDFql DLL Paths
-#'
-#' @keywords internal
-hdfql_dll_path = function() {
-  if (Sys.info()[["sysname"]] == "Windows") {
-    c("lib/HDFql_dll", "wrapper/R/HDFqlR")
-  } else { 
-    "wrapper/R/libHDFqlR"
+path_from_options = function(startup = FALSE) {
+  path = NULL
+  if (startup) {
+    msgfun = packageStartupMessage
+  } else {
+    msgfun = message
+  }
+  if (!is.null(options("hdfqlr.dir")) && nzchar(options("hdfqlr.dir"))) {
+    path = options("hdfqlr.dir")[[1]]
+    msgfun('Using existing HDFql directory ',
+      'from option "hdfqlr.dir".')
+  } else if (nzchar(Sys.getenv("HDFQL_DIR"))) {
+    path = Sys.getenv("HDFQL_DIR")
+    msgfun("Using existing HDFql directory from ",
+      '"HDFQL_DIR" environment variable.')
+  } 
+  if (is.null(path)) {
+    FALSE
+  } else {
+    assign("install", path, envir = HDFql.paths)
+    TRUE
   }
 }
 
-hdfql_wrapper_path = function() {
-  "wrapper/R/HDFql.R"
+#' HDFql Paths
+#'
+#' Set the partial paths to the HDFql library and wrapper
+#' @keywords internal
+set_hdfql_paths = function() {
+  if (Sys.info()[["sysname"]] == "Windows") {
+    path = c("lib/HDFql_dll", "wrapper/R/HDFqlR")
+  } else { 
+    path = "wrapper/R/libHDFqlR"
+  }
+  assign("dll", path, envir = HDFql.paths)
+  assign("wrapper", "wrapper/R/HDFql.R", envir = HDFql.paths)
 }
 
 
@@ -24,7 +50,7 @@ hdfql_wrapper_path = function() {
 #'
 #' @export
 hdfql_is_loaded = function() {
-  if (all(basename(hdfql_dll_path()) %in% names(getLoadedDLLs()))) {
+  if (all(basename(HDFql.paths$dll) %in% names(getLoadedDLLs()))) {
     TRUE
   } else {
     FALSE
@@ -48,22 +74,32 @@ hdfql_stop_not_loaded = function() {
 #'
 #' @param path The path to the HDFql installation. 
 #' 
+#' @importFrom utils packageName tail
 #' @export
 hdfql_load = function(path) {
-  if (!hdfql_is_loaded()) {
-    dllpath = file.path(path, paste0(hdfql_dll_path(),
-      .Platform$dynlib.ext))
+  if (hdfql_is_loaded()) {
+    return(invisible(NULL))
+  }
+  if (missing(path)) {
+    if (!path_from_options())
+      stop('Argument "path" not specified', call. = FALSE)
   }
   # get paths to DLLs and wrapper
-  dllpath = normalizePath(dllpath, mustWork = TRUE)
-  wrapperpath = normalizePath(file.path(path, hdfql_wrapper_path()),
-    mustWork = TRUE)
+  dllpath = normalizePath(file.path(HDFql.paths$install,
+    paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
+  wrapperpath = normalizePath(file.path(HDFql.paths$install,
+    HDFql.paths$wrapper), mustWork = TRUE)
+  # prepare wrapper code
+  constants = tempfile(fileext = ".r")
+  initialize = tempfile(fileext = ".r")
+  writeLines(tail(readLines(wrapperpath), -38L), constants)
+  writeLines(readLines(wrapperpath)[27L:38L], initialize)
   # load DLLs
   lapply(dllpath, dyn.load)
-  hdfql_path <<- dllpath
-  # source wrapper code
-  source(textConnection(tail(readLines(wrapperpath), -26)),
-    local = getNamespace(packageName()))
+  source(initialize, local = getNamespace(packageName()))
+  source(constants, local = HDFql.constants)
+  attach(HDFql.constants, name = "HDFql.constants",
+    pos = grep(sprintf("^package:%s$", packageName()), search()))
   invisible(NULL)
 }
 
@@ -75,10 +111,15 @@ hdfql_load = function(path) {
 #' @export
 hdfql_unload = function() {
   if (hdfql_is_loaded()) {
-    lapply(hdfql_path, dyn.unload)
-  }
-  if (hdfql_is_loaded()) {
-    stop("HDFql DLLs could not be unloaded.")
+    dllpath = normalizePath(file.path(HDFql.paths$install,
+      paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
+    lapply(dllpath, dyn.unload)
+    rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
+    detach("HDFql.constants")
+    assign("install", NULL, envir = HDFql.paths)
+    if (hdfql_is_loaded()) {
+      stop("HDFql DLLs could not be unloaded.")
+    }
   }
   invisible(NULL)
 }

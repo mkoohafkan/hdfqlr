@@ -10,18 +10,18 @@
 hdfql_operation = function(script, retrieve = FALSE) {
   hdfql_stop_not_loaded()
   if (!retrieve) {
-    if (hdfql_execute(script) < 0L)
-      stop(hdfql_error_get_message())
+    if (HDFql.constants$hdfql_execute(script) < 0L)
+      stop(HDFql.constants$hdfql_error_get_message())
   return(invisible(NULL))
   } else {
     out = construct_output(script)
-    if (hdfql_variable_register(out) < 0L)
+    if (HDFql.constants$hdfql_variable_register(out) < 0L)
       stop("error registering variable")
-    on.exit(hdfql_variable_unregister(out))
+    on.exit(HDFql.constants$hdfql_variable_unregister(out))
     new.script = sprintf('%s INTO MEMORY %d', script,
-      hdfql_variable_get_number(out))
-    if (hdfql_execute(new.script) < 0L)
-      stop(hdfql_error_get_message())
+      HDFql.constants$hdfql_variable_get_number(out))
+    if (HDFql.constants$hdfql_execute(new.script) < 0L)
+      stop(HDFql.constants$hdfql_error_get_message())
     return(out)
   }
 }
@@ -36,11 +36,11 @@ hdfql_operation = function(script, retrieve = FALSE) {
 #' @keywords internal
 construct_output = function(script) {
   hdfql_stop_not_loaded()
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
-  dtype = get_key(hdfql_cursor_get_datatype(), hdfql_dtypes, TRUE)
-  dcount = hdfql_cursor_get_count()
-  rtype = htype_to_rtype(dtype)
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
+  dtype = get_key(HDFql.constants$hdfql_cursor_get_datatype(), hdfql_dtypes, TRUE)
+  dcount = HDFql.constants$hdfql_cursor_get_count()
+  rtype = HDFql.constants$htype_to_rtype(dtype)
   vector(rtype, dcount)
 }
 

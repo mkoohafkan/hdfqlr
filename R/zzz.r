@@ -1,13 +1,11 @@
 .onLoad = function(libname, pkgname) {
-  if (!is.null(options("hdfqlr.dir")) && nzchar(options("hdfqlr.dir"))) {
-    packageStartupMessage('Using existing HDFql directory ',
-      'from option "hdfqlr.dir".')
-    hdfql_load(options("hdfqlr.dir")[[1]])
-  } else if (nzchar(Sys.getenv("HDFQL_DIR"))) {
-    packageStartupMessage("Using existing HDFql directory from ",
-      '"HDFQL_DIR" environment variable.')
-    hdfql_load(Sys.getenv("HDFQL_DIR"))
-  }  else {
+  set_hdfql_paths()
+}
+
+.onAttach = function(libname, pkgname) {
+  if (path_from_options(TRUE)) {
+    hdfql_load(HDFql.paths$install)
+  } else {
     packageStartupMessage('Connect to HDFql R drivers by calling ',
       "\n\n\t", 'hdfql_load("path/to/HDFql-x.x.x")',
       "\n\n",
@@ -15,7 +13,6 @@
     )
   }
 }
-
 
 .onUnload <- function(libpath) {
   hdfql_unload()

@@ -1,19 +1,19 @@
 get_error = function() {
   out = character(1)
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
 }
 
 get_type = function(path) {
   out = integer(1)
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SHOW TYPE "%s" INTO MEMORY %d',
-    path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   get_key(out, hdfql_otypes(), TRUE)
 }
 
@@ -23,13 +23,13 @@ get_dimension = function(path, otype) {
   if (otype == "HDFQL_ATTRIBUTE")
     otype = ""
   out = integer(32) 
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SHOW %s DIMENSION "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if(hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
     out[out > 0L]
 }
 
@@ -39,13 +39,13 @@ get_datatype = function(path, otype) {
  # if (otype == "HDFQL_ATTRIBUTE")
  #   otype = ""
   out = integer(1)
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SHOW %s DATA TYPE "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   get_key(out, hdfql_dtypes(), TRUE)
 }
 
@@ -54,13 +54,13 @@ get_charset = function(path, otype) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
   out = integer(1)
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SHOW %s CHARSET "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   get_key(out, hdfql_charsets(), TRUE)
 }
 
@@ -68,13 +68,13 @@ get_size = function(path, otype) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
   out = integer(1)
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SHOW %s SIZE "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   out
 }
 
@@ -104,13 +104,13 @@ get_data = function(path, otype, transpose = TRUE) {
   dtype = htype_to_rtype(htype)
   dims = get_dimension(path, otype)
   out = array(vector(dtype, prod(dims)), dim = rev(dims))
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SELECT FROM %s "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   if (identical(dims, 1L)) {
     out
   } else if (transpose) {
@@ -130,13 +130,13 @@ get_char_data = function(path, otype) {
   dims = c(column.length, string.size)
   dtype = "integer"
   out = array(vector(dtype, prod(dims)), dim = rev(dims))
-  if (hdfql_variable_register(out) < 0L)
+  if (HDFql.constants$hdfql_variable_register(out) < 0L)
     stop("error registering variable")
-  on.exit(hdfql_variable_unregister(out))
+  on.exit(HDFql.constants$hdfql_variable_unregister(out))
   script = sprintf('SELECT FROM %s "%s" INTO MEMORY %d',
-    otype, path, hdfql_variable_get_number(out))
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+    otype, path, HDFql.constants$hdfql_variable_get_number(out))
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   apply(out, 2, function(x) int_to_char(x))
 }
 
@@ -156,15 +156,15 @@ int_to_char = function(x) {
 
 use_file = function(path) {
   script = sprintf('USE FILE "%s"', path)
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   invisible(TRUE)
 }
 
 close_file = function(path) {
   script = sprintf('CLOSE FILE "%s"', path)
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
   invisible(TRUE)
 }
 
@@ -172,13 +172,13 @@ get_attr_names = function(path) {
   if (missing(path))
     path = ""
   script = sprintf('SHOW ATTRIBUTE "%s/"', path)
-  if (hdfql_execute(script) < 0L)
-    stop(hdfql_error_get_message())
-  num.attr = hdfql_cursor_get_count()
+  if (HDFql.constants$hdfql_execute(script) < 0L)
+    stop(HDFql.constants$hdfql_error_get_message())
+  num.attr = HDFql.constants$hdfql_cursor_get_count()
   attr.names = vector("character", num.attr)
   for (i in seq_along(attr.names)) {
-    hdfql_cursor_next()
-    attr.names[i] = hdfql_cursor_get_char()
+    HDFql.constants$hdfql_cursor_next()
+    attr.names[i] = HDFql.constants$hdfql_cursor_get_char()
   }
   attr.names
 }
