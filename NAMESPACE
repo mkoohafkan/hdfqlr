@@ -2,7 +2,6 @@
 
 export(hdfql_is_loaded)
 export(hdfql_load)
-export(hdfql_operation)
 export(hdfql_unload)
 export(read_attributes)
 export(read_dataset)
