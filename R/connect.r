@@ -98,8 +98,8 @@ hdfql_load = function(path) {
   lapply(dllpath, dyn.load)
   source(initialize, local = getNamespace(packageName()))
   source(constants, local = HDFql.constants)
-  attach(HDFql.constants, name = "HDFql.constants",
-    pos = grep(sprintf("^package:%s$", packageName()), search()))
+#  attach(HDFql.constants, name = "HDFql.constants",
+#    pos = grep(sprintf("^package:%s$", packageName()), search()))
   invisible(NULL)
 }
 
@@ -115,7 +115,7 @@ hdfql_unload = function() {
       paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
     lapply(dllpath, dyn.unload)
     rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
-    detach("HDFql.constants")
+#    detach("HDFql.constants")
     assign("install", NULL, envir = HDFql.paths)
     if (hdfql_is_loaded()) {
       stop("HDFql DLLs could not be unloaded.")
