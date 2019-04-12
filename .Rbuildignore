@@ -17,3 +17,4 @@ oldR
 
 # for travis
 ^HDFQLINSTALLDIR$
+^HDFql-mod.R$

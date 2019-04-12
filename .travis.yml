@@ -22,4 +22,4 @@ before_install:
  - export HDFQL_DIR=~/hdfql-2.0.1
  - echo $HDFQL_DIR
  - cd ~- 
- - cp -f inst/HDFql.R $HDFQL_DIR/wrapper/R/HDFql.R 
+ - cp -f HDFql-mod.R $HDFQL_DIR/wrapper/R/HDFql.R 
