@@ -8,7 +8,7 @@
 #'   into R.
 #' @export
 hdfql_operation = function(script, retrieve = FALSE) {
-  hdfql_stop_not_connected()
+  hdfql_stop_not_loaded()
   if (!retrieve) {
     if (hdfql_execute(script) < 0L)
       stop(hdfql_error_get_message())
@@ -35,7 +35,7 @@ hdfql_operation = function(script, retrieve = FALSE) {
 #'
 #' @keywords internal
 construct_output = function(script) {
-  hdfql_stop_not_connected()
+  hdfql_stop_not_loaded()
   if (hdfql_execute(script) < 0L)
     stop(hdfql_error_get_message())
   dtype = get_key(hdfql_cursor_get_datatype(), hdfql_dtypes, TRUE)

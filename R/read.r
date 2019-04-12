@@ -9,7 +9,7 @@
 #'
 #' @export
 read_dataset = function(file, path, attributes = FALSE) {
-  hdfql_stop_not_connected()
+  hdfql_stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
   otype = get_key(get_type(path), hdfql_keywords(), FALSE)
@@ -32,7 +32,7 @@ read_dataset = function(file, path, attributes = FALSE) {
 #'
 #' @export
 read_attributes = function(file, path) {
-  hdfql_stop_not_connected()
+  hdfql_stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
   if (missing(path))

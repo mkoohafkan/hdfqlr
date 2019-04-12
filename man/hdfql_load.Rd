@@ -2,16 +2,13 @@
 % Please edit documentation in R/connect.r
 \name{hdfql_load}
 \alias{hdfql_load}
-\alias{hdfql_unload}
 \title{Load HDFql DLLs}
 \usage{
 hdfql_load(path)
-
-hdfql_unload()
 }
 \arguments{
 \item{path}{The path to the HDFql installation.}
 }
 \description{
-Load the HDFql object.
+Load the HDFql library.
 }
