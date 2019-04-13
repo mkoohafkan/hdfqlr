@@ -29,3 +29,10 @@ hql_write_all_attributes = function(x, file, path) {
 	stop_not_loaded()
 	stop("not implemented")
 }
+
+#' @describeIn hql_write Write a compound dataset to an HDF file.
+#' @export
+hql_write_compound_dataset = function(x, file, path) {
+	stop_not_loaded()
+	stop("not implemented")
+}

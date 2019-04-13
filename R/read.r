@@ -38,7 +38,7 @@ hql_read_attribute = function(file, path) {
 	stop_not_loaded()
 	use_file(file)
 	on.exit(close_file(file))
-	get_data(file.path(path, n), "ATTRIBUTE")
+	get_data(path, "ATTRIBUTE")
 }
 
 
@@ -61,4 +61,15 @@ hql_read_all_attributes = function(file, path) {
     res[[n]] = get_data(file.path(path, n),
       "ATTRIBUTE")
   res  
+}
+
+#' @describeIn hql_read Read compound dataset from an HDF5 file.
+#'
+#' @inheritParams hql_read_dataset
+#' @return A data frame.
+#'
+#' @export
+hql_read_compound_dataset = function(file, path) {
+	stop_not_loaded()
+  stop("not implemented")
 }

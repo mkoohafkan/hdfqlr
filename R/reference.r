@@ -84,10 +84,9 @@ hdfql_Rtypes = function() {
     HDFQL_OPAQUE = NULL,
     HDFQL_BITFIELD = NULL,
     HDFQL_ENUMERATION = NULL,
-    HDFQL_COMPOUND = NULL
+    HDFQL_COMPOUND = "data.frame"
   )
 }
-
 
 hdfql_data_cursors = function() {
   c(
@@ -131,7 +130,3 @@ hdfql_data_subcursors = function() {
     HDFQL_CHAR = HDFql.constants$hdfql_subcursor_get_char
   )
 }
-
-
-
-

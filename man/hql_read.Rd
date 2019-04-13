@@ -5,6 +5,7 @@
 \alias{hql_read_dataset}
 \alias{hql_read_attribute}
 \alias{hql_read_all_attributes}
+\alias{hql_read_compound_dataset}
 \title{Read HDF Dataset or Attribute}
 \usage{
 hql_read_dataset(file, path, attributes = FALSE)
@@ -12,6 +13,8 @@ hql_read_dataset(file, path, attributes = FALSE)
 hql_read_attribute(file, path)
 
 hql_read_all_attributes(file, path)
+
+hql_read_compound_dataset(file, path)
 }
 \arguments{
 \item{file}{The HDF5 file path.}
@@ -26,6 +29,8 @@ A matrix.
 The attribute value.
 
 A named list of attributes.
+
+A data frame.
 }
 \description{
 Read a dataset or attribute from an HDF file.
@@ -37,5 +42,7 @@ Read a dataset or attribute from an HDF file.
 \item \code{hql_read_attribute}: Read a single attribute from an HDF5 file.
 
 \item \code{hql_read_all_attributes}: Read attributes from an HDF5 file.
+
+\item \code{hql_read_compound_dataset}: Read compound dataset from an HDF5 file.
 }}
 

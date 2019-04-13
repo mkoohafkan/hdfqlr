@@ -4,11 +4,14 @@
 \alias{hql_write}
 \alias{hql_write_dataset}
 \alias{hql_write_attribute}
+\alias{hql_write_compound_dataset}
 \title{Write HDF Dataset or Attribute}
 \usage{
 hql_write_dataset(x, file, path)
 
 hql_write_attribute(x, file, path)
+
+hql_write_compound_dataset(x, file, path)
 }
 \arguments{
 \item{x}{The dataset or attribute to write.}
@@ -25,5 +28,7 @@ Read a dataset or attribute to an HDF file.
 \item \code{hql_write_dataset}: Write a dataset to an HDF file.
 
 \item \code{hql_write_attribute}: Write attributes to an HDF file.
+
+\item \code{hql_write_compound_dataset}: Write a compound dataset to an HDF file.
 }}
 
