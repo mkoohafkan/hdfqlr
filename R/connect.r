@@ -3,6 +3,7 @@
 HDFql.constants = new.env()
 HDFql.paths = new.env()
 
+#' @keywords internal
 path_from_options = function(startup = FALSE) {
   path = NULL
   if (startup) {
@@ -29,16 +30,18 @@ path_from_options = function(startup = FALSE) {
 
 #' HDFql Paths
 #'
-#' Set the partial paths to the HDFql library and wrapper
+#' Set the partial paths to the HDFql library and wrapper.
+#'
 #' @keywords internal
-set_hdfql_paths = function() {
+set_paths = function() {
   if (Sys.info()[["sysname"]] == "Windows") {
     path = c("lib/HDFql_dll", "wrapper/R/HDFqlR")
   } else { 
     path = "wrapper/R/libHDFqlR"
   }
   assign("dll", path, envir = HDFql.paths)
-  assign("wrapper", "wrapper/R/HDFql.R", envir = HDFql.paths)
+	assign("wrapper", "wrapper/R/HDFql.R", envir = HDFql.paths)
+	invisible(NULL)
 }
 
 
@@ -49,7 +52,7 @@ set_hdfql_paths = function() {
 #' @return Logical `TRUE` if DLLs are found, `FALSE` otherwise.
 #'
 #' @export
-hdfql_is_loaded = function() {
+hql_is_loaded = function() {
   if (all(basename(HDFql.paths$dll) %in% names(getLoadedDLLs()))) {
     TRUE
   } else {
@@ -62,8 +65,8 @@ hdfql_is_loaded = function() {
 #' Return an error if the HDFql library is not loaded.
 #'
 #' @keywords internal
-hdfql_stop_not_loaded = function() {
-  if (!hdfql_is_loaded())
+stop_not_loaded = function() {
+  if (!hql_is_loaded())
     stop("HDFql is not loaded.")
   invisible(NULL)
 }
@@ -76,8 +79,8 @@ hdfql_stop_not_loaded = function() {
 #' 
 #' @importFrom utils packageName tail
 #' @export
-hdfql_load = function(path) {
-  if (hdfql_is_loaded()) {
+hql_load = function(path) {
+  if (hql_is_loaded()) {
     return(invisible(NULL))
   }
   if (missing(path)) {
@@ -109,18 +112,43 @@ hdfql_load = function(path) {
 #' Unload the HDFql library.
 #'
 #' @export
-hdfql_unload = function() {
-  if (hdfql_is_loaded()) {
+hql_unload = function() {
+  if (hql_is_loaded()) {
     dllpath = normalizePath(file.path(HDFql.paths$install,
       paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
     lapply(dllpath, dyn.unload)
     rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
 #    detach("HDFql.constants")
     assign("install", NULL, envir = HDFql.paths)
-    if (hdfql_is_loaded()) {
+    if (hql_is_loaded()) {
       stop("HDFql DLLs could not be unloaded.")
     }
   }
   invisible(NULL)
 }
 
+#' Attach HDFql Wrapper
+#'
+#' Attach the constants and functions provided by the 
+#' HDFql wrapper to the search path.
+#'
+#' @details For more information, consult the HDFql reference 
+#'   manual ([http://www.hdfql.com/#documentation](http://www.hdfql.com/#documentation)).
+#'
+#' @export
+hql_attach = function() {
+  stop_not_loaded()
+	if (!("HDFql.constants" %in% search())) {
+		attach(HDFql.constants, pos = 2L)
+	}
+	invisible(NULL)
+}
+
+#' @rdname hql_attach
+#' @export
+hql_detach = function() {
+	if ("HDFql.constants" %in% search()) {
+		detach(HDFql.constants)
+	}
+	invisible(NULL)
+}

@@ -1,10 +1,10 @@
 .onLoad = function(libname, pkgname) {
-  set_hdfql_paths()
+  set_paths()
 }
 
 .onAttach = function(libname, pkgname) {
   if (path_from_options(TRUE)) {
-    hdfql_load(HDFql.paths$install)
+    hql_load(HDFql.paths$install)
   } else {
     packageStartupMessage('Connect to HDFql R drivers by calling ',
       "\n\n\t", 'hdfql_load("path/to/HDFql-x.x.x")',
@@ -15,6 +15,6 @@
 }
 
 .onUnload <- function(libpath) {
-  hdfql_unload()
+  hql_unload()
 }
 

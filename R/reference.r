@@ -1,16 +1,3 @@
-#' @importFrom utils stack
-get_key = function(x, l, invert = FALSE) {
-  if (!invert) {
-    l[[x]]
-  }
-  else {
-    d = stack(l)
-    as.character(d[d$values == x, "ind"])
-  }
-}
-
-
-
 hdfql_keywords = function() {
   c(
     HDFQL_ATTRIBUTE = "ATTRIBUTE",

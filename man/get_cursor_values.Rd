@@ -2,16 +2,16 @@
 % Please edit documentation in R/basic.r
 \name{get_cursor_values}
 \alias{get_cursor_values}
-\title{HDFql Cursor Operation}
+\title{Value From Cursor}
 \usage{
 get_cursor_values(script)
 }
 \arguments{
-\item{script}{The HDFQL operation to execute. 
-Do not include `INTO` statements.}
+\item{script}{The HDFQL operation to execute.
+Do not include \code{INTO} statements.}
 }
 \value{
-The script output, or `NULL`.
+The script output, or \code{NULL}.
 }
 \description{
 Generic helper for executing HDFql cursor operations.

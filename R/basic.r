@@ -1,4 +1,4 @@
-#' HDFql Operation
+#' Value From Memory
 #'
 #' Generic helper for executing HDFql operations.
 #'
@@ -25,7 +25,7 @@ get_value = function(script, variable = NULL, suffix = NULL) {
 }
 
 
-#' HDFql Cursor Operation
+#' Value From Cursor
 #'
 #' Generic helper for executing HDFql cursor operations.
 #'
@@ -62,23 +62,25 @@ get_container = function(script) {
   vector(rtype, n)
 }
 
-
+#' Get HDF Object Type
+#'
+#' @param path The location of the object within the HDF file.
+#' @return The HDF object type.
+#'
+#' @keywords internal
 get_type = function(path) {
   script = sprintf('SHOW TYPE "%s"', path)
   out = get_value(script, integer(1))
   get_key(out, hdfql_otypes(), TRUE)
 }
 
-get_dimension = function(path, otype) {
-  if(missing(otype))
-    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
-  if (otype == "HDFQL_ATTRIBUTE")
-    otype = ""
-  script = sprintf('SHOW %s DIMENSION "%s"', otype, path)
-  out = get_value(script, integer(32))
-  out[out > 0L]
-}
-
+#' Get HDF Object Data Type
+#'
+#' @inheritParams get_type
+#' @param otype The HDF object type.
+#' @return The HDF object data type.
+#'
+#' @keywords internal
 get_datatype = function(path, otype) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
@@ -87,7 +89,28 @@ get_datatype = function(path, otype) {
   get_key(out, hdfql_dtypes(), TRUE)
 }
 
+#' Get HDF Object Dimension
+#'
+#' @inheritParams get_datatype
+#' @return The HDF object dimensions.
+#'
+#' @keywords internal
+get_dimension = function(path, otype) {
+	if (missing(otype))
+		otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+	if (otype == "HDFQL_ATTRIBUTE")
+		otype = ""
+	script = sprintf('SHOW %s DIMENSION "%s"', otype, path)
+	out = get_value(script, integer(32))
+	out[out > 0L]
+}
 
+#' Get HDF Object Charset
+#'
+#' @inheritParams get_datatype
+#' @return The HDF object charset.
+#'
+#' @keywords internal
 get_charset = function(path, otype) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
@@ -98,6 +121,12 @@ get_charset = function(path, otype) {
   get_key(out, hdfql_charsets(), TRUE)
 }
 
+#' Get HDF Object Size
+#'
+#' @inheritParams get_datatype
+#' @return The HDF object size.
+#'
+#' @keywords internal
 get_size = function(path, otype) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
@@ -106,9 +135,17 @@ get_size = function(path, otype) {
   out
 }
 
-
+#' HDF Data Type to R Type
+#'
+#' @param dtype The HDF data type.
+#' @return The equivalent R class, or `NULL` if not found.
+#'
+#' @keywords internal
 dtype_to_rtype = function(dtype) {
-  rtype = get_key(dtype, hdfql_Rtypes(), FALSE)
+	rtype = get_key(dtype, hdfql_Rtypes(), FALSE)
+	if (is.null(rtype) || length(rtype) == 0L) {
+		stop("No corresponding R class for HDF data type ", dtype)
+	}
   if (rtype == "integer64") {
     if (!requireNamespace("bit64")) {
       stop("Support for ", dtype, 'requires package "bit64"')
@@ -117,16 +154,31 @@ dtype_to_rtype = function(dtype) {
   rtype
 }
 
-rtype_to_dtype = function(rtype, as.int = TRUE) {
-## not 1:1
-
-#  dtype = names(hdfql.Rtypes)[which(hdfql.Rtypes == rtype)]
-#
- # if (as.int)
-  #  hdfql.vartypes[rtype]
+#' R Type to HDF Data Type
+#'
+#' @param rtype The R class.
+#' @return The equivalent HDF data type, or `NULL` if not found.
+#'
+#' @keywords internal
+rtype_to_dtype = function(rtype) {
+	dtype = get_key(rtype, hdfql_Rtypes(), TRUE)
+	# drop "var" types
+	dtype = dtype[!grepl("VAR.+$", dtype)]
+	if (is.null(dtype) || length(dtype) == 0L) {
+		stop("No corresponding HDF data type for R class ", rtype)
+	}
+  dtype
 }
 
-
+#' Get Data
+#'
+#' Get data from HDF file.
+#'
+#' @inheritParams get_datatype
+#' @param transpose If `TRUE`, transpose the data.
+#' @return An R array.
+#'
+#' @keywords internal
 get_data = function(path, otype, transpose = TRUE) {
   if(missing(otype))
     otype = get_key(get_type(path), hdfql_keywords(), FALSE)
@@ -147,7 +199,14 @@ get_data = function(path, otype, transpose = TRUE) {
   }
 }
 
-
+#' Get Character Data
+#'
+#' Get character data from HDF file.
+#'
+#' @inheritParams get_datatype
+#' @return An R array.
+#'
+#' @keywords internal
 get_char_data = function(path, otype) {
   total.size = get_size(path)
   column.length = get_dimension(path)
@@ -162,7 +221,16 @@ get_char_data = function(path, otype) {
   apply(out, 2, function(x) int_to_char(x))
 }
 
-int_to_char = function(x) {
+#' HDF Integer Output to Character
+#'
+#' Convert integer data from an HDF file to characters.
+#'
+#' @param x An integer array.
+#' @param trim If `TRUE`, trim whitespace from the character data.
+#' @return A character array.
+#'
+#' @keywords internal
+int_to_char = function(x, trim = FALSE) {
   y = tryCatch(rawToChar(as.raw(x)),
     error = function(e) e)
   if ("error" %in% class(y)) {
@@ -172,35 +240,43 @@ int_to_char = function(x) {
     y[y == as.raw(0)] = as.raw(0x20)
     y = rawToChar(y)
   }
-  # remove whitespace
-  trimws(y, "both")
+	# remove whitespace
+	if (trim) {
+		trimws(y, "both")
+	} else {
+		y
+	}
 }
 
-use_file = function(path) {
-  script = sprintf('USE FILE "%s"', path)
+#' Use HDF File
+#'
+#' @param file The HDF file path.
+#'
+#' @keywords internal
+use_file = function(file) {
+  script = sprintf('USE FILE "%s"', file)
   get_value(script)
   invisible(TRUE)
 }
 
-close_file = function(path) {
-  script = sprintf('CLOSE FILE "%s"', path)
+#' @rdname use_file
+#' @keywords internal
+close_file = function(file) {
+  script = sprintf('CLOSE FILE "%s"', file)
   get_value(script)
   invisible(TRUE)
 }
 
+#' Get HDF Attribute Names
+#'
+#' @param path The path of the dataset or group from which to 
+#'  retrieve attribute names.
+#' @return A vector of attribute names.
+#'
+#' @keywords internal
 get_attr_names = function(path) {
   if (missing(path))
     path = ""
   script = sprintf('SHOW ATTRIBUTE "%s/"', path)
   get_cursor_values(script)
-
-#  get_value(script)
-#  num.attr = HDFql.constants$hdfql_cursor_get_count()
-#  attr.names = vector("character", num.attr)
-#  for (i in seq_along(attr.names)) {
-#    HDFql.constants$hdfql_cursor_next()
-#    attr.names[i] = HDFql.constants$hdfql_cursor_get_char()
-#  }
-#  attr.names
 }
-

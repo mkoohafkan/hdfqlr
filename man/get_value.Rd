@@ -2,20 +2,20 @@
 % Please edit documentation in R/basic.r
 \name{get_value}
 \alias{get_value}
-\title{HDFql Operation}
+\title{Value From Memory}
 \usage{
 get_value(script, variable = NULL, suffix = NULL)
 }
 \arguments{
-\item{script}{The HDFQL operation to execute. 
-Do not include `INTO` statements.}
+\item{script}{The HDFQL operation to execute.
+Do not include \code{INTO} statements.}
 
-\item{variable}{if not `NULL`, read the output into this variable.}
+\item{variable}{if not \code{NULL}, read the output into this variable.}
 
 \item{suffix}{Additional script specifications.}
 }
 \value{
-The script output, or `NULL`.
+The script output, or \code{NULL}.
 }
 \description{
 Generic helper for executing HDFql operations.

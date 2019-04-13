@@ -15,3 +15,4 @@ A vector of character representations of the integer sequence.
 \description{
 Format an integer sequence for selection with HDFql.
 }
+\keyword{internal}
