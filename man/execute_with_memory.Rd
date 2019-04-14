@@ -5,7 +5,7 @@
 \title{Execute With Memory}
 \usage{
 execute_with_memory(script, variable = NULL, direction = c("INTO",
-  "FROM"), suffix = NULL)
+  "FROM"), suffix = NULL, stop.on.error = TRUE)
 }
 \arguments{
 \item{script}{The HDFQL operation to execute.
@@ -19,6 +19,9 @@ is \code{NULL}.}
 \item{suffix}{Additional script specifications. This can be used for
 post-processing (for SELECT operations) or for writing raw values
 (for INSERT operations).}
+
+\item{stop.on.error}{If \code{TRUE}, return an error message if script
+fails. If \code{FALSE}, return the HDFql error value.}
 }
 \value{
 The script output, or \code{NULL}.

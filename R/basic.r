@@ -10,11 +10,14 @@
 #' @param suffix Additional script specifications. This can be used for
 #'   post-processing (for SELECT operations) or for writing raw values
 #'   (for INSERT operations).
+#' @param stop.on.error If `TRUE`, return an error message if script
+#'   fails. If `FALSE`, return the HDFql error value.
 #' @return The script output, or `NULL`.
 #' 
 #' @keywords internal
 execute_with_memory = function(script, variable = NULL,
-  direction = c("INTO", "FROM"), suffix = NULL) {
+	direction = c("INTO", "FROM"), suffix = NULL,
+	stop.on.error = TRUE) {
 	if (!is.null(variable)) {
 		direction = match.arg(toupper(direction), c("INTO", "FROM"))
 		if (HDFql.constants$hdfql_variable_register(variable) < 0L)
@@ -26,8 +29,14 @@ execute_with_memory = function(script, variable = NULL,
 	if (!is.null(suffix)) {
 		script = paste(script, suffix)
 	}
-	if (HDFql.constants$hdfql_execute(script) != HDFql.constants$HDFQL_SUCCESS)
-		stop(HDFql.constants$hdfql_error_get_message())
+	hdfql.result = HDFql.constants$hdfql_execute(script)
+	if (hdfql.result != HDFql.constants$HDFQL_SUCCESS) {
+		if (stop.on.error) {
+			stop(HDFql.constants$hdfql_error_get_message())
+		} else {
+			return(hdfql.result)
+		}
+	}
 	if (!is.null(variable) && direction == "INTO") {
 		variable
 	} else {
@@ -160,6 +169,10 @@ rtype_to_dtype = function(rtype) {
 	dtype = get_key(rtype, hql_Rtypes(), TRUE)
 	# drop "var" types
 	dtype = dtype[!grepl("VAR.+$", dtype)]
+	# drop "tiny", small, and unsigned
+	dtype = dtype[!grepl("TINY|SMALL|UNSIGNED", dtype)]
+	# drop float
+	dtype = dtype[!grepl("FLOAT", dtype)]
 	if (is.null(dtype) || length(dtype) == 0L) {
 		stop("No corresponding HDF data type for R class ", rtype)
 	}
@@ -307,7 +320,7 @@ set_data = function(x, path, otype, transpose = TRUE,
 			gsub("^HDFQL_", "", dtype), '"')
 	}
 	if (rtype == "character") {
-		return(set_char_data(x, path, otype, parallel))
+		return(set_char_data(x, path, otype, FALSE, parallel))
 	}
 	if (parallel) {
 		pre = "PARALLEL"
@@ -329,7 +342,8 @@ set_data = function(x, path, otype, transpose = TRUE,
 #' @inheritParams set_data
 #'
 #' @keywords internal
-set_char_data = function(x, path, otype, parallel = FALSE) {
+set_char_data = function(x, path, otype, transpose = FALSE,
+  parallel = FALSE) {
 	if (parallel) {
 		pre = "PARALLEL"
 	} else {
@@ -340,5 +354,9 @@ set_char_data = function(x, path, otype, parallel = FALSE) {
 	xint = apply(sapply(x, charToRaw, USE.NAMES = FALSE),
 		c(1, 2), as.integer)
 	script = sprintf('INSERT INTO %s %s "%s" VALUES', pre, otype, path)
-	execute_with_memory(script, xint, "FROM")
+	if (transpose) {
+		execute_with_memory(script, aperm(xint), "FROM")
+	} else {
+		execute_with_memory(script, xint, "FROM")
+	}
 }

@@ -4,12 +4,14 @@
 \alias{set_char_data}
 \title{Set Character Data}
 \usage{
-set_char_data(x, path, otype, parallel = FALSE)
+set_char_data(x, path, otype, transpose = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{path}{The location of the object within the HDF file.}
 
 \item{otype}{The HDF object type.}
+
+\item{transpose}{If \code{TRUE}, transpose the data.}
 
 \item{parallel}{Use parallel processing functionality.}
 }
