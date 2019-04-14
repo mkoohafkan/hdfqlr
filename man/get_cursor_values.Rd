@@ -8,7 +8,7 @@ get_cursor_values(script)
 }
 \arguments{
 \item{script}{The HDFQL operation to execute.
-Do not include \code{INTO} statements.}
+Do not include \code{FROM} or \code{INTO} statements.}
 }
 \value{
 The script output, or \code{NULL}.

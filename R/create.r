@@ -89,5 +89,5 @@ create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 		post = sprintf("AS %s %s", type, dsize)
 	}
 	script = sprintf('CREATE %s %s "%s" %s', pre, what, path, post)
-	get_value(script)
+	execute_with_memory(script)
 }

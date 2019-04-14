@@ -4,7 +4,7 @@
 \alias{get_data}
 \title{Get Data}
 \usage{
-get_data(path, otype, transpose = TRUE)
+get_data(path, otype, transpose = TRUE, parallel = FALSE)
 }
 \arguments{
 \item{path}{The location of the object within the HDF file.}
@@ -12,6 +12,8 @@ get_data(path, otype, transpose = TRUE)
 \item{otype}{The HDF object type.}
 
 \item{transpose}{If \code{TRUE}, transpose the data.}
+
+\item{parallel}{Use parallel processing functionality.}
 }
 \value{
 An R array.

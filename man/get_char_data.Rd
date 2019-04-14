@@ -4,12 +4,14 @@
 \alias{get_char_data}
 \title{Get Character Data}
 \usage{
-get_char_data(path, otype)
+get_char_data(path, otype, parallel = FALSE)
 }
 \arguments{
 \item{path}{The location of the object within the HDF file.}
 
 \item{otype}{The HDF object type.}
+
+\item{parallel}{Use parallel processing functionality.}
 }
 \value{
 An R array.

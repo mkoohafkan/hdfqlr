@@ -8,7 +8,7 @@ get_container(script)
 }
 \arguments{
 \item{script}{The HDFQL operation to execute.
-Do not include \code{INTO} statements.}
+Do not include \code{FROM} or \code{INTO} statements.}
 }
 \value{
 An empty R object of the correct size and type.
