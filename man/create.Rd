@@ -2,20 +2,53 @@
 % Please edit documentation in R/create.r
 \name{create}
 \alias{create}
+\alias{create_file}
+\alias{create_group}
+\alias{create_dataset}
+\alias{create_attribute}
 \title{Create HDF Object}
 \usage{
-create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path, type,
-  size, overwrite = FALSE, parallel = FALSE)
+create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path,
+  data.type, size, overwrite = FALSE, parallel = FALSE)
+
+create_file(file, overwrite = FALSE, parallel = FALSE)
+
+create_group(group, overwrite = FALSE)
+
+create_dataset(dataset, data.type, size = NULL, overwrite = FALSE,
+  parallel = FALSE)
+
+create_attribute(attribute, data.type, size = NULL, overwrite = FALSE,
+  parallel = FALSE)
 }
 \arguments{
-\item{size}{The size (dimensions) of the dataset. For \code{CHAR}
-datasets, the last element of \code{size} is the string length.}
+\item{what}{The type of object to create.}
 
-\item{overwrite}{If \code{TRUE}, overwrite existing file.}
+\item{path}{The target location of the object.}
+
+\item{data.type}{The HDF data type of the dataset or attribute.}
+
+\item{size}{The size (dimensions) of the dataset or attribute.
+For \code{CHAR} datasets or attributes, the last element of \code{size}
+is the string length.}
+
+\item{overwrite}{If \code{TRUE}, overwrite existing file, group,
+attribute, or dataset.}
 
 \item{parallel}{If \code{TRUE}, use parallel capabilities.}
 }
 \description{
 Generic helper for creating HDF objects.
 }
+\section{Functions}{
+\itemize{
+\item \code{create_file}: Create HDF file.
+
+\item \code{create_group}: Create HDF group.
+
+\item \code{create_dataset}: Create HDF dataset.
+
+\item \code{create_attribute}: Create HDF attribute.
+}}
+
 \keyword{internal}

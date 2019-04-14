@@ -71,8 +71,13 @@ set_data = function(x, path, otype, transpose = TRUE,
 	}
 }
 
-
-
+#' Set Character Data
+#'
+#' Set character data in HDF file.
+#'
+#' @inheritParams set_data
+#'
+#' @keywords internal
 set_char_data = function(x, path, otype, parallel = FALSE) {
 	if (parallel) {
 		pre = "PARALLEL"
