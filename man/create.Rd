@@ -8,7 +8,8 @@ create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path, type,
   size, overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
-\item{size}{The size (dimensions) of the dataset.}
+\item{size}{The size (dimensions) of the dataset. For \code{CHAR}
+datasets, the last element of \code{size} is the string length.}
 
 \item{overwrite}{If \code{TRUE}, overwrite existing file.}
 

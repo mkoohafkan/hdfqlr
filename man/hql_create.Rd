@@ -31,7 +31,8 @@ hql_create_attribute(attribute, data.type, size = NULL,
 
 \item{data.type}{The HDF data type of the dataset.}
 
-\item{size}{The size (dimensions) of the dataset.}
+\item{size}{The size (dimensions) of the dataset. For \code{CHAR}
+datasets, the last element of \code{size} is the string length.}
 
 \item{attribute}{The attribute to create.}
 

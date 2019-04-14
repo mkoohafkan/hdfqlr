@@ -46,11 +46,6 @@ hql_write_compound_dataset = function(x, file, path) {
 #' @keywords internal
 set_data = function(x, path, otype, transpose = TRUE,
 	parallel = FALSE) {
-	if (parallel) {
-		pre = "PARALLEL"
-	} else {
-		pre = ""
-	}
 	if (missing(otype))
 		otype = gsub("^HDFQL_", "", get_object_type(path))
 	dtype = get_data_type(path)
@@ -61,7 +56,12 @@ set_data = function(x, path, otype, transpose = TRUE,
 			gsub("^HDFQL_", "", dtype), '"')
 	}
 	if (rtype == "character") {
-		return(set_char_data(path, otype, parallel))
+		return(set_char_data(x, path, otype, parallel))
+	}
+	if (parallel) {
+		pre = "PARALLEL"
+	} else {
+		pre = ""
 	}
 	script = sprintf('INSERT INTO %s %s "%s" VALUES', pre, otype, path)
 	if (transpose) {
@@ -73,7 +73,16 @@ set_data = function(x, path, otype, transpose = TRUE,
 
 
 
-set_char_data = function(path, otype, parallel = FALSE) {
+set_char_data = function(x, path, otype, parallel = FALSE) {
+	if (parallel) {
+		pre = "PARALLEL"
+	} else {
+		pre = ""
+	}
+	max.string.size = max(nchar(x))
+	x = format(x, with = max.string.size)
+	xint = apply(sapply(x, charToRaw, USE.NAMES = FALSE),
+	  c(1, 2), as.integer)
+	script = sprintf('INSERT INTO %s %s "%s" VALUES', pre, otype, path)
+	execute_with_memory(script, xint, "FROM")
 }
-
-
