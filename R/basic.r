@@ -177,16 +177,16 @@ rtype_to_dtype = function(rtype) {
 #'
 #' @keywords internal
 get_data = function(path, otype, transpose = TRUE, parallel = FALSE) {
+  if(missing(otype))
+    otype = gsub("^HDFQL_", "", get_object_type(path))
+  dtype = get_data_type(path, otype)
+  if (dtype == "HDFQL_CHAR")
+    return(get_char_data(path, otype, parallel))
 	if (parallel) {
 		pre = "PARALLEL"
 	} else {
 		pre = ""
 	}
-  if(missing(otype))
-    otype = gsub("^HDFQL_", "", get_object_type(path))
-  dtype = get_data_type(path, otype)
-  if (dtype == "HDFQL_CHAR")
-    return(get_char_data(path, otype))
   rtype = dtype_to_rtype(dtype)
   dims = get_dimension(path, otype)
   script = sprintf('SELECT FROM %s %s "%s"', pre, otype, path)
