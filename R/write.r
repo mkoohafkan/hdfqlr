@@ -36,3 +36,44 @@ hql_write_compound_dataset = function(x, file, path) {
 	stop_not_loaded()
 	stop("not implemented")
 }
+
+#' Set Data
+#'
+#' Set data in HDF file.
+#'
+#' @inheritParams get_data
+#'
+#' @keywords internal
+set_data = function(x, path, otype, transpose = TRUE,
+	parallel = FALSE) {
+	if (parallel) {
+		pre = "PARALLEL"
+	} else {
+		pre = ""
+	}
+	if (missing(otype))
+		otype = gsub("^HDFQL_", "", get_object_type(path))
+	dtype = get_data_type(path)
+	rtype = typeof(x)
+	if (get_key(dtype, hql_Rtypes()) != rtype) {
+		stop('Input data is type "', rtype,
+			'" but target location is type "',
+			gsub("^HDFQL_", "", dtype), '"')
+	}
+	if (rtype == "character") {
+		return(set_char_data(path, otype, parallel))
+	}
+	script = sprintf('INSERT INTO %s %s "%s" VALUES', pre, otype, path)
+	if (transpose) {
+		execute_with_memory(script, aperm(x), "FROM")
+	} else {
+		execute_with_memory(script, x, "FROM")
+	}
+}
+
+
+
+set_char_data = function(path, otype, parallel = FALSE) {
+}
+
+
