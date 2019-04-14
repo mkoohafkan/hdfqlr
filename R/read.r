@@ -17,7 +17,7 @@ hql_read_dataset = function(file, path, attributes = FALSE) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
-  otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+  otype = get_key(get_type(path), hql_keywords(), FALSE)
   res = get_data(path, otype)
   if (attributes) {
     attr.names = get_attr_names(path)

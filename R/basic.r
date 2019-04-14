@@ -36,8 +36,8 @@ get_value = function(script, variable = NULL, suffix = NULL) {
 get_cursor_values = function(script) {
   container = get_container(script)
   dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hdfql_dtypes(), TRUE)
-  cursor = get_key(dtype, hdfql_data_cursors())
+    hql_dtypes(), TRUE)
+  cursor = get_key(dtype, hql_data_cursors())
   for (i in seq_along(container)) {
     HDFql.constants$hdfql_cursor_next()
     container[i] = cursor()
@@ -57,7 +57,7 @@ get_container = function(script) {
   get_value(script)
   n = HDFql.constants$hdfql_cursor_get_count()
   dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hdfql_dtypes(), TRUE)
+    hql_dtypes(), TRUE)
   rtype = dtype_to_rtype(dtype)
   vector(rtype, n)
 }
@@ -71,7 +71,7 @@ get_container = function(script) {
 get_type = function(path) {
   script = sprintf('SHOW TYPE "%s"', path)
   out = get_value(script, integer(1))
-  get_key(out, hdfql_otypes(), TRUE)
+  get_key(out, hql_otypes(), TRUE)
 }
 
 #' Get HDF Object Data Type
@@ -83,10 +83,10 @@ get_type = function(path) {
 #' @keywords internal
 get_datatype = function(path, otype) {
   if(missing(otype))
-    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+    otype = get_key(get_type(path), hql_keywords(), FALSE)
   script = sprintf('SHOW %s DATA TYPE "%s"', otype, path)
   out = get_value(script, integer(1))  
-  get_key(out, hdfql_dtypes(), TRUE)
+  get_key(out, hql_dtypes(), TRUE)
 }
 
 #' Get HDF Object Dimension
@@ -97,7 +97,7 @@ get_datatype = function(path, otype) {
 #' @keywords internal
 get_dimension = function(path, otype) {
 	if (missing(otype))
-		otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+		otype = get_key(get_type(path), hql_keywords(), FALSE)
 	if (otype == "HDFQL_ATTRIBUTE")
 		otype = ""
 	script = sprintf('SHOW %s DIMENSION "%s"', otype, path)
@@ -113,12 +113,12 @@ get_dimension = function(path, otype) {
 #' @keywords internal
 get_charset = function(path, otype) {
   if(missing(otype))
-    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+    otype = get_key(get_type(path), hql_keywords(), FALSE)
   script = sprintf('SHOW %s CHARSET "%s"', otype, path)
   out = get_value(script, integer(1))
   if (HDFql.constants$hdfql_execute(script) < 0L)
     stop(HDFql.constants$hdfql_error_get_message())
-  get_key(out, hdfql_charsets(), TRUE)
+  get_key(out, hql_charsets(), TRUE)
 }
 
 #' Get HDF Object Size
@@ -129,7 +129,7 @@ get_charset = function(path, otype) {
 #' @keywords internal
 get_size = function(path, otype) {
   if(missing(otype))
-    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+    otype = get_key(get_type(path), hql_keywords(), FALSE)
   script = sprintf('SHOW %s SIZE "%s"', otype, path)
   out = get_value(script, integer(1))
   out
@@ -142,7 +142,7 @@ get_size = function(path, otype) {
 #'
 #' @keywords internal
 dtype_to_rtype = function(dtype) {
-	rtype = get_key(dtype, hdfql_Rtypes(), FALSE)
+	rtype = get_key(dtype, hql_Rtypes(), FALSE)
 	if (is.null(rtype) || length(rtype) == 0L) {
 		stop("No corresponding R class for HDF data type ", dtype)
 	}
@@ -161,7 +161,7 @@ dtype_to_rtype = function(dtype) {
 #'
 #' @keywords internal
 rtype_to_dtype = function(rtype) {
-	dtype = get_key(rtype, hdfql_Rtypes(), TRUE)
+	dtype = get_key(rtype, hql_Rtypes(), TRUE)
 	# drop "var" types
 	dtype = dtype[!grepl("VAR.+$", dtype)]
 	if (is.null(dtype) || length(dtype) == 0L) {
@@ -181,7 +181,7 @@ rtype_to_dtype = function(rtype) {
 #' @keywords internal
 get_data = function(path, otype, transpose = TRUE) {
   if(missing(otype))
-    otype = get_key(get_type(path), hdfql_keywords(), FALSE)
+    otype = get_key(get_type(path), hql_keywords(), FALSE)
   dtype = get_datatype(path, otype)
   if (dtype == "HDFQL_CHAR")
     return(get_char_data(path, otype))

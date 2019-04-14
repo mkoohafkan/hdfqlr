@@ -1,4 +1,4 @@
-hdfql_keywords = function() {
+hql_keywords = function() {
   c(
     HDFQL_ATTRIBUTE = "ATTRIBUTE",
     HDFQL_GROUP = "GROUP",
@@ -6,7 +6,7 @@ hdfql_keywords = function() {
   )
 }
 
-hdfql_otypes = function() {
+hql_otypes = function() {
   c(
     HDFQL_DIRECTORY = HDFql.constants$HDFQL_DIRECTORY,
     HDFQL_FILE = HDFql.constants$HDFQL_FILE,
@@ -19,7 +19,7 @@ hdfql_otypes = function() {
   )
 }
 
-hdfql_dtypes = function() {
+hql_dtypes = function() {
   c(
   HDFQL_TINYINT = HDFql.constants$HDFQL_TINYINT,
   HDFQL_UNSIGNED_TINYINT = HDFql.constants$HDFQL_UNSIGNED_TINYINT,
@@ -50,14 +50,14 @@ hdfql_dtypes = function() {
   )
  }
 
-hdfql_charsets = function() {
+hql_charsets = function() {
   c(
     HDFQL_ASCII = HDFql.constants$HDFQL_ASCII,
     HDFQL_UTF8 = HDFql.constants$HDFQL_UTF8
   )
 }
 
-hdfql_Rtypes = function() {
+hql_Rtypes = function() {
   c(
     HDFQL_TINYINT =  "integer",
     HDFQL_UNSIGNED_TINYINT = "integer",
@@ -88,7 +88,7 @@ hdfql_Rtypes = function() {
   )
 }
 
-hdfql_data_cursors = function() {
+hql_data_cursors = function() {
   c(
     HDFQL_TINYINT = HDFql.constants$hdfql_cursor_get_tinyint,
     HDFQL_VARTINYINT = HDFql.constants$hdfql_cursor_get_tinyint,
@@ -115,7 +115,7 @@ hdfql_data_cursors = function() {
   )
 }
 
-hdfql_data_subcursors = function() {
+hql_data_subcursors = function() {
   c(
     HDFQL_TINYINT = HDFql.constants$hdfql_subcursor_get_tinyint,
     HDFQL_UNSIGNED_TINYINT = HDFql.constants$hdfql_subcursor_get_unsigned_tinyint,

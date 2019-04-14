@@ -6,85 +6,88 @@ NULL
 #' @describeIn hql_create Create HDF file.
 #'
 #' @param file The target file location.
-#' @param truncate If `TRUE`, overwrite existing file.
+#' @param overwrite If `TRUE`, overwrite existing file.
 #' @param parallel If `TRUE`, use parallel capabilities.
-#' @param from, to Library bounds.
 #'
 #' @export
-hql_create_file = function(file, truncate = FALSE, parallel = FALSE,
-	from = NULL, to = NULL) {
-	pre = ""
-	if (truncate) {
-		pre = paste(pre, "TRUNCATE")
-	}
-	if (parallel) {
-		pre = paste(pre, "PARALLEL")
-	}
-	if (!is.null(from) && !is.null(to)) {
-		post = "LIBRARY BOUNDS"
-		if (!is.null(from)) {
-			post = sprintf("%s FROM %s", post, from)
-		}
-		if (!is.null(to)) {
-			post = sprintf("%s TO %s", post, to)
-		}
-	} else {
-		post = ""
-	}
-	script = sprintf('CREATE %s FILE "%s" %s', pre, file, post)
+hql_create_file = function(file, overwrite = FALSE, parallel = FALSE) {
 	if (!dir.exists(dirname(file))) {
 		dir.create(dirname(file), recursive = TRUE)
 	}
-	get_value(script)
+	create("FILE", file, overwrite = overwrite, parallel = parallel)
 }
 
 #' @describeIn hql_create Create HDF group.
 #'
 #' @param file The file to create the group in.
 #' @param group The group to create.
-#' @param truncate If `TRUE`, overwrite existing groups.
-#' @param parallel If `TRUE`, use parallel capabilities.
-#' @param from, to Library bounds.
+#' @param overwrite If `TRUE`, overwrite existing groups.
+#' @inheritParams hql_create_file
 #'
 #' @export
-hql_create_group = function(file, group, truncate = FALSE,
-	object.params = list(), attribute.params = list()) {
-	if (truncate) {
-		pre = "TRUNCATE"
-	} else {
-		pre = ""
-	}
-	object.post = ""
-	if (!is.null(object.params$order)) {
-		post = sprintf("%s ORDER %s", post, object.params$order)
-	}
-	if (!is.null(object.params$max.compact) || !is.null(object.params$min.dense)) {
-		post = sprintf("%s STORAGE", post)
-	}
-	if (!is.null(object.params$max.compact)) {
-		post = sprintf("%s COMPACT %s", post, object.params$order)
-	}
-	if (!is.null(object.params$min.dense)) {
-		post = sprintf("%s DENSE %s", post, object.params$order)
-	}
-	if (any(sapply(attribute.params, is.null))) {
-	  attr.post = "ATTRIBUTE"
-		if (!is.null(attribute.params$order)) {
-			attr.post = sprintf("%s ORDER %s", attr.post, attribute.params$order)
-		}
-		if (!is.null(attribute.params$max.compact) || !is.null(attribute.params$min.dense)) {
-			attr.post = sprintf("%s STORAGE", attr.post)
-		}
-		if (!is.null(attribute.params$max.compact)) {
-			attr.post = sprintf("%s COMPACT %s", attr.post, attribute.params$order)
-		}
-		if (!is.null(attribute.params$min.dense)) {
-			attr.post = sprintf("%s DENSE %s", attr.post, attribute.params$order)
-		}
-	} else {
-		attr.post = ""
-	}
-	script = sprintf('CREATE %s GROUP "%s" %s %s', pre, group, post, attr.post)
-  get_value(script)
+hql_create_group = function(file, group, overwrite = FALSE) {
+	create("GROUP", file, group, overwrite = overwrite,
+	  parallel = parallel)  
 }
 
+#' @describeIn hql_create Create HDF dataset.
+#'
+#' @param file The file to create the dataset in.
+#' @param dataset The dataset to create.
+#' @param data.type The HDF data type of the dataset.
+#' @param size The size (dimensions) of the dataset.
+#' @inheritParams hql_create_file
+#'
+#' @export
+hql_create_dataset = function(file, dataset, data.type, size = NULL,
+	overwrite = FALSE, parallel = FALSE) {
+	create("DATASET", file, dataset, data.type, size, overwrite, parallel)
+}
+
+#' @describeIn hql_create Create HDF attribute.
+#'
+#' @param file The file to create the attribute in.
+#' @param attribute The attribute to create.
+#' @param data.type The HDF data type of the attribute.
+#' @param size The size (dimensions) of the attribute.
+#' @inheritParams hql_create_file
+#'
+#' @export
+hql_create_attribute = function(file, attribute, data.type, size = NULL,
+	overwrite = FALSE, parallel = FALSE) {
+	create("ATTRIBUTE", file, attribute, data.type, size, overwrite, parallel)
+}
+
+#' Create HDF Object
+#'
+#' Generic helper for creating HDF objects.
+#'
+#' @inheritParams hql_create_dataset
+#'
+#' @keywords internal
+create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
+	file, path, type, size, overwrite = FALSE, parallel = FALSE) {
+	what = match.arg(toupper(what), c("FILE", "GROUP", "DATASET",
+		"ATTRIBUTE"))
+	pre = ""
+	if (overwrite) {
+		pre = paste(pre, "TRUNCATE")
+	}
+	if (parallel && what != "GROUP") {
+		pre = paste(pre, "PARALLEL")
+	}
+	post = ""
+	if (what %in% c("DATASET", "ATTRIBUTE")) {
+		if (!is.null(size)) {
+			dsize = sprintf("(%s)", paste(size, collapse = ", "))
+		} else {
+			dsize = ""
+		}
+		if (!(type %in% gsub("^HDFQL_", "", names(hql_dtypes())))) {
+			stop('Object type "', type, '" not recognized')
+		}
+	  post = sprintf("AS %s %s", type, dsize)
+	}
+	script = sprintf('CREATE %s %s "%s" %s', pre, what, path, post)
+	get_value(script)
+}
