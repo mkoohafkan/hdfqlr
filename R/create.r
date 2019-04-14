@@ -33,7 +33,8 @@ hql_create_group = function(group, overwrite = FALSE) {
 #'
 #' @param dataset The dataset to create.
 #' @param data.type The HDF data type of the dataset.
-#' @param size The size (dimensions) of the dataset.
+#' @param size The size (dimensions) of the dataset. For `CHAR` 
+#'   datasets, the last element of `size` is the string length.
 #' @inheritParams hql_create_file
 #'
 #' @export
