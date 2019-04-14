@@ -4,12 +4,10 @@
 \alias{create}
 \title{Create HDF Object}
 \usage{
-create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), file, path,
-  type, size, overwrite = FALSE, parallel = FALSE)
+create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path, type,
+  size, overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
-\item{file}{The target file location.}
-
 \item{size}{The size (dimensions) of the dataset.}
 
 \item{overwrite}{If \code{TRUE}, overwrite existing file.}

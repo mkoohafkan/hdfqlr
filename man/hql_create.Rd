@@ -10,12 +10,12 @@
 \usage{
 hql_create_file(file, overwrite = FALSE, parallel = FALSE)
 
-hql_create_group(file, group, overwrite = FALSE)
+hql_create_group(group, overwrite = FALSE)
 
-hql_create_dataset(file, dataset, data.type, size = NULL,
-  overwrite = FALSE, parallel = FALSE)
+hql_create_dataset(dataset, data.type, size = NULL, overwrite = FALSE,
+  parallel = FALSE)
 
-hql_create_attribute(file, attribute, data.type, size = NULL,
+hql_create_attribute(attribute, data.type, size = NULL,
   overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
@@ -35,13 +35,7 @@ hql_create_attribute(file, attribute, data.type, size = NULL,
 
 \item{attribute}{The attribute to create.}
 
-\item{file}{The file to create the group in.}
-
 \item{overwrite}{If \code{TRUE}, overwrite existing groups.}
-
-\item{file}{The file to create the dataset in.}
-
-\item{file}{The file to create the attribute in.}
 
 \item{data.type}{The HDF data type of the attribute.}
 

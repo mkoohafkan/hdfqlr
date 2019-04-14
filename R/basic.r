@@ -44,32 +44,18 @@ execute_with_memory = function(script, variable = NULL,
 #'
 #' @keywords internal
 get_cursor_values = function(script) {
-  container = get_container(script)
-  dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hql_data_types(), TRUE)
+	execute_with_memory(script)
+	n = HDFql.constants$hdfql_cursor_get_count()
+	dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
+		hql_data_types(), TRUE)
+	rtype = dtype_to_rtype(dtype)
+	container = vector(rtype, n)
   cursor = get_key(dtype, hql_data_cursors())
   for (i in seq_along(container)) {
     HDFql.constants$hdfql_cursor_next()
     container[i] = cursor()
   }
   container
-}
-
-#' HDFql memory constructor
-#'
-#' Construct an R object for reading HDFql query result into memory.
-#'
-#' @inheritParams execute_with_memory
-#' @return An empty R object of the correct size and type.
-#'
-#' @keywords internal
-get_container = function(script) {
-  execute_with_memory(script)
-  n = HDFql.constants$hdfql_cursor_get_count()
-  dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hql_data_types(), TRUE)
-  rtype = dtype_to_rtype(dtype)
-  vector(rtype, n)
 }
 
 #' Get HDF Object Type

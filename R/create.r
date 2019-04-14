@@ -19,43 +19,40 @@ hql_create_file = function(file, overwrite = FALSE, parallel = FALSE) {
 
 #' @describeIn hql_create Create HDF group.
 #'
-#' @param file The file to create the group in.
 #' @param group The group to create.
 #' @param overwrite If `TRUE`, overwrite existing groups.
 #' @inheritParams hql_create_file
 #'
 #' @export
-hql_create_group = function(file, group, overwrite = FALSE) {
-	create("GROUP", file, group, overwrite = overwrite,
+hql_create_group = function(group, overwrite = FALSE) {
+	create("GROUP", group, overwrite = overwrite,
 	  parallel = parallel)  
 }
 
 #' @describeIn hql_create Create HDF dataset.
 #'
-#' @param file The file to create the dataset in.
 #' @param dataset The dataset to create.
 #' @param data.type The HDF data type of the dataset.
 #' @param size The size (dimensions) of the dataset.
 #' @inheritParams hql_create_file
 #'
 #' @export
-hql_create_dataset = function(file, dataset, data.type, size = NULL,
+hql_create_dataset = function(dataset, data.type, size = NULL,
 	overwrite = FALSE, parallel = FALSE) {
-	create("DATASET", file, dataset, data.type, size, overwrite, parallel)
+	create("DATASET", dataset, data.type, size, overwrite, parallel)
 }
 
 #' @describeIn hql_create Create HDF attribute.
 #'
-#' @param file The file to create the attribute in.
 #' @param attribute The attribute to create.
 #' @param data.type The HDF data type of the attribute.
 #' @param size The size (dimensions) of the attribute.
 #' @inheritParams hql_create_file
 #'
 #' @export
-hql_create_attribute = function(file, attribute, data.type, size = NULL,
+hql_create_attribute = function(attribute, data.type, size = NULL,
 	overwrite = FALSE, parallel = FALSE) {
-	create("ATTRIBUTE", file, attribute, data.type, size, overwrite, parallel)
+	create("ATTRIBUTE", attribute, data.type, size, overwrite, parallel)
 }
 
 #' Create HDF Object
@@ -66,7 +63,7 @@ hql_create_attribute = function(file, attribute, data.type, size = NULL,
 #'
 #' @keywords internal
 create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
-	file, path, type, size, overwrite = FALSE, parallel = FALSE) {
+	path, type, size, overwrite = FALSE, parallel = FALSE) {
 	what = match.arg(toupper(what), c("FILE", "GROUP", "DATASET",
 		"ATTRIBUTE"))
 	pre = ""
