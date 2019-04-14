@@ -24,7 +24,6 @@ get_value = function(script, variable = NULL, suffix = NULL) {
   variable
 }
 
-
 #' Value From Cursor
 #'
 #' Generic helper for executing HDFql cursor operations.
@@ -36,7 +35,7 @@ get_value = function(script, variable = NULL, suffix = NULL) {
 get_cursor_values = function(script) {
   container = get_container(script)
   dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hql_dtypes(), TRUE)
+    hql_data_types(), TRUE)
   cursor = get_key(dtype, hql_data_cursors())
   for (i in seq_along(container)) {
     HDFql.constants$hdfql_cursor_next()
@@ -57,7 +56,7 @@ get_container = function(script) {
   get_value(script)
   n = HDFql.constants$hdfql_cursor_get_count()
   dtype = get_key(HDFql.constants$hdfql_cursor_get_data_type(),
-    hql_dtypes(), TRUE)
+    hql_data_types(), TRUE)
   rtype = dtype_to_rtype(dtype)
   vector(rtype, n)
 }
@@ -71,7 +70,7 @@ get_container = function(script) {
 get_type = function(path) {
   script = sprintf('SHOW TYPE "%s"', path)
   out = get_value(script, integer(1))
-  get_key(out, hql_otypes(), TRUE)
+  get_key(out, hql_object_types(), TRUE)
 }
 
 #' Get HDF Object Data Type
@@ -86,7 +85,7 @@ get_datatype = function(path, otype) {
     otype = get_key(get_type(path), hql_keywords(), FALSE)
   script = sprintf('SHOW %s DATA TYPE "%s"', otype, path)
   out = get_value(script, integer(1))  
-  get_key(out, hql_dtypes(), TRUE)
+  get_key(out, hql_data_types(), TRUE)
 }
 
 #' Get HDF Object Dimension

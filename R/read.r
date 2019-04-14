@@ -17,7 +17,7 @@ hql_read_dataset = function(file, path, attributes = FALSE) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
-  otype = get_key(get_type(path), hql_keywords(), FALSE)
+	otype = gsub("^HDFQL_", "", get_type(path))
   res = get_data(path, otype)
   if (attributes) {
     attr.names = get_attr_names(path)
@@ -58,8 +58,7 @@ hql_read_all_attributes = function(file, path) {
   res = vector("list", length(attr.names))
   names(res) = attr.names
   for (n in attr.names)
-    res[[n]] = get_data(file.path(path, n),
-      "ATTRIBUTE")
+    res[[n]] = get_data(file.path(path, n), "ATTRIBUTE")
   res  
 }
 

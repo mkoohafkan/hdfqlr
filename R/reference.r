@@ -1,12 +1,4 @@
-hql_keywords = function() {
-  c(
-    HDFQL_ATTRIBUTE = "ATTRIBUTE",
-    HDFQL_GROUP = "GROUP",
-    HDFQL_DATASET = "DATASET"
-  )
-}
-
-hql_otypes = function() {
+hql_object_types = function() {
   c(
     HDFQL_DIRECTORY = HDFql.constants$HDFQL_DIRECTORY,
     HDFQL_FILE = HDFql.constants$HDFQL_FILE,
@@ -19,7 +11,7 @@ hql_otypes = function() {
   )
 }
 
-hql_dtypes = function() {
+hql_data_types = function() {
   c(
   HDFQL_TINYINT = HDFql.constants$HDFQL_TINYINT,
   HDFQL_UNSIGNED_TINYINT = HDFql.constants$HDFQL_UNSIGNED_TINYINT,
