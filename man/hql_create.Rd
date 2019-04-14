@@ -4,32 +4,48 @@
 \alias{hql_create}
 \alias{hql_create_file}
 \alias{hql_create_group}
+\alias{hql_create_dataset}
+\alias{hql_create_attribute}
 \title{Create HDF files, groups, datasets, and attributes}
 \usage{
-hql_create_file(file, truncate = FALSE, parallel = FALSE,
-  from = NULL, to = NULL)
+hql_create_file(file, overwrite = FALSE, parallel = FALSE)
 
-hql_create_group(file, group, truncate = FALSE, object.params = list(),
-  attribute.params = list())
+hql_create_group(file, group, overwrite = FALSE)
+
+hql_create_dataset(file, dataset, data.type, size = NULL,
+  overwrite = FALSE, parallel = FALSE)
+
+hql_create_attribute(file, attribute, data.type, size = NULL,
+  overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{file}{The target file location.}
 
-\item{truncate}{If \code{TRUE}, overwrite existing file.}
+\item{overwrite}{If \code{TRUE}, overwrite existing file.}
 
 \item{parallel}{If \code{TRUE}, use parallel capabilities.}
-
-\item{from, }{to Library bounds.}
 
 \item{group}{The group to create.}
 
+\item{dataset}{The dataset to create.}
+
+\item{data.type}{The HDF data type of the dataset.}
+
+\item{size}{The size (dimensions) of the dataset.}
+
+\item{attribute}{The attribute to create.}
+
 \item{file}{The file to create the group in.}
 
-\item{truncate}{If \code{TRUE}, overwrite existing groups.}
+\item{overwrite}{If \code{TRUE}, overwrite existing groups.}
 
-\item{parallel}{If \code{TRUE}, use parallel capabilities.}
+\item{file}{The file to create the dataset in.}
 
-\item{from, }{to Library bounds.}
+\item{file}{The file to create the attribute in.}
+
+\item{data.type}{The HDF data type of the attribute.}
+
+\item{size}{The size (dimensions) of the attribute.}
 }
 \description{
 Create HDF files, groups, datasets, and attributes
@@ -39,5 +55,9 @@ Create HDF files, groups, datasets, and attributes
 \item \code{hql_create_file}: Create HDF file.
 
 \item \code{hql_create_group}: Create HDF group.
+
+\item \code{hql_create_dataset}: Create HDF dataset.
+
+\item \code{hql_create_attribute}: Create HDF attribute.
 }}
 
