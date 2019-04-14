@@ -36,6 +36,14 @@ is the string length.}
 attribute, or dataset.}
 
 \item{parallel}{If \code{TRUE}, use parallel capabilities.}
+
+\item{file}{The file to create.}
+
+\item{group}{The group to create.}
+
+\item{dataset}{The dataset to create.}
+
+\item{attribute}{The attribute to create.}
 }
 \description{
 Generic helper for creating HDF objects.

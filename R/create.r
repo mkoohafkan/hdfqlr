@@ -42,6 +42,7 @@ create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 
 #' @describeIn create Create HDF file.
 #'
+#' @param file The file to create.
 #' @inheritParams create
 #'
 #' @keywords internal
@@ -54,6 +55,7 @@ create_file = function(file, overwrite = FALSE, parallel = FALSE) {
 
 #' @describeIn create Create HDF group.
 #'
+#' @param group The group to create.
 #' @inheritParams create
 #'
 #' @keywords internal
@@ -63,6 +65,7 @@ create_group = function(group, overwrite = FALSE) {
 
 #' @describeIn create Create HDF dataset.
 #'
+#' @param dataset The dataset to create.
 #' @inheritParams create
 #'
 #' @keywords internal
@@ -73,6 +76,7 @@ create_dataset = function(dataset, data.type, size = NULL,
 
 #' @describeIn create Create HDF attribute.
 #'
+#' @param attribute The attribute to create.
 #' @inheritParams create
 #'
 #' @keywords internal
