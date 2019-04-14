@@ -19,7 +19,7 @@ get_value = function(script, variable = NULL, suffix = NULL) {
   if (!is.null(suffix)) {
     script = paste(script, suffix)
   }
-  if (HDFql.constants$hdfql_execute(script) < 0L)
+	if (HDFql.constants$hdfql_execute(script) != HDFql.constants$HDFQL_SUCCESS)
     stop(HDFql.constants$hdfql_error_get_message())
   variable
 }

@@ -101,8 +101,6 @@ hql_load = function(path) {
   lapply(dllpath, dyn.load)
   source(initialize, local = getNamespace(packageName()))
   source(constants, local = HDFql.constants)
-#  attach(HDFql.constants, name = "HDFql.constants",
-#    pos = grep(sprintf("^package:%s$", packageName()), search()))
   invisible(NULL)
 }
 
