@@ -1,6 +1,6 @@
 Package: hdfqlr
 Title: Interface to HDFql API
-Version: 0.0.0.9000
+Version: 0.4.0.9000
 Authors@R: person("Michael", "Koohafkan", email = "michael.koohafkan@gmail.com", role = c("aut", "cre"))
 Description: Provides an interface to HDFql and helper functions for
     reading data from and writing data to HDF5 files.
