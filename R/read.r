@@ -36,11 +36,11 @@ hql_read_dataset = function(file, path, include.attributes = TRUE,
 #' @return The attribute value.
 #'
 #' @export
-hql_read_attribute = function(file, path, parallel = parallel) {
+hql_read_attribute = function(file, path, parallel = FALSE) {
 	stop_not_loaded()
 	use_file(file)
 	on.exit(close_file(file))
-	get_data(path, "ATTRIBUTE", parallel = parallel)
+	get_data(path, "ATTRIBUTE", parallel = FALSE)
 }
 
 
@@ -50,7 +50,7 @@ hql_read_attribute = function(file, path, parallel = parallel) {
 #' @return A named list of attributes.
 #'
 #' @export
-hql_read_all_attributes = function(file, path, parallel = parallel) {
+hql_read_all_attributes = function(file, path, parallel = FALSE) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
@@ -71,7 +71,7 @@ hql_read_all_attributes = function(file, path, parallel = parallel) {
 #' @return A data frame.
 #'
 #' @export
-hql_read_compound_dataset = function(file, path) {
+hql_read_compound_dataset = function(file, path, parallel = FALSE) {
 	stop_not_loaded()
   stop("not implemented")
 }
