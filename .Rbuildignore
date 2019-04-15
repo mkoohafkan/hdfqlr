@@ -14,6 +14,8 @@ README.md
 ^\.Rproj\.user$
 test
 oldR
+^_build_vignette.r$
+^vignettes/_quickstart.rmd$
 
 # for travis
 ^HDFQLINSTALLDIR$

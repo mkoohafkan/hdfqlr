@@ -6,10 +6,13 @@ Description: Provides an interface to HDFql and helper functions for
     reading data from and writing data to HDF5 files.
 Depends: R (>= 3.4)
 Imports: utils
-Suggests: bit64 (>= 0.9)
+Suggests: 
+    bit64 (>= 0.9),
+		knitr (>= 1.22)
 SystemRequirements: HDFql (>= 2.0.1)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
