@@ -158,7 +158,7 @@ hql_unload = function() {
 		if (hql_is_loaded()) {
 			stop("HDFql DLLs could not be unloaded.")
 		}
-		rm(constants, envir = hql)
+		rm(list = "constants", NULL, envir = hql)
 	}
   invisible(NULL)
 }

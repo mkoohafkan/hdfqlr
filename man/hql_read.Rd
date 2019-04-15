@@ -11,11 +11,11 @@
 hql_read_dataset(file, path, include.attributes = TRUE,
   parallel = FALSE)
 
-hql_read_attribute(file, path, parallel = parallel)
+hql_read_attribute(file, path, parallel = FALSE)
 
-hql_read_all_attributes(file, path, parallel = parallel)
+hql_read_all_attributes(file, path, parallel = FALSE)
 
-hql_read_compound_dataset(file, path)
+hql_read_compound_dataset(file, path, parallel = FALSE)
 }
 \arguments{
 \item{file}{The HDF5 file path.}
