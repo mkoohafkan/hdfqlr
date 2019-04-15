@@ -16,6 +16,7 @@ test
 oldR
 ^_build_vignette.r$
 ^vignettes/_quickstart.rmd$
+^vignettes/quickstart.md$
 
 # for travis
 ^HDFQLINSTALLDIR$
