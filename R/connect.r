@@ -22,11 +22,11 @@ HDFql.paths = new.env()
 #'
 #' @examples
 #'\dontrun{
-#'   attach(HDFql.constants)
+#'   attach(HDFql$constants)
 #' }
 #'
 #' @export
-HDFql.constants = new.env()
+HDFql = new.env()
 
 
 #' HDFql Default Path 
@@ -133,14 +133,16 @@ hql_load = function(path) {
   wrapperpath = normalizePath(file.path(HDFql.paths$install,
     HDFql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
-  constants = tempfile(fileext = ".r")
-  initialize = tempfile(fileext = ".r")
-  writeLines(tail(readLines(wrapperpath), -38L), constants)
-  writeLines(readLines(wrapperpath)[27L:38L], initialize)
+  constants.file = tempfile(fileext = ".r")
+  initialize.file = tempfile(fileext = ".r")
+  writeLines(tail(readLines(wrapperpath), -38L), constants.file)
+  writeLines(readLines(wrapperpath)[27L:38L], initialize.file)
   # load DLLs
   lapply(dllpath, dyn.load)
-  source(initialize, local = getNamespace(packageName()))
-  source(constants, local = HDFql.constants)
+  constants = new.env(parent = .GlobalEnv)
+  source(initialize.file, local = constants)
+  source(constants.file, local = constants)
+  assign("constants", constants, envir = HDFql)
   invisible(NULL)
 }
 
@@ -156,7 +158,7 @@ hql_unload = function() {
 		if (hql_is_loaded()) {
 			stop("HDFql DLLs could not be unloaded.")
 		}
-		rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
+		rm(constants, envir = HDFql)
 	}
   invisible(NULL)
 }

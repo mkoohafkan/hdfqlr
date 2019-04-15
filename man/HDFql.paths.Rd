@@ -4,7 +4,7 @@
 \name{HDFql.paths}
 \alias{HDFql.paths}
 \title{HDFql Library Paths}
-\format{An object of class \code{environment} of length 3.}
+\format{An object of class \code{environment} of length 2.}
 \usage{
 HDFql.paths
 }
