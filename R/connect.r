@@ -29,6 +29,18 @@ HDFql.paths = new.env()
 HDFql.constants = new.env()
 
 
+#' HDFql Default Path 
+#'
+#' Retrieve the HDFql installation directory from existing options.
+#' This function is used to automatically connect to HDFql without
+#' needing to specify the installation path.
+#'
+#' @param startup If `TRUE`, indicates the paths are being 
+#'   detected as part of package startup.
+#'
+#' @details The function first looks for the R option `hdfqlr.dir`, 
+#'  and second looks for the environment variable `HDFQL-DiR`.
+#'
 #' @keywords internal
 path_from_options = function(startup = FALSE) {
   path = NULL
@@ -70,7 +82,6 @@ set_paths = function() {
 	invisible(NULL)
 }
 
-
 #' HDFql Library Status
 #'
 #' Check if the HDFql library loaded.
@@ -109,9 +120,12 @@ hql_load = function(path) {
   if (hql_is_loaded()) {
     return(invisible(NULL))
   }
-  if (missing(path)) {
-    if (!path_from_options())
-      stop('Argument "path" not specified', call. = FALSE)
+	if (missing(path)) {
+		if (!is.null(HDFql.paths$install)) {
+			path = HDFql.paths$install
+		} else if (!path_from_options()) {
+			stop('Argument "path" not specified', call. = FALSE)
+		}
   }
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(HDFql.paths$install,
@@ -131,22 +145,18 @@ hql_load = function(path) {
 }
 
 
-#' Unload HDFql Library
-#'
-#' Unload the HDFql library.
+#' @describeIn hql_load Unload HDFql Library.
 #'
 #' @export
 hql_unload = function() {
-  if (hql_is_loaded()) {
-    dllpath = normalizePath(file.path(HDFql.paths$install,
-      paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
-    lapply(dllpath, dyn.unload)
-    rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
-#    detach("HDFql.constants")
-    assign("install", NULL, envir = HDFql.paths)
-    if (hql_is_loaded()) {
-      stop("HDFql DLLs could not be unloaded.")
-    }
-  }
+	if (hql_is_loaded()) {
+		dllpath = normalizePath(file.path(HDFql.paths$install,
+			paste0(HDFql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
+		lapply(dllpath, dyn.unload)
+		if (hql_is_loaded()) {
+			stop("HDFql DLLs could not be unloaded.")
+		}
+		rm(list = ls(envir = HDFql.constants), envir = HDFql.constants)
+	}
   invisible(NULL)
 }

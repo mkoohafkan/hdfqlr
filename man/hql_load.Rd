@@ -2,9 +2,12 @@
 % Please edit documentation in R/connect.r
 \name{hql_load}
 \alias{hql_load}
+\alias{hql_unload}
 \title{Load HDFql DLLs}
 \usage{
 hql_load(path)
+
+hql_unload()
 }
 \arguments{
 \item{path}{The path to the HDFql installation.}
@@ -12,3 +15,8 @@ hql_load(path)
 \description{
 Load the HDFql library.
 }
+\section{Functions}{
+\itemize{
+\item \code{hql_unload}: Unload HDFql Library.
+}}
+
