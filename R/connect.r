@@ -139,7 +139,7 @@ hql_load = function(path) {
   writeLines(readLines(wrapperpath)[27L:38L], initialize.file)
   # load DLLs
   lapply(dllpath, dyn.load)
-  constants = new.env(parent = .GlobalEnv)
+  constants = new.env(parent = .BaseNamespaceEnv)
   source(initialize.file, local = constants)
   source(constants.file, local = constants)
   assign("constants", constants, envir = hql)
