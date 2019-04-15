@@ -9,21 +9,23 @@ NULL
 #'
 #' @param file The HDF5 file path.
 #' @param path The location of the dataset, attribute, or group within the HDF5 file.
-#' @param attributes If `TRUE`, include the dataset attributes.
+#' @param include.attributes If `TRUE`, include the dataset attributes.
+#' @inheritParams get_data
 #' @return A matrix.
 #'
 #' @export
-hql_read_dataset = function(file, path, attributes = FALSE) {
+hql_read_dataset = function(file, path, include.attributes = TRUE,
+  parallel = FALSE) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
 	otype = gsub("^HDFQL_", "", get_object_type(path))
-  res = get_data(path, otype)
-  if (attributes) {
+  res = get_data(path, otype, parallel = parallel)
+  if (include.attributes) {
     attr.names = get_attr_names(path)
     for (n in attr.names)
       attr(res, n) = get_data(file.path(path, n),
-        "ATTRIBUTE")
+				"ATTRIBUTE", parallel = parallel)
   }
   res
 }
@@ -34,11 +36,11 @@ hql_read_dataset = function(file, path, attributes = FALSE) {
 #' @return The attribute value.
 #'
 #' @export
-hql_read_attribute = function(file, path) {
+hql_read_attribute = function(file, path, parallel = parallel) {
 	stop_not_loaded()
 	use_file(file)
 	on.exit(close_file(file))
-	get_data(path, "ATTRIBUTE")
+	get_data(path, "ATTRIBUTE", parallel = parallel)
 }
 
 
@@ -48,7 +50,7 @@ hql_read_attribute = function(file, path) {
 #' @return A named list of attributes.
 #'
 #' @export
-hql_read_all_attributes = function(file, path) {
+hql_read_all_attributes = function(file, path, parallel = parallel) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
@@ -58,7 +60,8 @@ hql_read_all_attributes = function(file, path) {
   res = vector("list", length(attr.names))
   names(res) = attr.names
   for (n in attr.names)
-    res[[n]] = get_data(file.path(path, n), "ATTRIBUTE")
+		res[[n]] = get_data(file.path(path, n), "ATTRIBUTE",
+		  parallel = parallel)
   res  
 }
 

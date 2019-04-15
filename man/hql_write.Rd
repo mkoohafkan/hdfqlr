@@ -8,22 +8,34 @@
 \alias{hql_write_compound_dataset}
 \title{Write HDF Dataset or Attribute}
 \usage{
-hql_write_dataset(x, file, path, attributes = TRUE, overwrite = FALSE,
-  parallel = FALSE)
+hql_write_dataset(dataset, file, path, include.attributes = TRUE,
+  overwrite = FALSE, parallel = FALSE)
 
-hql_write_attribute(x, file, path)
+hql_write_attribute(attribute, file, path, overwrite = FALSE,
+  parallel = FALSE)
 
 hql_write_all_attributes(attributes, file, overwrite = FALSE,
   parallel = FALSE)
 
-hql_write_compound_dataset(x, file, path)
+hql_write_compound_dataset(dataset, file, path, overwrite = FALSE,
+  parallel = FALSE)
 }
 \arguments{
-\item{x}{The dataset or attribute to write.}
+\item{dataset}{The dataset to write.}
 
 \item{file}{The HDF file to write to.}
 
 \item{path}{The location within the HDF5 file to write the dataset or attribute(s).}
+
+\item{include.attributes}{If \code{TRUE}, write the dataset attributes.}
+
+\item{overwrite}{If \code{TRUE}, overwrite existing dataset or attribute.}
+
+\item{parallel}{Use parallel processing functionality.}
+
+\item{attribute}{The attribute to write.}
+
+\item{attributes}{A list of attributes to write.}
 }
 \description{
 Read a dataset or attribute to an HDF file.

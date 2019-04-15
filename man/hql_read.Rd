@@ -8,11 +8,12 @@
 \alias{hql_read_compound_dataset}
 \title{Read HDF Dataset or Attribute}
 \usage{
-hql_read_dataset(file, path, attributes = FALSE)
+hql_read_dataset(file, path, include.attributes = TRUE,
+  parallel = FALSE)
 
-hql_read_attribute(file, path)
+hql_read_attribute(file, path, parallel = parallel)
 
-hql_read_all_attributes(file, path)
+hql_read_all_attributes(file, path, parallel = parallel)
 
 hql_read_compound_dataset(file, path)
 }
@@ -21,7 +22,9 @@ hql_read_compound_dataset(file, path)
 
 \item{path}{The location of the dataset, attribute, or group within the HDF5 file.}
 
-\item{attributes}{If \code{TRUE}, include the dataset attributes.}
+\item{include.attributes}{If \code{TRUE}, include the dataset attributes.}
+
+\item{parallel}{Use parallel processing functionality.}
 }
 \value{
 A matrix.

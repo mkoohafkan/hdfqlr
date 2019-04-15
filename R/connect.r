@@ -1,7 +1,33 @@
-# Environments containing information related to the 
-# HDFql library on the user's system.
-HDFql.constants = new.env()
+#' HDFql Library Paths
+#'
+#' Environment containing information related to the 
+#' HDFql library on the user's system.
+#'
+#' @keywords internal
 HDFql.paths = new.env()
+
+#' HDFql Wrapper Constants and Functions
+#'
+#' Access the constants and functions provided by the 
+#' HDFql wrapper. The wrapper contents are stored in an
+#' environment when the HDFql library is loaded and used 
+#' internally by hdfqlr to perform operations. 
+#'
+#' @details This environment is exported so that users
+#'   can directly use the HDFql wrapper functions. 
+#'   The intended method of use is to [attach()] the environment
+#'   to the search path. For more information on what is provided
+#'   by the wrapper, consult the 
+#' [HDFql reference manual](http://www.hdfql.com/#documentation).
+#'
+#' @examples
+#'\dontrun{
+#'   attach(HDFql.constants)
+#' }
+#'
+#' @export
+HDFql.constants = new.env()
+
 
 #' @keywords internal
 path_from_options = function(startup = FALSE) {
@@ -123,30 +149,4 @@ hql_unload = function() {
     }
   }
   invisible(NULL)
-}
-
-#' Attach HDFql Wrapper
-#'
-#' Attach the constants and functions provided by the 
-#' HDFql wrapper to the search path.
-#'
-#' @details For more information, consult the HDFql reference 
-#'   manual ([http://www.hdfql.com/#documentation](http://www.hdfql.com/#documentation)).
-#'
-#' @export
-hql_attach = function() {
-  stop_not_loaded()
-	if (!("HDFql.constants" %in% search())) {
-		attach(HDFql.constants, pos = 2L)
-	}
-	invisible(NULL)
-}
-
-#' @rdname hql_attach
-#' @export
-hql_detach = function() {
-	if ("HDFql.constants" %in% search()) {
-		detach(HDFql.constants)
-	}
-	invisible(NULL)
 }
