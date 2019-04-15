@@ -10,16 +10,24 @@ NULL
 #' @keywords internal
 write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 	# input checking
-	rtype = typeof(x)
-	dtype = gsub("^HDFQL_", "", rtype_to_dtype(rtype))
-	if (dtype == "CHAR") {
-		dataset.dim = c(dim(x), max(nchar(x)))
-	} else {
-		dataset.dim = dim(x)
+	if (!is.null(x)) {
+		rtype = typeof(x)
+		dtype = gsub("^HDFQL_", "", rtype_to_dtype(rtype))
+		if (dtype == "CHAR") {
+			dataset.dim = c(dim(x), max(nchar(x)))
+		} else {
+			dataset.dim = dim(x)
+		}
 	}
 	# drop existing object if required
 	if (overwrite) {
 		drop_dataset(path)
+	}
+	if (is.null(x) && !overwrite) {
+		warning("R object is NULL but overwrite is FALSE. No action taken")
+	}
+	if (is.null(x)) {
+		return(invisible(NULL))
 	}
 	# create object
 	create(what, path, dtype, dataset.dim, parallel = parallel)
