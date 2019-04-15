@@ -40,7 +40,7 @@ Functions exported by the package are prefixed with `hql_` to
 make it easy to differentiate them from the functions provided 
 by the wrapper, which are prefixed with `HDFQL_` (for constants)
 or `hdfql_` (for functions). The contents of the HDFql wrapper
-are imported into the environment `HDFql$constants`. If you need
+are imported into the environment `hql$constants`. If you need
 to directly use the HDFql wrapper functions in an interactive 
 session, you can access them using `with` or `attach` the 
 environment to the search path.
@@ -48,27 +48,27 @@ environment to the search path.
 
 ```r
 # using with
-with(HDFql$constants,
+with(hql$constants,
 	HDFQL_VERSION
 )
 ```
 
 ```
-## Error in eval(substitute(expr), data, enclos = parent.frame()): object 'HDFQL_VERSION' not found
+## [1] "2.0.1"
 ```
 
 ```r
 # or attach the environment
-attach(HDFql$constants)
+attach(hql$constants)
 HDFQL_VERSION
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'HDFQL_VERSION' not found
+## [1] "2.0.1"
 ```
 
 ```r
-detach(HDFql$constants)
+detach(hql$constants)
 ```
 
 The `hdfqlr` package is designed for simple read and write use
@@ -83,18 +83,11 @@ dataset is then read back in and compared to the original R object.
 file = tempfile(fileext = ".h5")
 values = matrix(rnorm(1000), nrow = 50)
 hql_write_dataset(values, file, "dataset0")
-```
-
-```
-## Error in stop_not_loaded(): HDFql is not loaded.
-```
-
-```r
 identical(values, hql_read_dataset(file, "dataset0"))
 ```
 
 ```
-## Error in stop_not_loaded(): HDFql is not loaded.
+## [1] TRUE
 ```
 
 Any attributes of the R object (other than `dim`) are also
@@ -112,9 +105,5 @@ attributes, and groups can be removed from an HDF file by writing
 
 ```r
 hql_write_dataset(NULL, file, "dataset0", overwrite = TRUE)
-```
-
-```
-## Error in stop_not_loaded(): HDFql is not loaded.
 ```
 

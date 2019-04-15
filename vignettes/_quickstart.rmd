@@ -22,7 +22,7 @@ by either
 If either of these settings exist, the HDFql library will be loaded
 on package start.
 
-```{r, echo = TRUE}
+```{r, eval = FALSE}
 library(hdfqlr)
 ```
 
@@ -38,20 +38,20 @@ Functions exported by the package are prefixed with `hql_` to
 make it easy to differentiate them from the functions provided 
 by the wrapper, which are prefixed with `HDFQL_` (for constants)
 or `hdfql_` (for functions). The contents of the HDFql wrapper
-are imported into the environment `HDFql$constants`. If you need
+are imported into the environment `hql$constants`. If you need
 to directly use the HDFql wrapper functions in an interactive 
 session, you can access them using `with` or `attach` the 
 environment to the search path.
 
 ```{r, echo = TRUE}
 # using with
-with(HDFql$constants,
+with(hql$constants,
 	HDFQL_VERSION
 )
 # or attach the environment
-attach(HDFql$constants)
+attach(hql$constants)
 HDFQL_VERSION
-detach(HDFql$constants)
+detach(hql$constants)
 ```
 
 The `hdfqlr` package is designed for simple read and write use
