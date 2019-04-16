@@ -57,7 +57,11 @@ hql_list_groups = function(file, path, recursive = FALSE) {
 	}
 	use_file(file)
 	on.exit(close_file(file))
-	otype = gsub("^HDFQL_", "", get_object_type(path))
+	if (path == "") {
+		otype = "GROUP"
+	} else {
+		otype = gsub("^HDFQL_", "", get_object_type(path))
+	}
 	if (otype != "GROUP") {
 		stop(path, " is a ", otype, ', not a GROUP')
 	}
@@ -84,7 +88,11 @@ hql_list_datasets = function(file, path, recursive = TRUE) {
 	if (!recursive) {
 		use_file(file)
 		on.exit(close_file(file))
-		otype = gsub("^HDFQL_", "", get_object_type(path))
+		if (path == "") {
+			otype = "GROUP"
+		} else {
+			otype = gsub("^HDFQL_", "", get_object_type(path))
+		}
 		if (otype != "GROUP") {
 			stop(path, " is a ", otype, ', not a GROUP')
 		}
