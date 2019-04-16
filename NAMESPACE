@@ -2,6 +2,9 @@
 
 export(hql)
 export(hql_is_loaded)
+export(hql_list_attributes)
+export(hql_list_datasets)
+export(hql_list_groups)
 export(hql_load)
 export(hql_read_all_attributes)
 export(hql_read_attribute)
