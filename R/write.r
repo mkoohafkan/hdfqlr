@@ -21,7 +21,7 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 	}
 	# drop existing object if required
 	if (overwrite) {
-		drop_dataset(path)
+		drop(what, path)
 	}
 	if (is.null(x) && !overwrite) {
 		warning("R object is NULL but overwrite is FALSE. No action taken")
@@ -71,11 +71,15 @@ hql_write_dataset = function(dataset, file, path,
 #' @describeIn hql_write Write an attribute to an HDF file.
 #'
 #' @param attribute The attribute to write.
+#' @inheritParams hql_write_dataset
 #'
 #' @export
 hql_write_attribute = function(attribute, file, path,
   overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
+	if (missing(path)) {
+		path = ""
+	}
 	# create file if it does not exist
 	if (!file.exists(file)) {
 		create_file(file, parallel = parallel)
@@ -88,10 +92,14 @@ hql_write_attribute = function(attribute, file, path,
 #' @describeIn hql_write Write multiple attributes to an HDF file.
 #'
 #' @param attributes A list of attributes to write.
+#' @inheritParams hql_write_dataset
 #'
 #' @export
 hql_write_all_attributes = function(attributes, file,
-  overwrite = FALSE, parallel = FALSE) {
+  path, overwrite = FALSE, parallel = FALSE) {
+	if (missing(path)) {
+		path = ""
+	}
 	stop_not_loaded()
 	# create file if it does not exist
 	if (!file.exists(file)) {
@@ -100,12 +108,14 @@ hql_write_all_attributes = function(attributes, file,
 	use_file(file)
 	on.exit(close_file(file))
 	for (i in seq_along(attributes)) {
-		write("ATTRIBUTE", attributes[[i]], names(attributes)[i],
+		write("ATTRIBUTE", attributes[[i]],
+		  file.path(path, names(attributes)[i]),
 		  overwrite, parallel)
 	}
 }
 
 #' @describeIn hql_write Write a compound dataset to an HDF file.
+#' @inheritParams hql_write_dataset
 #' @export
 hql_write_compound_dataset = function(dataset, file, path,
 	overwrite = FALSE, parallel = FALSE) {
