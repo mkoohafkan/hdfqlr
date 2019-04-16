@@ -295,7 +295,7 @@ close_file = function(file) {
 #'
 #' @keywords internal
 get_attr_names = function(path) {
-  list("ATTRIBUTE", path)
+  list_hdf("ATTRIBUTE", path)
 }
 
 #' Set Data
