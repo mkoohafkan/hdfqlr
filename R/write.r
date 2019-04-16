@@ -77,7 +77,7 @@ hql_write_attribute = function(attribute, file, path,
   overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
 	# create file if it does not exist
-	if (!file.exists) {
+	if (!file.exists(file)) {
 		create_file(file, parallel = parallel)
 	}
 	use_file(file)
@@ -94,7 +94,7 @@ hql_write_all_attributes = function(attributes, file,
   overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
 	# create file if it does not exist
-	if (!file.exists) {
+	if (!file.exists(file)) {
 		create_file(file, parallel = parallel)
 	}
 	use_file(file)
@@ -111,7 +111,7 @@ hql_write_compound_dataset = function(dataset, file, path,
 	overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
 	# create file if it does not exist
-	if (!file.exists) {
+	if (!file.exists(file)) {
 		create_file(file, parallel = parallel)
 	}
 	use_file(file)
