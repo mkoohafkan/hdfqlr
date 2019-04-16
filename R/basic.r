@@ -325,8 +325,8 @@ set_data = function(x, path, otype, transpose = TRUE,
 		pre = ""
 	}
 	script = sprintf('INSERT INTO %s %s "%s" VALUES', pre, otype, path)
-	if (transpose) {
-		execute_with_memory(script, aperm(as.array(x)), "FROM")
+	if (transpose && !is.null(dim(x))) {
+		execute_with_memory(script, aperm(x), "FROM")
 	} else {
 		execute_with_memory(script, x, "FROM")
 	}
