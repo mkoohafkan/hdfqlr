@@ -115,11 +115,11 @@ hql_list_attributes = function(file, path) {
 	if (missing(path)) {
 		path = ""
 	}
+	use_file(file)
+	on.exit(close_file(file))
 	otype = gsub("^HDFQL_", "", get_object_type(path))
 	if (otype == "ATTRIBUTE") {
 		stop(path, " is a ", otype, ', not a GROUP or DATASET')
 	}
-	use_file(file)
-	on.exit(close_file(file))
 	list_hdf("ATTRIBUTE", path)
 }
