@@ -10,7 +10,8 @@ NULL
 #' @keywords internal
 write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 	# input checking
-	if (!is.null(x)) {
+  if (!is.null(x)) {
+    x = as.array(x)
 		rtype = typeof(x)
 		dtype = gsub("^HDFQL_", "", rtype_to_dtype(rtype))
 		if (dtype == "CHAR") {
@@ -37,7 +38,9 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 
 #' @describeIn hql_write Write a dataset to an HDF file.
 #'
-#' @param dataset The dataset to write.
+#' @param dataset The dataset to write. The object must be coercible 
+#'  to an array. If `NULL`, indicates the dataset should be dropped
+#'   (if `overwrite = TRUE`).
 #' @param file The HDF file to write to.
 #' @param path The location within the HDF5 file to write the dataset or attribute(s).
 #' @param include.attributes If `TRUE`, write the dataset attributes. 
@@ -70,7 +73,8 @@ hql_write_dataset = function(dataset, file, path,
 
 #' @describeIn hql_write Write an attribute to an HDF file.
 #'
-#' @param attribute The attribute to write.
+#' @param attribute The attribute to write. If `NULL`, indicates 
+#' the dataset should be dropped (if `overwrite = TRUE`).
 #' @inheritParams hql_write_dataset
 #'
 #' @export
@@ -115,9 +119,12 @@ hql_write_all_attributes = function(attributes, file,
 }
 
 #' @describeIn hql_write Write a compound dataset to an HDF file.
+#' @param compound.dataset The compound dataset to write. The 
+#'   The object must be coercible to a data.frame, and each column
+#'   of the dataframe must be coercible to an array.
 #' @inheritParams hql_write_dataset
 #' @export
-hql_write_compound_dataset = function(dataset, file, path,
+hql_write_compound_dataset = function(compound.dataset, file, path,
 	overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
 	# create file if it does not exist
