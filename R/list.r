@@ -8,7 +8,7 @@ NULL
 #' List HDF Objects
 #'
 #' @keywords internal
-list = function(what = c("GROUP", "DATASET", "ATTRIBUTE"), path) {
+list_hdf = function(what = c("GROUP", "DATASET", "ATTRIBUTE"), path) {
 	if (missing(path)) {
 		path = ""
 	}
@@ -22,7 +22,7 @@ list = function(what = c("GROUP", "DATASET", "ATTRIBUTE"), path) {
 #'
 #' @keywords internal
 recurse_groups = function(path) {
-	groups = list("GROUP", path)
+	groups = list_hdf("GROUP", path)
 	names(groups) = groups
 	if (length(groups) > 0L) {
 		lapply(file.path(path, groups), recurse_groups)
@@ -58,7 +58,7 @@ hql_list_groups = function(file, path, recursive = FALSE) {
 	use_file(file)
 	on.exit(close_file(file))
 	if (!recursive) {
-		list("GROUP", path)
+		list_hdf("GROUP", path)
 	} else {
 		groups = unlist(recurse_groups(path))
 		base.groups = unlist(lapply(groups, rev_recurse_groups))
@@ -76,11 +76,11 @@ hql_list_datasets = function(file, path, recursive = TRUE) {
 	use_file(file)
 	on.exit(close_file(file))
 	if (!recursive) {
-		list("DATASET", path)
+		list_hdf("DATASET", path)
 	} else {
 		groups = list_groups(path, TRUE)
 		unlist(lapply(groups, function(x)
-			file.path(x, list(x, what = "DATASET"))))
+			file.path(x, list_hdf(x, what = "DATASET"))))
 		}
 }
 
@@ -92,5 +92,5 @@ hql_list_datasets = function(file, path, recursive = TRUE) {
 hql_list_attributes = function(file, path) {
 	use_file(file)
 	on.exit(close_file(file))
-	list("ATTRIBUTE", path)
+	list_hdf("ATTRIBUTE", path)
 }
