@@ -7,7 +7,7 @@
 \usage{
 recurse_groups(path)
 
-rev_recurse_groups(file, path)
+rev_recurse_groups(path)
 }
 \description{
 Recursively walk through HDF groups.

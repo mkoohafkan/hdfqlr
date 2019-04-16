@@ -9,9 +9,6 @@ NULL
 #'
 #' @keywords internal
 list_hdf = function(what = c("GROUP", "DATASET", "ATTRIBUTE"), path) {
-	if (missing(path)) {
-		path = ""
-	}
 	script = sprintf('SHOW %s "%s/"', what, path)
 	get_cursor_values(script)
 }
@@ -35,7 +32,7 @@ recurse_groups = function(path) {
 #' @rdname recurse_groups
 #'
 #' @keywords internal
-rev_recurse_groups = function(file, path) {
+rev_recurse_groups = function(path) {
 	base.group = dirname(path)
 	if (grepl("^\\.*/*$", base.group)) {
 		path
@@ -55,14 +52,22 @@ rev_recurse_groups = function(file, path) {
 #'
 #' @export
 hql_list_groups = function(file, path, recursive = FALSE) {
+	if (missing(path)) {
+		path = ""
+	}
 	use_file(file)
 	on.exit(close_file(file))
+	otype = gsub("^HDFQL_", "", get_object_type(path))
+	if (otype != "GROUP") {
+		stop(path, " is a ", otype, ', not a GROUP')
+	}
 	if (!recursive) {
-		list_hdf("GROUP", path)
+		gsub("//", "/", file.path(path, list_hdf("GROUP", path)))
 	} else {
-		groups = unlist(recurse_groups(path))
+		groups = gsub(path, "", unlist(recurse_groups(path)))
 		base.groups = unlist(lapply(groups, rev_recurse_groups))
-		sort(unique(base.groups, groups))
+	  all.groups = sort(unique(base.groups, groups))
+		gsub("//", "/", file.path(path, all.groups))
 	}
 }
 
@@ -73,14 +78,23 @@ hql_list_groups = function(file, path, recursive = FALSE) {
 #'
 #' @export
 hql_list_datasets = function(file, path, recursive = TRUE) {
-	use_file(file)
-	on.exit(close_file(file))
+	if (missing(path)) {
+		path = ""
+	}
 	if (!recursive) {
-		list_hdf("DATASET", path)
+		use_file(file)
+		on.exit(close_file(file))
+		otype = gsub("^HDFQL_", "", get_object_type(path))
+		if (otype != "GROUP") {
+			stop(path, " is a ", otype, ', not a GROUP')
+		}
+		gsub("//", "/", file.path(path, list_hdf("DATASET", path)))
 	} else {
-		groups = list_groups(path, TRUE)
-		unlist(lapply(groups, function(x)
-			file.path(x, list_hdf(x, what = "DATASET"))))
+		groups = hql_list_groups(file, path, TRUE)
+		use_file(file)
+		on.exit(close_file(file))
+		gsub("//", "/", unlist(lapply(groups, function(x)
+			file.path(x, list_hdf(x, what = "DATASET")))))
 		}
 }
 
@@ -90,6 +104,13 @@ hql_list_datasets = function(file, path, recursive = TRUE) {
 #'
 #' @export
 hql_list_attributes = function(file, path) {
+	if (missing(path)) {
+		path = ""
+	}
+	otype = gsub("^HDFQL_", "", get_object_type(path))
+	if (otype == "ATTRIBUTE") {
+		stop(path, " is a ", otype, ', not a GROUP or DATASET')
+	}
 	use_file(file)
 	on.exit(close_file(file))
 	list_hdf("ATTRIBUTE", path)
