@@ -14,14 +14,16 @@ hql_write_dataset(dataset, file, path, include.attributes = TRUE,
 hql_write_attribute(attribute, file, path, overwrite = FALSE,
   parallel = FALSE)
 
-hql_write_all_attributes(attributes, file, overwrite = FALSE,
+hql_write_all_attributes(attributes, file, path, overwrite = FALSE,
   parallel = FALSE)
 
-hql_write_compound_dataset(dataset, file, path, overwrite = FALSE,
-  parallel = FALSE)
+hql_write_compound_dataset(compound.dataset, file, path,
+  overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
-\item{dataset}{The dataset to write.}
+\item{dataset}{The dataset to write. The object must be coercible
+to an array. If \code{NULL}, indicates the dataset should be dropped
+(if \code{overwrite = TRUE}).}
 
 \item{file}{The HDF file to write to.}
 
@@ -33,9 +35,14 @@ hql_write_compound_dataset(dataset, file, path, overwrite = FALSE,
 
 \item{parallel}{Use parallel processing functionality.}
 
-\item{attribute}{The attribute to write.}
+\item{attribute}{The attribute to write. If \code{NULL}, indicates
+the dataset should be dropped (if \code{overwrite = TRUE}).}
 
 \item{attributes}{A list of attributes to write.}
+
+\item{compound.dataset}{The compound dataset to write. The
+The object must be coercible to a data.frame, and each column
+of the dataframe must be coercible to an array.}
 }
 \description{
 Read a dataset or attribute to an HDF file.
