@@ -295,10 +295,7 @@ close_file = function(file) {
 #'
 #' @keywords internal
 get_attr_names = function(path) {
-  if (missing(path))
-    path = ""
-  script = sprintf('SHOW ATTRIBUTE "%s/"', path)
-  get_cursor_values(script)
+  list("ATTRIBUTE", path)
 }
 
 #' Set Data
