@@ -27,7 +27,7 @@ to an array. If \code{NULL}, indicates the dataset should be dropped
 
 \item{file}{The HDF file to write to.}
 
-\item{path}{The location within the HDF5 file to write the dataset or attribute(s).}
+\item{path}{The location within the HDF file to write the dataset or attribute(s).}
 
 \item{include.attributes}{If \code{TRUE}, write the dataset attributes.}
 
