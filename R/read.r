@@ -5,10 +5,10 @@
 #' @name hql_read
 NULL
 
-#' @describeIn hql_read Read a dataset from an HDF5 file.
+#' @describeIn hql_read Read a dataset from an HDF file.
 #'
-#' @param file The HDF5 file path.
-#' @param path The location of the dataset, attribute, or group within the HDF5 file.
+#' @param file The HDF file to read from.
+#' @param path The location of the dataset, attribute, or group within the HDF file.
 #' @param include.attributes If `TRUE`, include the dataset attributes.
 #' @inheritParams get_data
 #' @return A matrix.
@@ -19,8 +19,7 @@ hql_read_dataset = function(file, path, include.attributes = TRUE,
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
-	otype = gsub("^HDFQL_", "", get_object_type(path))
-  res = get_data(path, otype, parallel = parallel)
+  res = get_data(path, "DATASET", parallel = parallel)
   if (include.attributes) {
     attr.names = get_attr_names(path)
     for (n in attr.names)
@@ -30,7 +29,7 @@ hql_read_dataset = function(file, path, include.attributes = TRUE,
   res
 }
 
-#' @describeIn hql_read Read a single attribute from an HDF5 file.
+#' @describeIn hql_read Read a single attribute from an HDF file.
 #'
 #' @inheritParams hql_read_dataset
 #' @return The attribute value.
@@ -44,7 +43,7 @@ hql_read_attribute = function(file, path, parallel = FALSE) {
 }
 
 
-#' @describeIn hql_read Read attributes from an HDF5 file.
+#' @describeIn hql_read Read attributes from an HDF file.
 #'
 #' @inheritParams hql_read_dataset
 #' @return A named list of attributes.
@@ -65,7 +64,7 @@ hql_read_all_attributes = function(file, path, parallel = FALSE) {
   res  
 }
 
-#' @describeIn hql_read Read compound dataset from an HDF5 file.
+#' @describeIn hql_read Read compound dataset from an HDF file.
 #'
 #' @inheritParams hql_read_dataset
 #' @return A data frame.

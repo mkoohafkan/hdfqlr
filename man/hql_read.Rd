@@ -18,9 +18,9 @@ hql_read_all_attributes(file, path, parallel = FALSE)
 hql_read_compound_dataset(file, path, parallel = FALSE)
 }
 \arguments{
-\item{file}{The HDF5 file path.}
+\item{file}{The HDF file to read from.}
 
-\item{path}{The location of the dataset, attribute, or group within the HDF5 file.}
+\item{path}{The location of the dataset, attribute, or group within the HDF file.}
 
 \item{include.attributes}{If \code{TRUE}, include the dataset attributes.}
 
@@ -40,12 +40,12 @@ Read a dataset or attribute from an HDF file.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_read_dataset}: Read a dataset from an HDF5 file.
+\item \code{hql_read_dataset}: Read a dataset from an HDF file.
 
-\item \code{hql_read_attribute}: Read a single attribute from an HDF5 file.
+\item \code{hql_read_attribute}: Read a single attribute from an HDF file.
 
-\item \code{hql_read_all_attributes}: Read attributes from an HDF5 file.
+\item \code{hql_read_all_attributes}: Read attributes from an HDF file.
 
-\item \code{hql_read_compound_dataset}: Read compound dataset from an HDF5 file.
+\item \code{hql_read_compound_dataset}: Read compound dataset from an HDF file.
 }}
 

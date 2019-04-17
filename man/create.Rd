@@ -37,7 +37,7 @@ attribute, or dataset.}
 
 \item{parallel}{If \code{TRUE}, use parallel capabilities.}
 
-\item{file}{The file to create.}
+\item{file}{The HDF file to create.}
 
 \item{group}{The group to create.}
 

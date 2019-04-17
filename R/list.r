@@ -44,9 +44,9 @@ rev_recurse_groups = function(path) {
 
 #' @describeIn hql_list List groups.
 #'
-#' @param file The HDF5 file path.
+#' @param file The HDF file to search.
 #' @param path The location of the dataset, attribute, or group 
-#'   within the HDF5 file.
+#'   within the HDF file.
 #' @param recursive Recursively list child groups or datasets.
 #' @return A vector of paths.
 #'

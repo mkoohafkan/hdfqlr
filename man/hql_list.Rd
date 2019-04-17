@@ -14,10 +14,10 @@ hql_list_datasets(file, path, recursive = TRUE)
 hql_list_attributes(file, path)
 }
 \arguments{
-\item{file}{The HDF5 file path.}
+\item{file}{The HDF file to search.}
 
 \item{path}{The location of the dataset, attribute, or group
-within the HDF5 file.}
+within the HDF file.}
 
 \item{recursive}{Recursively list child groups or datasets.}
 }

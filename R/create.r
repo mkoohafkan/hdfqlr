@@ -42,7 +42,7 @@ create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 
 #' @describeIn create Create HDF file.
 #'
-#' @param file The file to create.
+#' @param file The HDF file to create.
 #' @inheritParams create
 #'
 #' @keywords internal
