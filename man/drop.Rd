@@ -9,7 +9,7 @@
 \usage{
 drop(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path)
 
-hql_drop_dataset(file, dataset, recursive = FALSE)
+hql_drop_dataset(file, dataset)
 
 hql_drop_group(file, group)
 
@@ -20,11 +20,11 @@ hql_drop_attribute(file, attribute)
 
 \item{dataset}{The dataset to drop.}
 
-\item{recursive}{If \code{TRUE}, drop all child groups and datasets.}
-
 \item{group}{The group to drop.}
 
 \item{attribute}{The attribute to drop.}
+
+\item{recursive}{If \code{TRUE}, drop all child groups and datasets.}
 }
 \description{
 Drop a datset, attribute, or group from
