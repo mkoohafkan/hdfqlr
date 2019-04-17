@@ -1,6 +1,19 @@
 #' Write HDF Dataset or Attribute
 #'
-#' Read a dataset or attribute to an HDF file.
+#' Write a dataset or attribute to an HDF file.
+#'
+#' @examples
+#' if(hql_is_loaded()){
+#'   tf = tempfile(fileext = ".h5")
+#'
+#'   x = matrix(rnorm(100), nrow = 20)
+#'   hql_write_dataset(x, tf, "dataset0")
+#'   hql_write_attribute("normal", tf, "dataset0/dist")
+#'
+#'  y = month.name
+#'  attr(y, "abbreviation") = month.abb
+#'  hql_write_dataset(y, tf, "group1/dataset1")
+#' }
 #'
 #' @name hql_write
 NULL
@@ -10,26 +23,17 @@ NULL
 #' @keywords internal
 write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 	# input checking
-  if (!is.null(x)) {
-    x = as.array(x)
-		rtype = typeof(x)
-		dtype = gsub("^HDFQL_", "", rtype_to_dtype(rtype))
-		if (dtype == "CHAR") {
-			dataset.dim = c(dim(x), max(nchar(x)))
-		} else {
-			dataset.dim = dim(x)
-		}
+  x = as.array(x)
+	rtype = typeof(x)
+	dtype = gsub("^HDFQL_", "", rtype_to_dtype(rtype))
+	if (dtype == "CHAR") {
+		dataset.dim = c(dim(x), max(nchar(x)))
+	} else {
+		dataset.dim = dim(x)
 	}
-  if (is.null(x) && !overwrite) {
-    warning("R object is NULL but overwrite is FALSE. No action taken")
-    return(invisible(NULL))
-  }
 	# drop existing object if required
 	if (overwrite) {
 		drop(what, path)
-	}
-	if (is.null(x)) {
-		return(invisible(NULL))
 	}
 	# create object
 	create(what, path, dtype, dataset.dim, parallel = parallel)
@@ -40,8 +44,7 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 #' @describeIn hql_write Write a dataset to an HDF file.
 #'
 #' @param dataset The dataset to write. The object must be coercible 
-#'  to an array. If `NULL`, indicates the dataset should be dropped
-#'   (if `overwrite = TRUE`).
+#'  to an array.
 #' @param file The HDF file to write to.
 #' @param path The location within the HDF file to write the dataset or attribute(s).
 #' @param include.attributes If `TRUE`, write the dataset attributes. 
@@ -74,8 +77,7 @@ hql_write_dataset = function(dataset, file, path,
 
 #' @describeIn hql_write Write an attribute to an HDF file.
 #'
-#' @param attribute The attribute to write. If `NULL`, indicates 
-#' the dataset should be dropped (if `overwrite = TRUE`).
+#' @param attribute The attribute to write.
 #' @inheritParams hql_write_dataset
 #'
 #' @export
