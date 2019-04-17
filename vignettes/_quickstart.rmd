@@ -41,7 +41,10 @@ or `hdfql_` (for functions). The contents of the HDFql wrapper
 are imported into the environment `hql$constants`. If you need
 to directly use the HDFql wrapper functions in an interactive 
 session, you can access them using `with` or `attach` the 
-environment to the search path.
+environment to the search path. Any existing scripts written for
+use with the HDFql wrapper can therefore be run by attaching the
+`HDFql$constants` environment prior to running the script, or
+by using `with(HDFql$constants, ...)`.
 
 ```{r, echo = TRUE}
 # using with
@@ -85,13 +88,7 @@ hql_read_dataset(file, "group1/dataset1", include.attributes = TRUE)
 The package does not currently support editing existing datasets
 or attributes; this is instead accomplished by reading the dataset
 or attribute to an R object, modifying it, and writing it back to
-the HDF file using the argument `overwrite = TRUE`. Datasets, 
-attributes, and groups can be removed from an HDF file by writing
-`NULL` to the dataset or attribute path.
-
-```{r}
-hql_write_dataset(NULL, file, "dataset0", overwrite = TRUE)
-```
+the HDF file using the argument `overwrite = TRUE`. 
 
 The package also provides options for listing the contents of an
 HDF file via the functions `list_groups`, `list_datasets`, and
@@ -104,3 +101,12 @@ hql_list_datasets(file)
 hql_list_datasets(file, recursive = TRUE)
 hql_list_attributes(file, "group1/dataset1")
 ```
+
+Datasets, attributes, and groups can be removed from an HDF file 
+via the functions `hql_drop_dataset`, `hql_drop_attribute`, and
+`hql_drop_group`.
+
+```{r}
+hql_drop_dataset(file, "dataset0")
+```
+
