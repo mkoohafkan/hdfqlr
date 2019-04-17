@@ -49,3 +49,21 @@ Read a dataset or attribute from an HDF file.
 \item \code{hql_read_compound_dataset}: Read compound dataset from an HDF file.
 }}
 
+\examples{
+if(hql_is_loaded()){
+  tf = tempfile(fileext = ".h5")
+  x = matrix(rnorm(100), nrow = 20)
+  hql_write_dataset(x, tf, "dataset0")
+  hql_write_attribute("normal", tf, "dataset0/dist")
+ y = month.name
+ attr(y, "abbreviation") = month.abb
+ attr(y, "number") = 1:12
+ hql_write_dataset(y, tf, "group1/dataset1")
+
+hql_read_dataset(tf, "dataset0")
+hql_read_dataset(tf, "group1/dataset1")
+hql_read_attribute(tf, "group1/dataset1/abbreviation")
+hql_read_all_attributes(tf, "group1/dataset1")
+}
+
+}

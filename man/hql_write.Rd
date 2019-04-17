@@ -22,8 +22,7 @@ hql_write_compound_dataset(compound.dataset, file, path,
 }
 \arguments{
 \item{dataset}{The dataset to write. The object must be coercible
-to an array. If \code{NULL}, indicates the dataset should be dropped
-(if \code{overwrite = TRUE}).}
+to an array.}
 
 \item{file}{The HDF file to write to.}
 
@@ -35,8 +34,7 @@ to an array. If \code{NULL}, indicates the dataset should be dropped
 
 \item{parallel}{Use parallel processing functionality.}
 
-\item{attribute}{The attribute to write. If \code{NULL}, indicates
-the dataset should be dropped (if \code{overwrite = TRUE}).}
+\item{attribute}{The attribute to write.}
 
 \item{attributes}{A list of attributes to write.}
 
@@ -45,7 +43,7 @@ The object must be coercible to a data.frame, and each column
 of the dataframe must be coercible to an array.}
 }
 \description{
-Read a dataset or attribute to an HDF file.
+Write a dataset or attribute to an HDF file.
 }
 \section{Functions}{
 \itemize{
@@ -58,3 +56,17 @@ Read a dataset or attribute to an HDF file.
 \item \code{hql_write_compound_dataset}: Write a compound dataset to an HDF file.
 }}
 
+\examples{
+if(hql_is_loaded()){
+  tf = tempfile(fileext = ".h5")
+
+  x = matrix(rnorm(100), nrow = 20)
+  hql_write_dataset(x, tf, "dataset0")
+  hql_write_attribute("normal", tf, "dataset0/dist")
+
+ y = month.name
+ attr(y, "abbreviation") = month.abb
+ hql_write_dataset(y, tf, "group1/dataset1")
+}
+
+}

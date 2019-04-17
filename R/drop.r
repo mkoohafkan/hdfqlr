@@ -1,6 +1,21 @@
 #' Drop HDF groups, datasets, and attributes
 #'
-#' Drop a datset, attribute, or group from 
+#' Drop a datset, attribute, or group from an HDF file.
+#'
+#' @examples
+#' if(hql_is_loaded()){
+#'   tf = tempfile(fileext = ".h5")
+#'   x = rnorm(10)
+#'   attr(x, "myattribute") = "some information"
+#'   hql_write_dataset(x, tf, "mygroup/mydataset")
+#'
+#'   hql_drop_attribute(tf, "mygroup/mydataset/myattribute")
+#'   hql_drop_dataset(tf, "mygroup/mydataset")
+#'   hql_drop_group(tf, "mygroup")
+#' }
+#'
+#' @name hql_drop
+NULL
 
 #' Drop HDF objects.
 #'
@@ -22,6 +37,7 @@ drop = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 #'
 #' @param file The HDF file to search.
 #' @param dataset The dataset to drop.
+#'
 #' @export
 hql_drop_dataset = function(file, dataset) {
   stop_not_loaded()
@@ -37,15 +53,15 @@ hql_drop_dataset = function(file, dataset) {
 #' @param recursive If `TRUE`, drop all child groups and datasets.
 #'
 #' @export
-hql_drop_group = function(file, group) {
+hql_drop_group = function(file, group, recursive = FALSE) {
   stop_not_loaded()
   use_file(file)
   on.exit(close_file(file))
   if (!recursive) {
-    sub.groups = list("GROUP", path)
-    sub.datasets = list("DATASET", path)
+    sub.groups = list("GROUP", group)
+    sub.datasets = list("DATASET", group)
     if (length(c(sub.groups, sub.datasets)) > 0L) {
-      stop(path, 'contains groups or datasets but ',
+      stop(group, 'contains groups or datasets but ',
       'argument "recursive" is FALSE.')
     }
   }
