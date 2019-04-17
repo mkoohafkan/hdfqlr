@@ -20,12 +20,13 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 			dataset.dim = dim(x)
 		}
 	}
+  if (is.null(x) && !overwrite) {
+    warning("R object is NULL but overwrite is FALSE. No action taken")
+    return(invisible(NULL))
+  }
 	# drop existing object if required
 	if (overwrite) {
 		drop(what, path)
-	}
-	if (is.null(x) && !overwrite) {
-		warning("R object is NULL but overwrite is FALSE. No action taken")
 	}
 	if (is.null(x)) {
 		return(invisible(NULL))
@@ -42,7 +43,7 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 #'  to an array. If `NULL`, indicates the dataset should be dropped
 #'   (if `overwrite = TRUE`).
 #' @param file The HDF file to write to.
-#' @param path The location within the HDF5 file to write the dataset or attribute(s).
+#' @param path The location within the HDF file to write the dataset or attribute(s).
 #' @param include.attributes If `TRUE`, write the dataset attributes. 
 #' @param overwrite If `TRUE`, overwrite existing dataset or attribute.
 #' @inheritParams hql_read
