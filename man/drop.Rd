@@ -2,40 +2,41 @@
 % Please edit documentation in R/drop.r
 \name{drop}
 \alias{drop}
-\alias{drop_dataset}
-\alias{drop_group}
-\alias{drop_attribute}
+\alias{hql_drop_dataset}
+\alias{hql_drop_group}
+\alias{hql_drop_attribute}
 \title{Drop HDF groups, datasets, and attributes}
 \usage{
 drop(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path)
 
-drop_dataset(dataset)
+hql_drop_dataset(file, dataset, recursive = FALSE)
 
-drop_group(group)
+hql_drop_group(file, group)
 
-drop_attribute(attribute)
+hql_drop_attribute(file, attribute)
 }
 \arguments{
-\item{what}{The type of object to drop.}
-
-\item{path}{The target location of the object.}
+\item{file}{The HDF file to search.}
 
 \item{dataset}{The dataset to drop.}
+
+\item{recursive}{If \code{TRUE}, drop all child groups and datasets.}
 
 \item{group}{The group to drop.}
 
 \item{attribute}{The attribute to drop.}
 }
 \description{
-Generic helper for dropping HDF objects.
+Drop a datset, attribute, or group from
+Drop HDF objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{drop_dataset}: Drop HDF dataset.
+\item \code{hql_drop_dataset}: Drop HDF dataset.
 
-\item \code{drop_group}: Drop HDF dataset.
+\item \code{hql_drop_group}: Drop HDF group.
 
-\item \code{drop_attribute}: Drop HDF attribute.
+\item \code{hql_drop_attribute}: Drop HDF attribute.
 }}
 
 \keyword{internal}
