@@ -268,25 +268,6 @@ int_to_char = function(x, trim = FALSE) {
 	}
 }
 
-#' Use HDF File
-#'
-#' @param file The HDF file path.
-#'
-#' @keywords internal
-use_file = function(file) {
-  script = sprintf('USE FILE "%s"', file)
-  execute_with_memory(script)
-  invisible(TRUE)
-}
-
-#' @rdname use_file
-#' @keywords internal
-close_file = function(file) {
-  script = sprintf('CLOSE FILE "%s"', file)
-  execute_with_memory(script)
-  invisible(TRUE)
-}
-
 #' Get HDF Attribute Names
 #'
 #' @param path The path of the dataset or group from which to 

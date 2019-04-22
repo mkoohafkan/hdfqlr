@@ -9,15 +9,13 @@
 \usage{
 drop(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path)
 
-hql_drop_dataset(file, dataset)
+hql_drop_dataset(dataset)
 
-hql_drop_group(file, group, recursive = FALSE)
+hql_drop_group(group, recursive = FALSE)
 
-hql_drop_attribute(file, attribute)
+hql_drop_attribute(attribute)
 }
 \arguments{
-\item{file}{The HDF file to search.}
-
 \item{dataset}{The dataset to drop.}
 
 \item{group}{The group to drop.}

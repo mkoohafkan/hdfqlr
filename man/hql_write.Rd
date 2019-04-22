@@ -8,23 +8,21 @@
 \alias{hql_write_compound_dataset}
 \title{Write HDF Dataset or Attribute}
 \usage{
-hql_write_dataset(dataset, file, path, include.attributes = TRUE,
+hql_write_dataset(dataset, path, include.attributes = TRUE,
   overwrite = FALSE, parallel = FALSE)
 
-hql_write_attribute(attribute, file, path, overwrite = FALSE,
+hql_write_attribute(attribute, path, overwrite = FALSE,
   parallel = FALSE)
 
-hql_write_all_attributes(attributes, file, path, overwrite = FALSE,
+hql_write_all_attributes(attributes, path, overwrite = FALSE,
   parallel = FALSE)
 
-hql_write_compound_dataset(compound.dataset, file, path,
-  overwrite = FALSE, parallel = FALSE)
+hql_write_compound_dataset(compound.dataset, path, overwrite = FALSE,
+  parallel = FALSE)
 }
 \arguments{
 \item{dataset}{The dataset to write. The object must be coercible
 to an array.}
-
-\item{file}{The HDF file to write to.}
 
 \item{path}{The location within the HDF file to write the dataset or attribute(s).}
 
@@ -59,14 +57,17 @@ Write a dataset or attribute to an HDF file.
 \examples{
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")
+  hql_create_file(tf)
 
   x = matrix(rnorm(100), nrow = 20)
-  hql_write_dataset(x, tf, "dataset0")
-  hql_write_attribute("normal", tf, "dataset0/dist")
+  hql_write_dataset(x, "dataset0")
+  hql_write_attribute("normal", "dataset0/dist")
 
  y = month.name
  attr(y, "abbreviation") = month.abb
- hql_write_dataset(y, tf, "group1/dataset1")
+ hql_write_dataset(y, "group1/dataset1")
+
+hql_close_file(tf)
 }
 
 }

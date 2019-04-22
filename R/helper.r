@@ -1,4 +1,4 @@
-#' Get Listt Keys or Values
+#' Get List Keys or Values
 #'
 #' Get the value of a list key, or the key of a list value.
 #'

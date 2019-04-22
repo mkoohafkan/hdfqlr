@@ -2,7 +2,7 @@
 % Please edit documentation in R/create.r
 \name{create}
 \alias{create}
-\alias{create_file}
+\alias{hql_create_file}
 \alias{create_group}
 \alias{create_dataset}
 \alias{create_attribute}
@@ -11,7 +11,7 @@
 create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path,
   data.type, size, overwrite = FALSE, parallel = FALSE)
 
-create_file(file, overwrite = FALSE, parallel = FALSE)
+hql_create_file(file, overwrite = FALSE, parallel = FALSE)
 
 create_group(group, overwrite = FALSE)
 
@@ -50,7 +50,7 @@ Generic helper for creating HDF objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{create_file}: Create HDF file.
+\item \code{hql_create_file}: Create HDF file.
 
 \item \code{create_group}: Create HDF group.
 

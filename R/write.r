@@ -5,14 +5,17 @@
 #' @examples
 #' if(hql_is_loaded()){
 #'   tf = tempfile(fileext = ".h5")
+#'   hql_create_file(tf)
 #'
 #'   x = matrix(rnorm(100), nrow = 20)
-#'   hql_write_dataset(x, tf, "dataset0")
-#'   hql_write_attribute("normal", tf, "dataset0/dist")
+#'   hql_write_dataset(x, "dataset0")
+#'   hql_write_attribute("normal", "dataset0/dist")
 #'
 #'  y = month.name
 #'  attr(y, "abbreviation") = month.abb
-#'  hql_write_dataset(y, tf, "group1/dataset1")
+#'  hql_write_dataset(y, "group1/dataset1")
+#'
+#' hql_close_file(tf)
 #' }
 #'
 #' @name hql_write
@@ -45,22 +48,15 @@ write = function(what, x, path, overwrite = FALSE, parallel = FALSE) {
 #'
 #' @param dataset The dataset to write. The object must be coercible 
 #'  to an array.
-#' @param file The HDF file to write to.
 #' @param path The location within the HDF file to write the dataset or attribute(s).
 #' @param include.attributes If `TRUE`, write the dataset attributes. 
 #' @param overwrite If `TRUE`, overwrite existing dataset or attribute.
 #' @inheritParams hql_read
 #'
 #' @export
-hql_write_dataset = function(dataset, file, path,
+hql_write_dataset = function(dataset, path,
   include.attributes = TRUE, overwrite = FALSE, parallel = FALSE) {
   stop_not_loaded()
-	# create file if it does not exist
-	if (!file.exists(file)) {
-		create_file(file, parallel = parallel)
-	}
-	use_file(file)
-	on.exit(close_file(file))
 	# write dataset
 	write("DATASET", dataset, path, overwrite, parallel)
 	# write attributes
@@ -81,18 +77,12 @@ hql_write_dataset = function(dataset, file, path,
 #' @inheritParams hql_write_dataset
 #'
 #' @export
-hql_write_attribute = function(attribute, file, path,
+hql_write_attribute = function(attribute, path,
   overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
 	if (missing(path)) {
 		path = ""
 	}
-	# create file if it does not exist
-	if (!file.exists(file)) {
-		create_file(file, parallel = parallel)
-	}
-	use_file(file)
-	on.exit(close_file(file))
 	write("ATTRIBUTE", attribute, path, overwrite, parallel)
 }
 
@@ -102,18 +92,12 @@ hql_write_attribute = function(attribute, file, path,
 #' @inheritParams hql_write_dataset
 #'
 #' @export
-hql_write_all_attributes = function(attributes, file,
+hql_write_all_attributes = function(attributes,
   path, overwrite = FALSE, parallel = FALSE) {
 	if (missing(path)) {
 		path = ""
 	}
 	stop_not_loaded()
-	# create file if it does not exist
-	if (!file.exists(file)) {
-		create_file(file, parallel = parallel)
-	}
-	use_file(file)
-	on.exit(close_file(file))
 	for (i in seq_along(attributes)) {
 		write("ATTRIBUTE", attributes[[i]],
 		  file.path(path, names(attributes)[i]),
@@ -127,13 +111,7 @@ hql_write_all_attributes = function(attributes, file,
 #'   of the dataframe must be coercible to an array.
 #' @inheritParams hql_write_dataset
 #' @export
-hql_write_compound_dataset = function(compound.dataset, file, path,
+hql_write_compound_dataset = function(compound.dataset, path,
 	overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()
-	# create file if it does not exist
-	if (!file.exists(file)) {
-		create_file(file, parallel = parallel)
-	}
-	use_file(file)
-	on.exit(close_file(file))
 }

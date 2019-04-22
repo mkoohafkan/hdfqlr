@@ -8,18 +8,15 @@
 \alias{hql_read_compound_dataset}
 \title{Read HDF Dataset or Attribute}
 \usage{
-hql_read_dataset(file, path, include.attributes = TRUE,
-  parallel = FALSE)
+hql_read_dataset(path, include.attributes = TRUE, parallel = FALSE)
 
-hql_read_attribute(file, path, parallel = FALSE)
+hql_read_attribute(path, parallel = FALSE)
 
-hql_read_all_attributes(file, path, parallel = FALSE)
+hql_read_all_attributes(path, parallel = FALSE)
 
-hql_read_compound_dataset(file, path, parallel = FALSE)
+hql_read_compound_dataset(path, parallel = FALSE)
 }
 \arguments{
-\item{file}{The HDF file to read from.}
-
 \item{path}{The location of the dataset, attribute, or group within the HDF file.}
 
 \item{include.attributes}{If \code{TRUE}, include the dataset attributes.}
@@ -52,18 +49,21 @@ Read a dataset or attribute from an HDF file.
 \examples{
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")
+  hql_create_file(tf)
   x = matrix(rnorm(100), nrow = 20)
-  hql_write_dataset(x, tf, "dataset0")
-  hql_write_attribute("normal", tf, "dataset0/dist")
+  hql_write_dataset(x, "dataset0")
+  hql_write_attribute("normal", "dataset0/dist")
  y = month.name
  attr(y, "abbreviation") = month.abb
  attr(y, "number") = 1:12
- hql_write_dataset(y, tf, "group1/dataset1")
+ hql_write_dataset(y, "group1/dataset1")
 
-hql_read_dataset(tf, "dataset0")
-hql_read_dataset(tf, "group1/dataset1")
-hql_read_attribute(tf, "group1/dataset1/abbreviation")
-hql_read_all_attributes(tf, "group1/dataset1")
+hql_read_dataset("dataset0")
+hql_read_dataset("group1/dataset1")
+hql_read_attribute("group1/dataset1/abbreviation")
+hql_read_all_attributes("group1/dataset1")
+
+hql_close_file(tf)
 }
 
 }

@@ -7,15 +7,13 @@
 \alias{hql_list_attributes}
 \title{List HDF Groups, Datasets or Attributes}
 \usage{
-hql_list_groups(file, path, recursive = FALSE)
+hql_list_groups(path, recursive = FALSE)
 
-hql_list_datasets(file, path, recursive = TRUE)
+hql_list_datasets(path, recursive = TRUE)
 
-hql_list_attributes(file, path)
+hql_list_attributes(path)
 }
 \arguments{
-\item{file}{The HDF file to search.}
-
 \item{path}{The location of the dataset, attribute, or group
 within the HDF file.}
 

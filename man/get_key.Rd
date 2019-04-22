@@ -2,7 +2,7 @@
 % Please edit documentation in R/helper.r
 \name{get_key}
 \alias{get_key}
-\title{Get Listt Keys or Values}
+\title{Get List Keys or Values}
 \usage{
 get_key(x, l, invert = FALSE)
 }

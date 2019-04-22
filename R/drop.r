@@ -35,14 +35,11 @@ drop = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 
 #' @describeIn drop Drop HDF dataset.
 #'
-#' @param file The HDF file to search.
 #' @param dataset The dataset to drop.
 #'
 #' @export
-hql_drop_dataset = function(file, dataset) {
+hql_drop_dataset = function(dataset) {
   stop_not_loaded()
-  use_file(file)
-  on.exit(close_file(file))
 	drop("DATASET", dataset)
 }
 
@@ -53,10 +50,8 @@ hql_drop_dataset = function(file, dataset) {
 #' @param recursive If `TRUE`, drop all child groups and datasets.
 #'
 #' @export
-hql_drop_group = function(file, group, recursive = FALSE) {
+hql_drop_group = function(group, recursive = FALSE) {
   stop_not_loaded()
-  use_file(file)
-  on.exit(close_file(file))
   if (!recursive) {
     sub.groups = list("GROUP", group)
     sub.datasets = list("DATASET", group)
@@ -74,9 +69,7 @@ hql_drop_group = function(file, group, recursive = FALSE) {
 #' @inheritParams hql_drop_dataset
 #'
 #' @export
-hql_drop_attribute = function(file, attribute) {
+hql_drop_attribute = function(attribute) {
   stop_not_loaded()
-  use_file(file)
-  on.exit(close_file(file))
 	drop("ATTRIBUTE", attribute)
 }
