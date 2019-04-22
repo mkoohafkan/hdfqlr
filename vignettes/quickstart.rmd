@@ -131,8 +131,8 @@ or attribute to an R object, modifying it, and writing it back to
 the HDF file using the argument `overwrite = TRUE`. 
 
 The package also provides options for listing the contents of an
-HDF file via the functions `list_groups`, `list_datasets`, and
-`list_attributes`. Both `list_groups`and `list_datasets` provide
+HDF file via the functions `hql_list_groups`, `hql_list_datasets`, and
+`hql_list_attributes`. Both `hql_list_groups`and `hql_list_datasets` provide
 support for recursively listing sub-groups and sub-datasets.
 
 
@@ -176,6 +176,9 @@ via the functions `hql_drop_dataset`, `hql_drop_attribute`, and
 ```r
 hql_drop_dataset("dataset0")
 ```
+
+Once you're finished working with the HDF objects, close the file with
+`hql_close_file`:
 
 
 ```r
