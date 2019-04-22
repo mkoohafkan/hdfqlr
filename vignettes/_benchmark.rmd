@@ -1,0 +1,129 @@
+---
+title: "Benchmarking hdfqlr"
+author: "Michael Koohafkan"
+date: "2019-04-15"
+output: 
+  rmarkdown::html_vignette:
+    standalone: true
+vignette: >
+  %\VignetteIndexEntry{Benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This document provides some benchmarks for comparing the performance
+of hdfqlr to two other HDF file APIs available in R: The 
+[`hdf5r`](https://cran.r-project.org/package=hdf5r) package 
+and the now-deprecated
+[`h5`](https://cran.r-project.org/package=h5) package. 
+Other packages that provide read (but not write) support for HDF files
+were not tested.
+
+```{r include = FALSE}
+library(hdf5r)
+library(h5)
+library(microbenchmark)
+```
+
+```{r eval = FALSE}
+library(hdfqlr)
+library(hdf5r)
+library(h5)
+library(microbenchmark)
+```
+
+
+## Writing HDF datasets
+
+```{r}
+write_hdfqlr = function() {
+	test.file = tempfile(fileext = ".h5")
+	hql_create_file(test.file)
+	hql_use_file(test.file)
+	for (i in paste0("vector", 1:6)) {
+		write("DATASET", runif(10000), i)
+	}
+	hql_close_file(test.file)
+}
+
+write_hdf5r = function() {
+	test.file = tempfile(fileext = ".h5")
+	# create hdf5 file (6 vectors with 10k random numbers each)
+	h5file = hdf5r::H5File$new(test.file, "w")
+	for (i in paste0("vector", 1:6)) {
+		h5file[[i]] = runif(10000)
+	}
+	h5file$close_all()
+}
+
+write_h5 = function() {
+	test.file = tempfile(fileext = ".h5")
+	f = h5::h5file(test.file)
+	for (i in paste0("vector", 1:6)) {
+		f[i] = runif(10000)
+	}
+	h5::h5close(f)
+}
+
+knitr::kable(summary(microbenchmark(
+		"hdf5r" = write_hdf5r(),
+		"h5" = write_h5(),
+		"hdfqlr" = write_hdfqlr(),
+	times = 100L,
+	unit = 'ms'
+)))
+```
+
+For writing data to HDF files, `hdfqlr` performs similarly to `h5`, and
+approximately four times faster than `hdf5r`.
+
+## Reading HDF datasets
+
+```{r}
+tf = tempfile(fileext = ".h5")
+hql_create_file(tf)
+hql_use_file(tf)
+sets = paste0("vector", 1:6)
+for (i in sets) {
+	hql_write_dataset(runif(10000), i)
+}
+hql_close_file(tf)
+
+read_hdfqlr = function(file, sets) {
+	hql_use_file(file)
+	result = lapply(sets, hql_read_dataset)
+	hql_close_file(file)
+	result
+}
+
+read_hdf5r = function(file, sets) {
+	h5file = hdf5r::H5File$new(file, "r")
+	result = lapply(sets, function(i) h5file[[i]][])
+	h5file$close_all()
+	result
+}
+
+read_h5 = function(file, sets) {
+	h5file = h5::h5file(file, "r")
+	result = lapply(sets, function(i) h5file[i][])
+	h5::h5close(h5file)
+	result
+}
+
+knitr::kable(summary(microbenchmark(
+	"hdf5r" = read_hdf5r(tf, sets),
+	"h5" = read_h5(tf, sets),
+	"hdfqlr" = read_hdfqlr(tf, sets),
+	times = 100L,
+	unit = 'ms'
+)))
+```
+
+For reading data to HDF files, `hdfqlr` is moderately slower than
+`h5` (taking approximately four times longer than h5) but is more
+than six times faster than `hdf5r`.
+
+performs 4x
+slower
+similarly to `h5`, and
+approximately four times faster than `hdf5r`.

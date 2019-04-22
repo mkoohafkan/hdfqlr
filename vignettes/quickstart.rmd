@@ -75,7 +75,16 @@ detach(hql$constants)
 ```
 
 The `hdfqlr` package is designed for simple read and write use
-cases, i.e. reading and writing HDF datasets and attributes. 
+cases, i.e. reading and writing HDF datasets and attributes. In order
+to access HDF files, they must be opened or "used":
+
+
+```r
+file = tempfile(fileext = ".h5")
+hql_create_file(file)
+hql_use_file(file)
+```
+ 
 Creation of files, groups, and datasets is done "behind the scenes" 
 in the process of writing objects to the HDF file. The following
 example creates a new HDF file and writes a matrix to the file. The
@@ -83,10 +92,9 @@ dataset is then read back in and compared to the original R object.
 
 
 ```r
-file = tempfile(fileext = ".h5")
 values = matrix(rnorm(1000), nrow = 50)
-hql_write_dataset(values, file, "dataset0")
-identical(values, hql_read_dataset(file, "dataset0"))
+hql_write_dataset(values, "dataset0")
+identical(values, hql_read_dataset("dataset0"))
 ```
 
 ```
@@ -104,8 +112,8 @@ used for all elements of the dataset.
 ```r
 char.values = month.name
 attr(char.values, "abb") = month.abb
-hql_write_dataset(char.values, file, "group1/dataset1")
-hql_read_dataset(file, "group1/dataset1", include.attributes = TRUE)
+hql_write_dataset(char.values, "group1/dataset1")
+hql_read_dataset("group1/dataset1", include.attributes = TRUE)
 ```
 
 ```
@@ -129,7 +137,7 @@ support for recursively listing sub-groups and sub-datasets.
 
 
 ```r
-hql_list_groups(file)
+hql_list_groups()
 ```
 
 ```
@@ -137,7 +145,7 @@ hql_list_groups(file)
 ```
 
 ```r
-hql_list_datasets(file)
+hql_list_datasets()
 ```
 
 ```
@@ -145,7 +153,7 @@ hql_list_datasets(file)
 ```
 
 ```r
-hql_list_datasets(file, recursive = TRUE)
+hql_list_datasets(recursive = TRUE)
 ```
 
 ```
@@ -153,7 +161,7 @@ hql_list_datasets(file, recursive = TRUE)
 ```
 
 ```r
-hql_list_attributes(file, "group1/dataset1")
+hql_list_attributes("group1/dataset1")
 ```
 
 ```
@@ -166,6 +174,11 @@ via the functions `hql_drop_dataset`, `hql_drop_attribute`, and
 
 
 ```r
-hql_drop_dataset(file, "dataset0")
+hql_drop_dataset("dataset0")
+```
+
+
+```r
+hql_close_file(file)
 ```
 
