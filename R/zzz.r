@@ -4,7 +4,10 @@
 
 .onAttach = function(libname, pkgname) {
   if (path_from_options(TRUE)) {
-    hql_load(hql.paths$install)
+		tryCatch(hql_load(hql.paths$install),
+			error = function(e)
+			  warning("Could not automatically connect to ",
+				hql.paths$install))
   } else {
     packageStartupMessage('Connect to HDFql R drivers by calling ',
       "\n\n\t", 'hdfql_load("path/to/HDFql-x.x.x")',
