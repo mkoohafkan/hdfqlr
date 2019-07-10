@@ -1,4 +1,5 @@
-#' Create HDF Object
+#' Create HDF Files, Datasets or Attribute
+
 #'
 #' Generic helper for creating HDF objects.
 #'
@@ -11,6 +12,11 @@
 #' @param overwrite If `TRUE`, overwrite existing file, group, 
 #'   attribute, or dataset.
 #' @param parallel If `TRUE`, use parallel capabilities.
+#'
+
+#' Create HDF Object
+#'
+#' Generic helper for creating HDF objects.
 #'
 #' @keywords internal
 create = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
@@ -83,35 +89,4 @@ create_dataset = function(dataset, data.type, size = NULL,
 create_attribute = function(attribute, data.type, size = NULL,
 	overwrite = FALSE, parallel = FALSE) {
 	create("ATTRIBUTE", attribute, data.type, size, overwrite, parallel)
-}
-
-#' Use HDF File
-#'
-#' Open (use) an HDF file.
-#'
-#' @param file The HDF file path.
-#'
-#' @export
-hql_use_file = function(file) {
-	script = sprintf('USE FILE "%s"', file)
-	execute_with_memory(script)
-	invisible(TRUE)
-}
-
-#' @rdname hql_use_file
-#' 
-#' @param all If `TRUE`, close all open HDF files.
-#' @export
-hql_close_file = function(file, all = FALSE) {
-	if (all) {
-		script = 'CLOSE ALL FILE'
-		file = ""
-	} else {
-		if (missing(file)) {
-			stop("No HDF file specified.")
-		}
-		script = sprintf('CLOSE FILE "%s"', file)
-	}
-	execute_with_memory(script)
-	invisible(TRUE)
 }

@@ -6,7 +6,7 @@
 \alias{create_group}
 \alias{create_dataset}
 \alias{create_attribute}
-\title{Create HDF Object}
+\title{Create HDF Files, Datasets or Attribute}
 \usage{
 create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path,
   data.type, size, overwrite = FALSE, parallel = FALSE)
@@ -35,7 +35,11 @@ is the string length.}
 \item{overwrite}{If \code{TRUE}, overwrite existing file, group,
 attribute, or dataset.}
 
-\item{parallel}{If \code{TRUE}, use parallel capabilities.}
+\item{parallel}{If \code{TRUE}, use parallel capabilities.
+
+Create HDF Object
+
+Generic helper for creating HDF objects.}
 
 \item{file}{The HDF file to create.}
 
