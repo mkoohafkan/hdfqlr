@@ -9,7 +9,7 @@ Imports: utils
 Suggests: 
     bit64 (>= 0.9),
 		knitr (>= 1.22)
-SystemRequirements: HDFql (>= 2.0.2)
+SystemRequirements: HDFql (>= 2.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

@@ -120,12 +120,14 @@ hql_load = function(path) {
   if (hql_is_loaded()) {
     return(invisible(NULL))
   }
-	if (missing(path)) {
-		if (!is.null(hql.paths$install)) {
-			path = hql.paths$install
-		} else if (!path_from_options()) {
-			stop('Argument "path" not specified', call. = FALSE)
-		}
+  if (!missing(path)) {
+    assign("install", path, envir = hql.paths)
+  } else {
+    if (is.null(hql.paths$install)) {
+      if (!path_from_options()) {
+        stop('Argument "path" not specified', call. = FALSE)
+      }
+    }
   }
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
@@ -134,13 +136,12 @@ hql_load = function(path) {
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
   constants.file = tempfile(fileext = ".r")
-  initialize.file = tempfile(fileext = ".r")
-  writeLines(tail(readLines(wrapperpath), -38L), constants.file)
-  writeLines(readLines(wrapperpath)[27L:38L], initialize.file)
+  wrapper.lines = readLines(wrapperpath)
+  writeLines(wrapper.lines[-grep("dyn.load", wrapper.lines)],
+    constants.file)
   # load DLLs
   lapply(dllpath, dyn.load)
   constants = new.env(parent = .BaseNamespaceEnv)
-  source(initialize.file, local = constants)
   source(constants.file, local = constants)
   assign("constants", constants, envir = hql)
   invisible(NULL)
