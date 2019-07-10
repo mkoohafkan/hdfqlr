@@ -11,9 +11,9 @@ execute_with_memory(script, variable = NULL, direction = c("INTO",
 \item{script}{The HDFQL operation to execute.
 Do not include \code{FROM} or \code{INTO} statements.}
 
-\item{variable}{if not \code{NULL}, read the output into this variable.}
+\item{variable}{if not \code{NULL}, the variable to register for this operation.}
 
-\item{direction}{Either \code{"FROM"} or \code{"INTO"}. Ignored if variable
+\item{direction}{Either \code{"FROM"} or \code{"INTO"}. Ignored if \code{variable}
 is \code{NULL}.}
 
 \item{suffix}{Additional script specifications. This can be used for
