@@ -22,8 +22,123 @@ were not tested.
 
 
 
+```r
+library(hdfqlr)
+library(hdf5r)
+library(h5)
+library(microbenchmark)
+```
+
+
+## Writing HDF datasets
+
+
+```r
+write_hdfqlr = function() {
+	test.file = tempfile(fileext = ".h5")
+	hql_create_file(test.file)
+	hql_use_file(test.file)
+	for (i in paste0("vector", 1:6)) {
+		write("DATASET", runif(10000), i)
+	}
+	hql_close_file(test.file)
+}
+
+write_hdf5r = function() {
+	test.file = tempfile(fileext = ".h5")
+	# create hdf5 file (6 vectors with 10k random numbers each)
+	h5file = hdf5r::H5File$new(test.file, "w")
+	for (i in paste0("vector", 1:6)) {
+		h5file[[i]] = runif(10000)
+	}
+	h5file$close_all()
+}
+
+write_h5 = function() {
+	test.file = tempfile(fileext = ".h5")
+	f = h5::h5file(test.file)
+	for (i in paste0("vector", 1:6)) {
+		f[i] = runif(10000)
+	}
+	h5::h5close(f)
+}
+
+knitr::kable(summary(microbenchmark(
+		"hdf5r" = write_hdf5r(),
+		"h5" = write_h5(),
+		"hdfqlr" = write_hdfqlr(),
+	times = 100L,
+	unit = 'ms'
+)))
+```
 
 
 
+|expr   |       min|        lq|      mean|    median|        uq|       max| neval|
+|:------|---------:|---------:|---------:|---------:|---------:|---------:|-----:|
+|hdf5r  | 131.19643| 136.30726| 146.66941| 140.74334| 148.52787| 230.44423|   100|
+|h5     |  28.25468|  29.69624|  32.64758|  30.43191|  31.76438| 194.04115|   100|
+|hdfqlr |  27.30082|  29.92055|  33.13280|  31.09723|  36.34348|  47.63986|   100|
+
+For writing data to HDF files, `hdfqlr` performs similarly to `h5`, and
+approximately four times faster than `hdf5r`.
+
+## Reading HDF datasets
 
 
+```r
+tf = tempfile(fileext = ".h5")
+hql_create_file(tf)
+hql_use_file(tf)
+sets = paste0("vector", 1:6)
+for (i in sets) {
+	hql_write_dataset(runif(10000), i)
+}
+hql_close_file(tf)
+
+read_hdfqlr = function(file, sets) {
+	hql_use_file(file)
+	result = lapply(sets, hql_read_dataset)
+	hql_close_file(file)
+	result
+}
+
+read_hdf5r = function(file, sets) {
+	h5file = hdf5r::H5File$new(file, "r")
+	result = lapply(sets, function(i) h5file[[i]][])
+	h5file$close_all()
+	result
+}
+
+read_h5 = function(file, sets) {
+	h5file = h5::h5file(file, "r")
+	result = lapply(sets, function(i) h5file[i][])
+	h5::h5close(h5file)
+	result
+}
+
+knitr::kable(summary(microbenchmark(
+	"hdf5r" = read_hdf5r(tf, sets),
+	"h5" = read_h5(tf, sets),
+	"hdfqlr" = read_hdfqlr(tf, sets),
+	times = 100L,
+	unit = 'ms'
+)))
+```
+
+
+
+|expr   |      min|         lq|       mean|    median|        uq|       max| neval|
+|:------|--------:|----------:|----------:|---------:|---------:|---------:|-----:|
+|hdf5r  | 93.63454| 101.781119| 120.857265| 110.25249| 130.56736| 218.93364|   100|
+|h5     |  7.40047|   8.162467|   9.739788|   8.66241|  10.03311|  24.68523|   100|
+|hdfqlr | 14.93536|  16.313181|  19.171321|  17.23228|  19.09382|  62.39047|   100|
+
+For reading data to HDF files, `hdfqlr` is moderately slower than
+`h5` (taking approximately four times longer than h5) but is more
+than six times faster than `hdf5r`.
+
+performs 4x
+slower
+similarly to `h5`, and
+approximately four times faster than `hdf5r`.

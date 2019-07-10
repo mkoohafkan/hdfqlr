@@ -32,8 +32,6 @@ example code from `hdfql-2.1.0/example/HDFqlExample.R`
 is included below:
 
 
-
-
 ```r
 print(paste("HDFql version:", HDFQL_VERSION))
 ```
@@ -48,7 +46,7 @@ hdfql_execute("CREATE FILE example.h5")
 ```
 
 ```
-## [1] 0
+## [1] -9
 ```
 
 ```r
@@ -91,7 +89,7 @@ hdfql_execute("CREATE ATTRIBUTE example_attribute AS FLOAT VALUES(12.4)")
 ```
 
 ```
-## [1] 0
+## [1] -9
 ```
 
 ```r
@@ -126,7 +124,7 @@ hdfql_execute("CREATE DATASET example_dataset AS INT(3, 2)")
 ```
 
 ```
-## [1] 0
+## [1] -9
 ```
 
 ```r
@@ -292,4 +290,14 @@ print(paste("Dataset size (in bytes):", hdfql_cursor_get_bigint()))
 ```
 ## [1] "Dataset size (in bytes): 24"
 ```
+
+```r
+# close the file
+hdfql_execute("CLOSE FILE example.h5")
+```
+
+```
+## [1] 0
+```
+
 

@@ -29,10 +29,6 @@ The HDFql wrapper functions can now be accessed directly. The
 example code from `hdfql-2.1.0/example/HDFqlExample.R`
 is included below:
 
-```{r include = FALSE}
-setwd(tempdir())
-```
-
 ```{r}
 print(paste("HDFql version:", HDFQL_VERSION))
 
@@ -120,5 +116,11 @@ hdfql_execute("SHOW SIZE example_dataset")
 # display content of cursor "my_cursor"
 hdfql_cursor_first()
 print(paste("Dataset size (in bytes):", hdfql_cursor_get_bigint()))
+
+# close the file
+hdfql_execute("CLOSE FILE example.h5")
 ```
 
+```{r include = FALSE}
+unlink("example.h5")
+```
