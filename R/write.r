@@ -60,12 +60,9 @@ hql_write_dataset = function(dataset, path,
 	# write dataset
 	write("DATASET", dataset, path, overwrite, parallel)
 	# write attributes
-	if (include.attributes) {
-		attr.names = setdiff(names(attributes(dataset)), "dim")
-		for (n in attr.names) {
-			write("ATTRIBUTE", attr(dataset, n), file.path(path, n),
-			  parallel = parallel)
-		}
+  if (include.attributes) {
+    hql_write_all_attributes(attributes(dataset), path,
+      parallel = parallel)
 	} else {
 		invisible(NULL)
 	}
@@ -94,10 +91,21 @@ hql_write_attribute = function(attribute, path,
 #' @export
 hql_write_all_attributes = function(attributes,
   path, overwrite = FALSE, parallel = FALSE) {
+  stop_not_loaded()
 	if (missing(path)) {
 		path = ""
-	}
-	stop_not_loaded()
+  }
+  attr.classes = lapply(attributes, typeof)
+  attr.dtypes = lapply(attr.classes, rtype_to_dtype,
+    stop.on.error = FALSE)
+  attr.unwriteable = unlist(lapply(attr.dtypes, is.null),
+    use.names = FALSE)
+  if (any(attr.unwriteable)) {
+    warning('The following attributes could not be written: ',
+      paste(sprintf('"%s"', names(attributes)[attr.unwriteable]),
+        collapse = ", "))
+    attributes = attributes[!attr.unwriteable]
+  }
 	for (i in seq_along(attributes)) {
 		write("ATTRIBUTE", attributes[[i]],
 		  file.path(path, names(attributes)[i]),
