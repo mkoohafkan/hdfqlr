@@ -21,3 +21,4 @@ before_install:
  - unzip HDFql-2.1.0_Linux64_GCC-4.9.zip
  - export HDFQL_DIR=~/hdfql-2.1.0
  - echo $HDFQL_DIR
+ - cd ~- 
