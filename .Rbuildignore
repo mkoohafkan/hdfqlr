@@ -16,8 +16,8 @@ test
 _not_implemented
 ^_build_vignette.r$
 ^vignettes/_quickstart.rmd$
-^vignettes/quickstart.md$
 ^vignettes/_benchmark.rmd$
+^vignettes/_lowlevel.rmd$
 
 
 # for travis

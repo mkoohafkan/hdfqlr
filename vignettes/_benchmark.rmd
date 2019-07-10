@@ -1,7 +1,7 @@
 ---
 title: "Benchmarking hdfqlr"
 author: "Michael Koohafkan"
-date: "2019-04-15"
+date: `r Sys.Date()`
 output: 
   rmarkdown::html_vignette:
     standalone: true
