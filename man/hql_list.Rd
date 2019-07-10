@@ -9,7 +9,7 @@
 \usage{
 hql_list_groups(path, recursive = FALSE)
 
-hql_list_datasets(path, recursive = TRUE)
+hql_list_datasets(path, recursive = FALSE)
 
 hql_list_attributes(path)
 }

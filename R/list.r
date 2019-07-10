@@ -78,7 +78,7 @@ hql_list_groups = function(path, recursive = FALSE) {
 #' @inheritParams hql_list_groups
 #'
 #' @export
-hql_list_datasets = function(path, recursive = TRUE) {
+hql_list_datasets = function(path, recursive = FALSE) {
 	if (missing(path)) {
 		path = ""
 	}
@@ -93,7 +93,7 @@ hql_list_datasets = function(path, recursive = TRUE) {
 		}
 		gsub("//", "/", file.path(path, list_hdf("DATASET", path)))
 	} else {
-		groups = hql_list_groups(path, TRUE)
+		groups = c("", hql_list_groups(path, TRUE))
 		gsub("//", "/", unlist(lapply(groups, function(x)
 			file.path(x, list_hdf(x, what = "DATASET")))))
 		}
