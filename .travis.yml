@@ -16,10 +16,8 @@ r_binary_packages:
 
 before_install:
  - cd ~
- - wget http://www.hdfql.com/releases/2.0.1/HDFql-2.0.1_Linux64_GCC-4.9.zip
+ - wget http://www.hdfql.com/releases/2.1.0/HDFql-2.1.0_Linux64_GCC-4.9.zip
  - echo $PWD
- - unzip HDFql-2.0.1_Linux64_GCC-4.9.zip
- - export HDFQL_DIR=~/hdfql-2.0.1
+ - unzip HDFql-2.1.0_Linux64_GCC-4.9.zip
+ - export HDFQL_DIR=~/hdfql-2.1.0
  - echo $HDFQL_DIR
- - cd ~- 
- - cp -f HDFql-mod.R $HDFQL_DIR/wrapper/R/HDFql.R 
