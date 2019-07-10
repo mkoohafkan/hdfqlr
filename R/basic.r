@@ -4,8 +4,8 @@
 #'
 #' @param script The HDFQL operation to execute. 
 #'   Do not include `FROM` or `INTO` statements.
-#' @param variable if not `NULL`, read the output into this variable.
-#' @param direction Either `"FROM"` or `"INTO"`. Ignored if variable
+#' @param variable if not `NULL`, the variable to register for this operation.
+#' @param direction Either `"FROM"` or `"INTO"`. Ignored if `variable`
 #'   is `NULL`.
 #' @param suffix Additional script specifications. This can be used for
 #'   post-processing (for SELECT operations) or for writing raw values
@@ -165,7 +165,7 @@ dtype_to_rtype = function(dtype) {
 #' @return The equivalent HDF data type, or `NULL` if not found.
 #'
 #' @keywords internal
-rtype_to_dtype = function(rtype) {
+rtype_to_dtype = function(rtype, stop.on.error = TRUE) {
 	dtype = get_key(rtype, hql_Rtypes(), TRUE)
 	# drop "var" types
 	dtype = dtype[!grepl("VAR.+$", dtype)]
@@ -173,8 +173,12 @@ rtype_to_dtype = function(rtype) {
 	dtype = dtype[!grepl("TINY|SMALL|UNSIGNED", dtype)]
 	# drop float
 	dtype = dtype[!grepl("FLOAT", dtype)]
-	if (is.null(dtype) || length(dtype) == 0L) {
-		stop("No corresponding HDF data type for R class ", rtype)
+  if (is.null(dtype) || length(dtype) == 0L) {
+    if (stop.on.error) {
+      stop("No corresponding HDF data type for R class ", rtype)
+    } else {
+      dtype = NULL
+    }
 	}
   dtype
 }

@@ -4,7 +4,7 @@
 \alias{rtype_to_dtype}
 \title{R Type to HDF Data Type}
 \usage{
-rtype_to_dtype(rtype)
+rtype_to_dtype(rtype, stop.on.error = TRUE)
 }
 \arguments{
 \item{rtype}{The R class.}
