@@ -1,12 +1,12 @@
 #' Read HDF Dataset or Attribute
 #'
-#' Read a dataset or attribute from an HDF file.
-#'
+#' Read a dataset or attribute from an HDF file into memory.
 #'
 #' @examples
 #' if(hql_is_loaded()){
 #'   tf = tempfile(fileext = ".h5")
 #'   hql_create_file(tf)
+#'   hql_use_file(tf)
 #'   x = matrix(rnorm(100), nrow = 20)
 #'   hql_write_dataset(x, "dataset0")
 #'   hql_write_attribute("normal", "dataset0/dist")
@@ -26,6 +26,17 @@
 #' @name hql_read
 NULL
 
+#' Read HDF Object into Memory
+#'
+#' Generic helper for reading HDF objects into memory.
+#'
+#' @keywords internal
+hql_read = function(what = c("DATASET", "ATTRIBUTE"), path,
+  parallel = FALSE) {
+  what = match.arg(toupper(what), c("DATASET", "ATTRIBUTE"))
+  get_data(path, what, transpose = TRUE, parallel = parallel)
+}
+
 #' @describeIn hql_read Read a dataset from an HDF file.
 #'
 #' @param path The location of the dataset, attribute, or group within the HDF file.
@@ -37,12 +48,12 @@ NULL
 hql_read_dataset = function(path, include.attributes = TRUE,
   parallel = FALSE) {
   stop_not_loaded()
-  res = get_data(path, "DATASET", parallel = parallel)
+  res = hql_read("DATASET", path, parallel)
   if (include.attributes) {
     attr.names = get_attr_names(path)
     for (n in attr.names)
-      attr(res, n) = get_data(file.path(path, n),
-				"ATTRIBUTE", parallel = parallel)
+      attr(res, n) = hql_read("ATTRIBUTE", file.path(path, n),
+				parallel)
   }
   res
 }
@@ -55,7 +66,7 @@ hql_read_dataset = function(path, include.attributes = TRUE,
 #' @export
 hql_read_attribute = function(path, parallel = FALSE) {
 	stop_not_loaded()
-	get_data(path, "ATTRIBUTE", parallel = FALSE)
+	hql_read("ATTRIBUTE", path, parallel)
 }
 
 
@@ -73,8 +84,8 @@ hql_read_all_attributes = function(path, parallel = FALSE) {
   res = vector("list", length(attr.names))
   names(res) = attr.names
   for (n in attr.names)
-		res[[n]] = get_data(file.path(path, n), "ATTRIBUTE",
-		  parallel = parallel)
+    res[[n]] = hql_read("ATTRIBUTE", file.path(path, n),
+      parallel = parallel)
   res  
 }
 

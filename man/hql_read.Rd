@@ -8,6 +8,8 @@
 \alias{hql_read_compound_dataset}
 \title{Read HDF Dataset or Attribute}
 \usage{
+hql_read(what = c("DATASET", "ATTRIBUTE"), path, parallel = FALSE)
+
 hql_read_dataset(path, include.attributes = TRUE, parallel = FALSE)
 
 hql_read_attribute(path, parallel = FALSE)
@@ -19,9 +21,9 @@ hql_read_compound_dataset(path, parallel = FALSE)
 \arguments{
 \item{path}{The location of the dataset, attribute, or group within the HDF file.}
 
-\item{include.attributes}{If \code{TRUE}, include the dataset attributes.}
-
 \item{parallel}{Use parallel processing functionality.}
+
+\item{include.attributes}{If \code{TRUE}, include the dataset attributes.}
 }
 \value{
 A matrix.
@@ -33,7 +35,9 @@ A named list of attributes.
 A data frame.
 }
 \description{
-Read a dataset or attribute from an HDF file.
+Read a dataset or attribute from an HDF file into memory.
+
+Generic helper for reading HDF objects into memory.
 }
 \section{Functions}{
 \itemize{
@@ -50,6 +54,7 @@ Read a dataset or attribute from an HDF file.
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")
   hql_create_file(tf)
+  hql_use_file(tf)
   x = matrix(rnorm(100), nrow = 20)
   hql_write_dataset(x, "dataset0")
   hql_write_attribute("normal", "dataset0/dist")
@@ -67,3 +72,4 @@ hql_close_file(tf)
 }
 
 }
+\keyword{internal}
