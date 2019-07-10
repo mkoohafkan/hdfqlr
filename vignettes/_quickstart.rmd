@@ -75,7 +75,8 @@ dataset is then read back in and compared to the original R object.
 ```{r}
 values = matrix(rnorm(1000), nrow = 50)
 hql_write_dataset(values, "dataset0")
-identical(values, hql_read_dataset("dataset0"))
+all.equal(values, hql_read_dataset("dataset0"),
+  check.attributes = FALSE)
 ```
 
 Any attributes of the R object (other than `dim`) are also
@@ -95,7 +96,7 @@ hql_read_dataset("group1/dataset1", include.attributes = TRUE)
 The package does not currently support editing existing datasets
 or attributes; this is instead accomplished by reading the dataset
 or attribute to an R object, modifying it, and writing it back to
-the HDF file using the argument `overwrite = TRUE`. 
+the HDF file using the argument `overwrite = TRUE`.
 
 The package also provides options for listing the contents of an
 HDF file via the functions `hql_list_groups`, `hql_list_datasets`, and
