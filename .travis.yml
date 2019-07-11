@@ -5,6 +5,7 @@ r:
   - devel
 cache: packages
 
+
 # Be strict when checking our package
 warnings_are_errors: true
 
@@ -14,11 +15,18 @@ r_binary_packages:
  - knitr
  - rmarkdown
 
+env:
+  global:
+    - CAMPFIRE_TOKEN=abc123
+    - TIMEOUT=1000
+  matrix:
+    - HDFQL_VERSION=2.1.0
+
 before_install:
  - cd ~
- - wget http://www.hdfql.com/releases/2.1.0/HDFql-2.1.0_Linux64_GCC-4.9.zip
+ - wget http://www.hdfql.com/releases/2.1.0/HDFql-$HDFQL_VERSION_Linux64_GCC-4.9.zip
  - echo $PWD
- - unzip HDFql-2.1.0_Linux64_GCC-4.9.zip
- - export HDFQL_DIR=~/hdfql-2.1.0
+ - unzip HDFql-$HDFQL_VERSION_Linux64_GCC-4.9.zip
+ - export HDFQL_DIR=~/hdfql-$HDFQL_VERSION
  - echo $HDFQL_DIR
  - cd ~- 
