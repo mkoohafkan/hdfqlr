@@ -16,11 +16,8 @@ r_binary_packages:
  - rmarkdown
 
 env:
-  global:
-    - CAMPFIRE_TOKEN=abc123
-    - TIMEOUT=1000
   matrix:
-    - HDFQL_VERSION=2.1.0
+    - HDFQL_VERSION="2.1.0"
 
 before_install:
  - cd ~
