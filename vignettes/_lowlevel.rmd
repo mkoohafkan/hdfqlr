@@ -123,4 +123,5 @@ hdfql_execute("CLOSE FILE example.h5")
 
 ```{r include = FALSE}
 unlink("example.h5")
+detach(hql$constants)
 ```

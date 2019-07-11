@@ -23,6 +23,8 @@ were not tested.
 library(hdf5r)
 library(h5)
 library(microbenchmark)
+library(ggplot2)
+knitr::opts_chunk$set(fig.path ="./")
 ```
 
 ```{r eval = FALSE}
@@ -65,17 +67,24 @@ write_h5 = function() {
 	h5::h5close(f)
 }
 
-knitr::kable(summary(microbenchmark(
+write.benchmark = microbenchmark(
 		"hdf5r" = write_hdf5r(),
 		"h5" = write_h5(),
 		"hdfqlr" = write_hdfqlr(),
-	times = 100L,
+	times = 1000L,
 	unit = 'ms'
-)))
+)
 ```
 
-For writing data to HDF files, `hdfqlr` performs similarly to `h5`, and
-approximately four times faster than `hdf5r`.
+```{r echo = FALSE}
+knitr::kable(summary(write.benchmark))
+```
+
+```{r write-benchmark, echo = FALSE, , message = FALSE}
+autoplot(write.benchmark) 
+```
+
+
 
 ## Reading HDF datasets
 
@@ -110,20 +119,19 @@ read_h5 = function(file, sets) {
 	result
 }
 
-knitr::kable(summary(microbenchmark(
+read.benchmark = microbenchmark(
 	"hdf5r" = read_hdf5r(tf, sets),
 	"h5" = read_h5(tf, sets),
 	"hdfqlr" = read_hdfqlr(tf, sets),
-	times = 100L,
+	times = 1000L,
 	unit = 'ms'
-)))
+)
 ```
 
-For reading data to HDF files, `hdfqlr` is moderately slower than
-`h5` (taking approximately four times longer than h5) but is more
-than six times faster than `hdf5r`.
+```{r echo = FALSE}
+knitr::kable(summary(read.benchmark))
+```
 
-performs 4x
-slower
-similarly to `h5`, and
-approximately four times faster than `hdf5r`.
+```{r read-benchmark, echo = FALSE, message = FALSE}
+autoplot(read.benchmark) 
+```

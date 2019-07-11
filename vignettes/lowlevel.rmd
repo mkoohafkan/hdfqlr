@@ -1,7 +1,7 @@
 ---
 title: "Low-level API"
 author: "Michael Koohafkan"
-date: 2019-07-10
+date: 2019-07-11
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Low-level API}
@@ -46,7 +46,7 @@ hdfql_execute("CREATE FILE example.h5")
 ```
 
 ```
-## [1] -9
+## [1] 0
 ```
 
 ```r
@@ -89,7 +89,7 @@ hdfql_execute("CREATE ATTRIBUTE example_attribute AS FLOAT VALUES(12.4)")
 ```
 
 ```
-## [1] -9
+## [1] 0
 ```
 
 ```r
@@ -124,7 +124,7 @@ hdfql_execute("CREATE DATASET example_dataset AS INT(3, 2)")
 ```
 
 ```
-## [1] -9
+## [1] 0
 ```
 
 ```r

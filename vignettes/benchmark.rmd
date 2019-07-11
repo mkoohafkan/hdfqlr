@@ -1,7 +1,7 @@
 ---
 title: "Benchmarking hdfqlr"
 author: "Michael Koohafkan"
-date: 2019-07-10
+date: 2019-07-11
 output: 
   rmarkdown::html_vignette:
     standalone: true
@@ -63,25 +63,25 @@ write_h5 = function() {
 	h5::h5close(f)
 }
 
-knitr::kable(summary(microbenchmark(
+write.benchmark = microbenchmark(
 		"hdf5r" = write_hdf5r(),
 		"h5" = write_h5(),
 		"hdfqlr" = write_hdfqlr(),
-	times = 100L,
+	times = 1000L,
 	unit = 'ms'
-)))
+)
 ```
 
 
+|expr   |       min|        lq|      mean|    median|        uq|      max| neval|
+|:------|---------:|---------:|---------:|---------:|---------:|--------:|-----:|
+|hdf5r  | 137.01529| 142.83631| 149.75298| 146.79678| 151.55699| 460.1412|  1000|
+|h5     |  27.72461|  29.08571|  30.89929|  29.85698|  31.29489| 156.5213|  1000|
+|hdfqlr |  26.27676|  27.78007|  29.81201|  28.59322|  30.40774| 139.9679|  1000|
 
-|expr   |       min|        lq|      mean|    median|        uq|       max| neval|
-|:------|---------:|---------:|---------:|---------:|---------:|---------:|-----:|
-|hdf5r  | 131.19643| 136.30726| 146.66941| 140.74334| 148.52787| 230.44423|   100|
-|h5     |  28.25468|  29.69624|  32.64758|  30.43191|  31.76438| 194.04115|   100|
-|hdfqlr |  27.30082|  29.92055|  33.13280|  31.09723|  36.34348|  47.63986|   100|
+![plot of chunk write-benchmark](./write-benchmark-1.png)
 
-For writing data to HDF files, `hdfqlr` performs similarly to `h5`, and
-approximately four times faster than `hdf5r`.
+
 
 ## Reading HDF datasets
 
@@ -117,28 +117,20 @@ read_h5 = function(file, sets) {
 	result
 }
 
-knitr::kable(summary(microbenchmark(
+read.benchmark = microbenchmark(
 	"hdf5r" = read_hdf5r(tf, sets),
 	"h5" = read_h5(tf, sets),
 	"hdfqlr" = read_hdfqlr(tf, sets),
-	times = 100L,
+	times = 1000L,
 	unit = 'ms'
-)))
+)
 ```
 
 
+|expr   |        min|        lq|       mean|     median|         uq|       max| neval|
+|:------|----------:|---------:|----------:|----------:|----------:|---------:|-----:|
+|hdf5r  | 106.138066| 109.44580| 112.821884| 111.200560| 114.180845| 197.76754|  1000|
+|h5     |   7.334914|   7.91498|   8.332634|   8.117439|   8.350525|  29.06353|  1000|
+|hdfqlr |  13.928192|  14.95506|  15.652447|  15.264958|  15.749835|  55.47240|  1000|
 
-|expr   |      min|         lq|       mean|    median|        uq|       max| neval|
-|:------|--------:|----------:|----------:|---------:|---------:|---------:|-----:|
-|hdf5r  | 93.63454| 101.781119| 120.857265| 110.25249| 130.56736| 218.93364|   100|
-|h5     |  7.40047|   8.162467|   9.739788|   8.66241|  10.03311|  24.68523|   100|
-|hdfqlr | 14.93536|  16.313181|  19.171321|  17.23228|  19.09382|  62.39047|   100|
-
-For reading data to HDF files, `hdfqlr` is moderately slower than
-`h5` (taking approximately four times longer than h5) but is more
-than six times faster than `hdf5r`.
-
-performs 4x
-slower
-similarly to `h5`, and
-approximately four times faster than `hdf5r`.
+![plot of chunk read-benchmark](./read-benchmark-1.png)
