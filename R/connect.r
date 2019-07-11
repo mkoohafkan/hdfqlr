@@ -137,7 +137,7 @@ hql_load = function(path) {
   # prepare wrapper code
   constants.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
-  writeLines(wrapper.lines[-grep("dyn.load", wrapper.lines)],
+  writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
     constants.file)
   # load DLLs
   lapply(dllpath, dyn.load)
