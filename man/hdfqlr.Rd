@@ -9,6 +9,18 @@
 This package provides an R interface to HDF files using the
 \href{http://www.hdfql.com}{HDFql}.
 }
+\section{Package options}{
+
+
+hdfqlr uses the following \code{\link[=options]{options()}} to configure behavior:
+
+\itemize{
+\item \code{hdfqlr.dir}: The HDFql install directory.
+}
+Alternatively, the HDFql install directory can be saved to an
+environment variable \code{HDFQL_DIR}.
+}
+
 \author{
 \strong{Maintainer}: Michael Koohafkan \email{michael.koohafkan@gmail.com}
 

@@ -39,7 +39,7 @@ hql = new.env()
 #'   detected as part of package startup.
 #'
 #' @details The function first looks for the R option `hdfqlr.dir`, 
-#'  and second looks for the environment variable `HDFQL-DiR`.
+#'  and second looks for the environment variable `HDFQL_DIR`.
 #'
 #' @keywords internal
 path_from_options = function(startup = FALSE) {

@@ -17,6 +17,6 @@ needing to specify the installation path.
 }
 \details{
 The function first looks for the R option \code{hdfqlr.dir},
-and second looks for the environment variable \code{HDFQL-DiR}.
+and second looks for the environment variable \code{HDFQL_DIR}.
 }
 \keyword{internal}
