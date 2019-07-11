@@ -23,3 +23,4 @@ _not_implemented
 # for travis
 ^HDFQLINSTALLDIR$
 ^HDFql-mod.R$
+^CRAN-RELEASE$
