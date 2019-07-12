@@ -71,3 +71,4 @@ hql_close_file(tf)
 }
 
 }
+\keyword{internal}

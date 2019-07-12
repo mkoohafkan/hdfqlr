@@ -1,7 +1,7 @@
 ---
 title: "Quick Start"
 author: "Michael Koohafkan"
-date: 2019-07-11
+date: 2019-07-12
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Quick Start}
@@ -40,18 +40,18 @@ Functions exported by the package are prefixed with `hql_` to
 make it easy to differentiate them from the functions provided 
 by the wrapper, which are prefixed with `HDFQL_` (for constants)
 or `hdfql_` (for functions). The contents of the HDFql wrapper
-are imported into the environment `hql$constants`. If you need
+are imported into the environment `hql$wrapper`. If you need
 to directly use the HDFql wrapper functions in an interactive 
 session, you can access them using `with` or `attach` the 
 environment to the search path. Any existing scripts written for
 use with the HDFql wrapper can therefore be run by attaching the
-`HDFql$constants` environment prior to running the script, or
-by using `with(HDFql$constants, ...)`.
+`HDFql$wrapper` environment prior to running the script, or
+by using `with(HDFql$wrapper, ...)`.
 
 
 ```r
 # using with
-with(hql$constants,
+with(hql$wrapper,
 	HDFQL_VERSION
 )
 ```
@@ -62,7 +62,7 @@ with(hql$constants,
 
 ```r
 # or attach the environment
-attach(hql$constants)
+attach(hql$wrapper)
 HDFQL_VERSION
 ```
 
@@ -71,7 +71,7 @@ HDFQL_VERSION
 ```
 
 ```r
-detach(hql$constants)
+detach(hql$wrapper)
 ```
 
 The `hdfqlr` package is designed for simple read and write use

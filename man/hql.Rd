@@ -24,7 +24,7 @@ by the wrapper, consult the
 }
 \examples{
 \dontrun{
-  attach(hql$constants)
+  attach(hql$wrapper)
 }
 
 }
