@@ -118,7 +118,7 @@ hql_write_all_attributes = function(attributes,
 #'   The object must be coercible to a data.frame, and each column
 #'   of the dataframe must be coercible to an array.
 #' @inheritParams hql_write_dataset
-#' @internal
+#' @keywords internal
 hql_write_compound_dataset = function(compound.dataset, path,
 	overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()

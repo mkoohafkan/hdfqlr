@@ -20,19 +20,19 @@ execute_with_memory = function(script, variable = NULL,
 	stop.on.error = TRUE) {
 	if (!is.null(variable)) {
 		direction = match.arg(toupper(direction), c("INTO", "FROM"))
-		if (hql$constants$hdfql_variable_register(variable) < 0L)
+		if (hql$wrapper$hdfql_variable_register(variable) < 0L)
 			stop("error registering variable")
-		on.exit(hql$constants$hdfql_variable_unregister(variable))
+		on.exit(hql$wrapper$hdfql_variable_unregister(variable))
 		script = paste(script, sprintf("%s MEMORY %d", direction,
-			hql$constants$hdfql_variable_get_number(variable)))
+			hql$wrapper$hdfql_variable_get_number(variable)))
 	}
 	if (!is.null(suffix)) {
 		script = paste(script, suffix)
 	}
-	hdfql.result = hql$constants$hdfql_execute(script)
-	if (hdfql.result != hql$constants$HDFQL_SUCCESS) {
+	hdfql.result = hql$wrapper$hdfql_execute(script)
+	if (hdfql.result != hql$wrapper$HDFQL_SUCCESS) {
 		if (stop.on.error) {
-			stop(hql$constants$hdfql_error_get_message())
+			stop(hql$wrapper$hdfql_error_get_message())
 		} else {
 			return(hdfql.result)
 		}
@@ -54,14 +54,14 @@ execute_with_memory = function(script, variable = NULL,
 #' @keywords internal
 get_cursor_values = function(script) {
 	execute_with_memory(script)
-	n = hql$constants$hdfql_cursor_get_count()
-	dtype = get_key(hql$constants$hdfql_cursor_get_data_type(),
+	n = hql$wrapper$hdfql_cursor_get_count()
+	dtype = get_key(hql$wrapper$hdfql_cursor_get_data_type(),
 		hql_data_types(), TRUE)
 	rtype = dtype_to_rtype(dtype)
 	container = vector(rtype, n)
   cursor = get_key(dtype, hql_data_cursors())
   for (i in seq_along(container)) {
-    hql$constants$hdfql_cursor_next()
+    hql$wrapper$hdfql_cursor_next()
     container[i] = cursor()
   }
   container
@@ -121,8 +121,8 @@ get_charset = function(path, otype) {
 		otype = gsub("^HDFQL_", "", get_object_type(path))
   script = sprintf('SHOW %s CHARSET "%s"', otype, path)
 	out = execute_with_memory(script, integer(1), "INTO")
-  if (hql$constants$hdfql_execute(script) < 0L)
-    stop(hql$constants$hdfql_error_get_message())
+  if (hql$wrapper$hdfql_execute(script) < 0L)
+    stop(hql$wrapper$hdfql_error_get_message())
   get_key(out, hql_charsets(), TRUE)
 }
 

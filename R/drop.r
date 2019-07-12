@@ -27,7 +27,7 @@ drop = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 	if (!is.null(res)) {
 		error.type = get_key(res, hql_error_types(), TRUE)
 		if (error.type != "HDFQL_ERROR_NOT_FOUND") {
-			stop(hql$constants$hdfql_error_get_message())
+			stop(hql$wrapper$hdfql_error_get_message())
 		}
 	}
 	invisible(NULL)

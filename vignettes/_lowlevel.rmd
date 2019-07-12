@@ -18,11 +18,11 @@ library(hdfqlr)
 hql_load('path/to/hdfql-x.x.x')
 ```
 
-To access the low-level API, simply `attach` the `hql$constants` 
+To access the low-level API, simply `attach` the `hql$wrapper` 
 environment to your workspace.
 
 ```{r}
-attach(hql$constants)
+attach(hql$wrapper)
 ```
 
 The HDFql wrapper functions can now be accessed directly. The 
@@ -123,5 +123,5 @@ hdfql_execute("CLOSE FILE example.h5")
 
 ```{r include = FALSE}
 unlink("example.h5")
-detach(hql$constants)
+detach(hql$wrapper)
 ```

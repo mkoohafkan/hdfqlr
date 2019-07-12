@@ -22,7 +22,7 @@ hql.paths = new.env()
 #'
 #' @examples
 #'\dontrun{
-#'   attach(hql$constants)
+#'   attach(hql$wrapper)
 #' }
 #'
 #' @export
@@ -125,7 +125,7 @@ hql_load = function(path) {
   } else {
     if (is.null(hql.paths$install)) {
       if (!path_from_options()) {
-        stop('Argument "path" not specified', call. = FALSE)
+        stop('Argument "path" not specified.', call. = FALSE)
       }
     }
   }
@@ -135,15 +135,15 @@ hql_load = function(path) {
   wrapperpath = normalizePath(file.path(hql.paths$install,
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
-  constants.file = tempfile(fileext = ".r")
+  wrapper.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
   writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
-    constants.file)
+    wrapper.file)
   # load DLLs
   lapply(dllpath, dyn.load)
-  constants = new.env(parent = .BaseNamespaceEnv)
-  source(constants.file, local = constants)
-  assign("constants", constants, envir = hql)
+  wrapper = new.env(parent = .BaseNamespaceEnv)
+  source(wrapper.file, local = wrapper)
+  assign("wrapper", wrapper, envir = hql)
   invisible(NULL)
 }
 
@@ -159,7 +159,7 @@ hql_unload = function() {
 		if (hql_is_loaded()) {
 			stop("HDFql DLLs could not be unloaded.")
 		}
-		rm(list = "constants", envir = hql)
+		rm(list = "wrapper", envir = hql)
 	}
   invisible(NULL)
 }
