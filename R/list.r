@@ -106,10 +106,14 @@ hql_list_datasets = function(path, recursive = FALSE) {
 #' @export
 hql_list_attributes = function(path) {
 	if (missing(path)) {
-		path = ""
-	}
-	otype = gsub("^HDFQL_", "", get_object_type(path))
-	if (otype == "ATTRIBUTE") {
+    path = ""
+  } 
+  if (path == "") {
+    otype = "GROUP"
+  } else {
+    otype = gsub("^HDFQL_", "", get_object_type(path))
+  }
+  if (!(otype %in% c("GROUP", "DATASET"))) {
 		stop(path, " is a ", otype, ', not a GROUP or DATASET')
 	}
 	list_hdf("ATTRIBUTE", path)
