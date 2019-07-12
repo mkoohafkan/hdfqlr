@@ -206,6 +206,9 @@ get_data = function(path, otype, transpose = TRUE, parallel = FALSE) {
 	}
   rtype = dtype_to_rtype(dtype)
   dims = get_dimension(path, otype)
+  if (length(dims) == 0L) {
+    dims = 1
+  }
   script = sprintf('SELECT FROM %s %s "%s"', pre, otype, path)
   out = execute_with_memory(script, array(vector(rtype, prod(dims)),
 		dim = rev(dims)), "INTO")
