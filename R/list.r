@@ -65,7 +65,7 @@ hql_list_groups = function(path, recursive = FALSE) {
 	if (!recursive) {
 		out = gsub("^/", "", gsub("//", "/", file.path(path, list_hdf("GROUP", path))))
 	} else {
-		groups = gsub(path, "", unlist(recurse_groups(path)))
+		groups = gsub(paste0("^", path), "", unlist(recurse_groups(path)))
 		base.groups = unlist(lapply(groups, rev_recurse_groups))
 	  all.groups = sort(unique(base.groups, groups))
 		out = gsub("//", "/", file.path(path, all.groups))
