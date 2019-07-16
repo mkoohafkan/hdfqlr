@@ -63,13 +63,14 @@ hql_list_groups = function(path, recursive = FALSE) {
 		stop(path, " is a ", otype, ', not a GROUP')
 	}
 	if (!recursive) {
-		gsub("//", "/", file.path(path, list_hdf("GROUP", path)))
+		out = gsub("^/", "", gsub("//", "/", file.path(path, list_hdf("GROUP", path))))
 	} else {
 		groups = gsub(path, "", unlist(recurse_groups(path)))
 		base.groups = unlist(lapply(groups, rev_recurse_groups))
 	  all.groups = sort(unique(base.groups, groups))
-		gsub("//", "/", file.path(path, all.groups))
-	}
+		out = gsub("//", "/", file.path(path, all.groups))
+  }
+  gsub("^/", "", out)
 }
 
 
@@ -91,12 +92,13 @@ hql_list_datasets = function(path, recursive = FALSE) {
 		if (otype != "GROUP") {
 			stop(path, " is a ", otype, ', not a GROUP')
 		}
-		gsub("//", "/", file.path(path, list_hdf("DATASET", path)))
+		out = gsub("//", "/", file.path(path, list_hdf("DATASET", path)))
 	} else {
 		groups = c("", hql_list_groups(path, TRUE))
-		gsub("//", "/", unlist(lapply(groups, function(x)
+		out = gsub("//", "/", unlist(lapply(groups, function(x)
 			file.path(x, list_hdf(x, what = "DATASET")))))
-		}
+    }
+    gsub("^/", "", out)
 }
 
 #' @describeIn hql_list List Attributes
