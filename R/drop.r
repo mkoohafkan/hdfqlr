@@ -21,16 +21,16 @@ NULL
 #'
 #' @keywords internal
 drop = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
-	path) {
-	script = sprintf('DROP %s "%s"', what, path)
-	res = execute_with_memory(script, stop.on.error = FALSE)
-	if (!is.null(res)) {
-		error.type = get_key(res, hql_error_types(), TRUE)
-		if (error.type != "HDFQL_ERROR_NOT_FOUND") {
-			stop(hql$wrapper$hdfql_error_get_message())
-		}
-	}
-	invisible(NULL)
+  path) {
+  script = sprintf('DROP %s "%s"', what, path)
+  res = execute_with_memory(script, stop.on.error = FALSE)
+  if (!is.null(res)) {
+    error.type = get_key(res, hql_error_types(), TRUE)
+    if (error.type != "HDFQL_ERROR_NOT_FOUND") {
+      stop(hql$wrapper$hdfql_error_get_message())
+    }
+  }
+  invisible(NULL)
 }
 
 #' @describeIn drop Drop HDF dataset.
@@ -40,7 +40,7 @@ drop = function(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
 #' @export
 hql_drop_dataset = function(dataset) {
   stop_not_loaded()
-	drop("DATASET", dataset)
+  drop("DATASET", dataset)
 }
 
 #' @describeIn drop Drop HDF group.
@@ -60,7 +60,7 @@ hql_drop_group = function(group, recursive = FALSE) {
       'argument "recursive" is FALSE.')
     }
   }
-	drop("GROUP", group)
+  drop("GROUP", group)
 }
 
 #' @describeIn drop Drop HDF attribute.
@@ -71,5 +71,20 @@ hql_drop_group = function(group, recursive = FALSE) {
 #' @export
 hql_drop_attribute = function(attribute) {
   stop_not_loaded()
-	drop("ATTRIBUTE", attribute)
+  drop("ATTRIBUTE", attribute)
+}
+
+
+#' @describeIn drop Drop all attributes from an HDF dataset or group.
+#'
+#' @param path The HDF dataset or group.
+#' @inheritParams hql_drop_dataset
+#'
+#' @export
+hql_drop_all_attributes = function(path) {
+  stop_not_loaded()
+  attr.names = hql_list_attributes(path)
+  for (n in attr.names) {
+    drop("ATTRIBUTE", n)
+  }
 }

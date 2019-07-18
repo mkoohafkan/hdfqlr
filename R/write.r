@@ -11,11 +11,11 @@
 #'   hql_write_dataset(x, "dataset0")
 #'   hql_write_attribute("normal", "dataset0/dist")
 #'
-#'  y = month.name
-#'  attr(y, "abbreviation") = month.abb
-#'  hql_write_dataset(y, "group1/dataset1")
+#'   y = month.name
+#'   attr(y, "abbreviation") = month.abb
+#'   hql_write_dataset(y, "group1/dataset1")
 #'
-#' hql_close_file(tf)
+#'   hql_close_file(tf)
 #' }
 #'
 #' @name hql_write
@@ -113,12 +113,12 @@ hql_write_all_attributes = function(attributes,
 	}
 }
 
-#' @describeIn hql_write Write a compound dataset to an HDF file.
-#' @param compound.dataset The compound dataset to write. The 
-#'   The object must be coercible to a data.frame, and each column
-#'   of the dataframe must be coercible to an array.
-#' @inheritParams hql_write_dataset
-#' @keywords internal
+# @describeIn hql_write Write a compound dataset to an HDF file.
+# @param compound.dataset The compound dataset to write. The 
+#   The object must be coercible to a data.frame, and each column
+#   of the dataframe must be coercible to an array.
+# @inheritParams hql_write_dataset
+# @keywords internal
 hql_write_compound_dataset = function(compound.dataset, path,
 	overwrite = FALSE, parallel = FALSE) {
 	stop_not_loaded()

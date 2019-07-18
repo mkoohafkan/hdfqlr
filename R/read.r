@@ -89,12 +89,12 @@ hql_read_all_attributes = function(path, parallel = FALSE) {
   res  
 }
 
-#' @describeIn hql_read Read compound dataset from an HDF file.
-#'
-#' @inheritParams hql_read_dataset
-#' @return A data frame.
-#'
-#' @export
+# @describeIn hql_read Read compound dataset from an HDF file.
+#
+# @inheritParams hql_read_dataset
+# @return A data frame.
+#
+# @keywords internal
 hql_read_compound_dataset = function(path, parallel = FALSE) {
 	stop("not implemented")
 	stop_not_loaded()

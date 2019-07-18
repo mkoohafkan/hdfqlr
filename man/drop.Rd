@@ -5,6 +5,7 @@
 \alias{hql_drop_dataset}
 \alias{hql_drop_group}
 \alias{hql_drop_attribute}
+\alias{hql_drop_all_attributes}
 \title{Drop HDF objects.}
 \usage{
 drop(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path)
@@ -14,8 +15,12 @@ hql_drop_dataset(dataset)
 hql_drop_group(group, recursive = FALSE)
 
 hql_drop_attribute(attribute)
+
+hql_drop_all_attributes(path)
 }
 \arguments{
+\item{path}{The HDF dataset or group.}
+
 \item{dataset}{The dataset to drop.}
 
 \item{group}{The group to drop.}
@@ -34,6 +39,8 @@ Drop HDF objects.
 \item \code{hql_drop_group}: Drop HDF group.
 
 \item \code{hql_drop_attribute}: Drop HDF attribute.
+
+\item \code{hql_drop_all_attributes}: Drop all attributes from an HDF dataset or group.
 }}
 
 \keyword{internal}
