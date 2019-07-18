@@ -49,7 +49,7 @@ path_from_options = function(startup = FALSE) {
   } else {
     msgfun = message
   }
-  if (!is.null(options("hdfqlr.dir")) && nzchar(options("hdfqlr.dir"))) {
+  if (!is.null(options()[["hdfqlr.dir"]]) && nzchar(options()[["hdfqlr.dir"]])) {
     path = options("hdfqlr.dir")[[1]]
     msgfun('Using existing HDFql directory ',
       'from option "hdfqlr.dir".')
