@@ -1,7 +1,7 @@
 ---
 title: "Quick Start"
 author: "Michael Koohafkan"
-date: 2019-07-12
+date: 2019-07-18
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Quick Start}
@@ -45,8 +45,8 @@ to directly use the HDFql wrapper functions in an interactive
 session, you can access them using `with` or `attach` the 
 environment to the search path. Any existing scripts written for
 use with the HDFql wrapper can therefore be run by attaching the
-`HDFql$wrapper` environment prior to running the script, or
-by using `with(HDFql$wrapper, ...)`.
+`hql$wrapper` environment prior to running the script, or
+by using `with(hql$wrapper, ...)`.
 
 
 ```r
@@ -74,9 +74,9 @@ HDFQL_VERSION
 detach(hql$wrapper)
 ```
 
-The `hdfqlr` package is designed for simple read and write use
-cases, i.e. reading and writing HDF datasets and attributes. In order
-to access HDF files, they must be opened or "used":
+The `hdfqlr` package is primarily designed for simple read and write use
+cases, i.e. inspecting, reading and writing HDF datasets and attributes. 
+In order to access HDF files, they must be opened or "used":
 
 
 ```r
@@ -85,15 +85,20 @@ hql_create_file(file)
 hql_use_file(file)
 ```
  
-Creation of files, groups, and datasets is done "behind the scenes" 
-in the process of writing objects to the HDF file. The following
-example creates a new HDF file and writes a matrix to the file. The
+Creation of datasets and attributes is accomplished with the
+`hql_write_*` family of functions. Groups and sub-groups are created
+on the fly when writing datasets or attributes, but can also be 
+explicitly created using `hql_create_group()`.
+The following example writes a matrix to the file. The
 dataset is then read back in and compared to the original R object.
+The function `hql_flush` is used to ensure that any buffered data
+is written to the HDF file prior to reading the data back into R.
 
 
 ```r
 values = matrix(rnorm(1000), nrow = 50)
 hql_write_dataset(values, "dataset0")
+hql_flush()
 all.equal(values, hql_read_dataset("dataset0"),
   check.attributes = FALSE)
 ```
@@ -114,6 +119,7 @@ used for all elements of the dataset.
 char.values = month.name
 attr(char.values, "abb") = month.abb
 hql_write_dataset(char.values, "group1/dataset1")
+hql_flush()
 hql_read_dataset("group1/dataset1", include.attributes = TRUE)
 ```
 
@@ -142,7 +148,7 @@ hql_list_groups()
 ```
 
 ```
-## [1] "/group1"
+## [1] "group1"
 ```
 
 ```r
@@ -150,7 +156,7 @@ hql_list_datasets()
 ```
 
 ```
-## [1] "/dataset0"
+## [1] "dataset0"
 ```
 
 ```r
@@ -158,7 +164,7 @@ hql_list_datasets(recursive = TRUE)
 ```
 
 ```
-## [1] "/dataset0"        "/group1/dataset1"
+## [1] "dataset0"        "group1/dataset1"
 ```
 
 ```r
