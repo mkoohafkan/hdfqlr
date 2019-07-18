@@ -30,11 +30,12 @@ example code from `hdfql-2.1.0/example/HDFqlExample.R`
 is included below:
 
 ```{r}
+example.h5 = tempfile(fileext = ".h5")
 print(paste("HDFql version:", HDFQL_VERSION))
 
 # create an HDF5 file named "example.h5" and use (i.e. open) it
-hdfql_execute("CREATE FILE example.h5")
-hdfql_execute("USE FILE example.h5")
+hdfql_execute(paste("CREATE FILE", example.h5))
+hdfql_execute(paste("USE FILE", example.h5))
 
 # show (i.e. get) HDF5 file currently in use and populate HDFql default cursor with it
 hdfql_execute("SHOW USE FILE")
@@ -118,10 +119,10 @@ hdfql_cursor_first()
 print(paste("Dataset size (in bytes):", hdfql_cursor_get_bigint()))
 
 # close the file
-hdfql_execute("CLOSE FILE example.h5")
+hdfql_execute(paste("CLOSE FILE", example.h5))
 ```
 
 ```{r include = FALSE}
-unlink("example.h5")
+unlink(example.h5)
 detach(hql$wrapper)
 ```
