@@ -52,3 +52,23 @@ hql_close_file = function(file, all = FALSE) {
   execute_with_memory(script)
   invisible(TRUE)
 }
+
+#' Flush HDF Files
+#'
+#' Flush HDF file(s) to write buffered data to the disk.
+#'
+#' @param global If `TRUE`, a global flush is performed and
+#'   and all open HDF files are flushed. If `FALSE`, a local
+#'   flush is performed and only the HDF file currently in use
+#'   is flushed.
+#'
+#' @export
+hql_flush = function(global = TRUE) {
+  if (global) {
+    script = "FLUSH GLOBAL"
+  }
+  else {
+    script = "FLUSH LOCAL"
+  }
+  execute_with_memory(script)
+}
