@@ -10,7 +10,7 @@
 				hql.paths$install, '".', call. = FALSE))
   } else {
     packageStartupMessage('Connect to HDFql R drivers by calling ',
-      "\n\n\t", 'hdfql_load("path/to/HDFql-x.x.x")',
+      "\n\n\t", 'hql_load("path/to/HDFql-x.x.x")',
       "\n\n",
       "To download HDFql, visit http://www.hdfql.com"
     )
