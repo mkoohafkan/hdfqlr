@@ -5,6 +5,9 @@ r:
   - devel
 cache: packages
 
+r_packages:
+  - covr
+
 
 # Be strict when checking our package
 warnings_are_errors: true
@@ -23,3 +26,6 @@ before_install:
  - export HDFQL_DIR=~/hdfql-${HDFQL_VERSION}
  - echo $HDFQL_DIR
  - cd ~- 
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
