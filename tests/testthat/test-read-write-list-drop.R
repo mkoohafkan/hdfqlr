@@ -1,29 +1,27 @@
-if (hql_is_loaded()) {
-  testfile = tempfile(fileext = ".h5")
-  hql_create_file(testfile)
+testfile = tempfile(fileext = ".h5")
 
-  test.boolean = sample(c(TRUE, FALSE), 20, replace = TRUE)
-  test.boolean.path = "dataset0"
+test.boolean = sample(c(TRUE, FALSE), 20, replace = TRUE)
+test.boolean.path = "dataset0"
 
-  test.numeric = matrix(rnorm(100), nrow = 20)
-  test.numeric.path = "group1/dataset1"
-  test.numeric.att = "normal"
-  test.numeric.att.path = "group1/dataset1/dist"
+test.numeric = matrix(rnorm(100), nrow = 20)
+test.numeric.path = "group1/dataset1"
+test.numeric.att = "normal"
+test.numeric.att.path = "group1/dataset1/dist"
 
-  test.character = month.name
-  test.character.path = "group1/group1.1/dataset2"
-  test.character.att = list(
-    "abbreviation" = month.abb,
-    "number" = array(1:12)
-  )
+test.character = month.name
+test.character.path = "group1/group1.1/dataset2"
+test.character.att = list(
+  "abbreviation" = month.abb,
+  "number" = array(1:12)
+)
 
-  test.integer = array(rpois(100, 3), dim = c(5, 5, 4))
-  test.integer.path = "group1/group1.1/dataset3"
-  attr(test.integer, "zmeans") = as.array(apply(test.integer, 1:2, mean))
-}
+test.integer = array(rpois(100, 3), dim = c(5, 5, 4))
+test.integer.path = "group1/group1.1/dataset3"
+attr(test.integer, "zmeans") = as.array(apply(test.integer, 1:2, mean))
 
 test_that("writing works", {
   check_hdfql()
+  hql_create_file(testfile)
   hql_use_file(testfile)
 
   expect_null(hql_write_dataset(as.integer(test.boolean), test.boolean.path))

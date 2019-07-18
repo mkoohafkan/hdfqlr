@@ -1,6 +1,4 @@
-if (hql_is_loaded()) {
-  testfile = tempfile(fileext = ".h5")
-}
+testfile = tempfile(fileext = ".h5")
 
 test_that("file creation works", {
   check_hdfql()
