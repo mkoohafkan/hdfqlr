@@ -33,7 +33,7 @@ test_that("writing works", {
   expect_null(hql_write_all_attributes(test.character.att, test.character.path))
 
   expect_null(hql_write_dataset(test.integer, test.integer.path))
-
+  expect_null(hql_flush())
   hql_close_file(testfile)
 })
 
@@ -87,15 +87,21 @@ test_that("reading datasets works", {
 test_that("dropping datasets works", {
   hql_use_file(testfile)
 
-  expect_null(hql_drop_dataset(test.boolean.att.path))
+  expect_null(hql_drop_dataset(test.boolean.path))
   expect_null(hql_drop_attribute(test.numeric.att.path))
-
-  expect_null(hql_drop_dataset(test.numeric.att.path)))
-
   expect_null(hql_drop_all_attributes(test.character.path))
+  expect_null(hql_flush())
+
+  expect_false(test.boolean.path %in% hql_list_datasets(recursive = FALSE))
+  expect_false(basename(test.numeric.att.path) %in% hql_list_attributes(test.numeric.path))
+
+  expect_false(any(names(test.character.att) %in% hql_list_attributes(test.character.path)))
 
   expect_error(hql_drop_group(dirname(test.numeric.path), FALSE))
   expect_null(hql_drop_group(dirname(test.numeric.path), TRUE))
+  expect_null(hql_flush())
+
+  expect_false(dirname(test.numeric.path) %in% hql_list_groups())
 
   hql_close_file(testfile)
 })
