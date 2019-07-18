@@ -2,16 +2,13 @@
 % Please edit documentation in R/create.r
 \name{create}
 \alias{create}
-\alias{hql_create_file}
 \alias{create_group}
 \alias{create_dataset}
 \alias{create_attribute}
-\title{Create HDF Files, Datasets or Attribute}
+\title{Create HDF Object}
 \usage{
 create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path,
   data.type, size, overwrite = FALSE, parallel = FALSE)
-
-hql_create_file(file, overwrite = FALSE, parallel = FALSE)
 
 create_group(group, overwrite = FALSE)
 
@@ -35,13 +32,7 @@ is the string length.}
 \item{overwrite}{If \code{TRUE}, overwrite existing file, group,
 attribute, or dataset.}
 
-\item{parallel}{If \code{TRUE}, use parallel capabilities.
-
-Create HDF Object
-
-Generic helper for creating HDF objects.}
-
-\item{file}{The HDF file to create.}
+\item{parallel}{If \code{TRUE}, use parallel capabilities.}
 
 \item{group}{The group to create.}
 
@@ -54,8 +45,6 @@ Generic helper for creating HDF objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_create_file}: Create HDF file.
-
 \item \code{create_group}: Create HDF group.
 
 \item \code{create_dataset}: Create HDF dataset.
