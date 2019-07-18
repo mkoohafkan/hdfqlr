@@ -1,4 +1,7 @@
 library(testthat)
 library(hdfqlr)
 
-test_check("hdfqlr")
+
+if (hql_is_loaded()) {
+  test_check("hdfqlr")
+}
