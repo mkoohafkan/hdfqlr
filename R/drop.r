@@ -85,6 +85,6 @@ hql_drop_all_attributes = function(path) {
   stop_not_loaded()
   attr.names = hql_list_attributes(path)
   for (n in attr.names) {
-    drop("ATTRIBUTE", n)
+    drop("ATTRIBUTE", file.path(path, n))
   }
 }
