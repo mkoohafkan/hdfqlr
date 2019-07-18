@@ -1,15 +1,16 @@
 Package: hdfqlr
-Title: Interface to HDFql API
-Version: 0.5.0.9000
+Title: Interface to 'HDFql' API
+Version: 0.5-0.9000
 Authors@R: person("Michael", "Koohafkan", email = "michael.koohafkan@gmail.com", role = c("aut", "cre"))
-Description: Provides an interface to HDFql and helper functions for
+Description: Provides an interface to 'HDFql' and helper functions for
     reading data from and writing data to HDF files.
 Depends: R (>= 3.4)
 Imports: utils
 Suggests: 
     bit64 (>= 0.9),
-		knitr (>= 1.22),
-    ggplot2 (>= 3.2)
+    knitr (>= 1.22),
+    ggplot2 (>= 3.2),
+    testthat (>= 2.1.0)
 SystemRequirements: HDFql (>= 2.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
