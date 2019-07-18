@@ -1,15 +1,26 @@
-testfile = tempfile(fileext = ".h5")
+check_hdfql = function() {
+  if (!hql_is_loaded()) {
+    skip("HDFql not available")
+  }
+}
+
+if (hql_is_loaded()) {
+  testfile = tempfile(fileext = ".h5")
+}
 
 test_that("file creation works", {
+  check_hdfql()
   hql_create_file(testfile)
   expect_true(file.exists(testfile))
 })
 
 test_that("file use works", {
+  check_hdfql()
   expect_true(hql_use_file(testfile))
 })
 
 test_that("group creation works", {
+  check_hdfql()
   group1 = "group1"
   group2 = "group2/group2.1"
   hql_create_group(group1)
