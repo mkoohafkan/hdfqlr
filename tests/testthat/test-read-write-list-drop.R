@@ -1,9 +1,3 @@
-check_hdfql = function() {
-  if (!hql_is_loaded()) {
-    skip("HDFql not available")
-  }
-}
-
 if (hql_is_loaded()) {
   testfile = tempfile(fileext = ".h5")
   hql_create_file(testfile)

@@ -1,9 +1,3 @@
-check_hdfql <- function() {
-  if (!hql_is_loaded()) {
-    skip("HDFql not available")
-  }
-}
-
 test_that("connection works", {
   check_hdfql()
   expect_true(hql_is_loaded())

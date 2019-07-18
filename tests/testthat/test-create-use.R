@@ -1,9 +1,3 @@
-check_hdfql = function() {
-  if (!hql_is_loaded()) {
-    skip("HDFql not available")
-  }
-}
-
 if (hql_is_loaded()) {
   testfile = tempfile(fileext = ".h5")
 }
@@ -31,6 +25,7 @@ test_that("group creation works", {
   })
 
 test_that("file close works", {
+  check_hdfql()
   expect_true(hql_close_file(testfile))
 })
 
