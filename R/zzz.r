@@ -7,7 +7,7 @@
 		tryCatch(hql_load(hql.paths$install),
 			error = function(e)
 			  warning('Could not automatically connect to HDFql library in "',
-				hql.paths$install, '".', call. = FALSE))
+				hql.paths$install, '".', "\n", e, call. = FALSE))
   } else {
     packageStartupMessage('Connect to HDFql R drivers by calling ',
       "\n\n\t", 'hql_load("path/to/HDFql-x.x.x")',
