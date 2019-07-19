@@ -14,17 +14,12 @@ warnings_are_errors: true
 
 # System dependencies for HDFql
 
-include:
-  # works on Precise and Trusty
-  - os: linux
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-4.9
-    env:
-        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.9
 
 env:
   matrix:
