@@ -1,4 +1,5 @@
-﻿language: r
+﻿dist: xenial
+language: r
 r:
   - oldrel
   - release
@@ -13,13 +14,6 @@ r_packages:
 warnings_are_errors: true
 
 # System dependencies for HDFql
-
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.9
 
 env:
   matrix:
