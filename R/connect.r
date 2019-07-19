@@ -72,12 +72,25 @@ path_from_options = function(startup = FALSE) {
 #'
 #' @keywords internal
 set_paths = function() {
-  if (Sys.info()[["sysname"]] == "Windows") {
-    path = c("lib/HDFql_dll", "wrapper/R/HDFqlR")
-  } else { 
-    path = "wrapper/R/libHDFqlR"
+  hdfql_operating_system = Sys.info()["sysname"]
+  if (hdfql_operating_system == "Windows") {
+    lib.names = c(
+      "lib/HDFql_dll.dll",
+      "wrapper/R/HDFqlR.dll"
+    )
+  } else if (hdfql_operating_system == "Linux") {
+    lib.names = c(
+      "lib/libHDFql.so",
+      "wrapper/R/libHDFqlR.so"
+    )
+  } else # macOS
+    {
+    lib.names = c(
+      "lib/libHDFql.dylib",
+      "wrapper/R/libHDFqlR.dylib"
+    )
   }
-  assign("dll", path, envir = hql.paths)
+  assign("dll", lib.names, envir = hql.paths)
 	assign("wrapper", "wrapper/R/HDFql.R", envir = hql.paths)
 	invisible(NULL)
 }
@@ -90,7 +103,7 @@ set_paths = function() {
 #'
 #' @export
 hql_is_loaded = function() {
-  if (all(basename(hql.paths$dll) %in% names(getLoadedDLLs()))) {
+  if (all(gsub("(.*?)\\..*$", "\\1", basename(hql.paths$dll)) %in% names(getLoadedDLLs()))) {
     TRUE
   } else {
     FALSE
@@ -131,7 +144,7 @@ hql_load = function(path) {
   }
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
-    paste0(hql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
+    hql.paths$dll), mustWork = TRUE)
   wrapperpath = normalizePath(file.path(hql.paths$install,
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
