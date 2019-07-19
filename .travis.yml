@@ -18,14 +18,26 @@ env:
   matrix:
     - HDFQL_VERSION="2.1.0"
 
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+
 before_install:
- - cd ~
- - wget http://www.hdfql.com/releases/${HDFQL_VERSION}/HDFql-${HDFQL_VERSION}_Linux64_GCC-4.9.zip
  - echo $PWD
+ - wget http://www.hdfql.com/releases/${HDFQL_VERSION}/HDFql-${HDFQL_VERSION}_Linux64_GCC-4.9.zip
  - unzip HDFql-${HDFQL_VERSION}_Linux64_GCC-4.9.zip
  - export HDFQL_DIR=~/hdfql-${HDFQL_VERSION}
  - echo $HDFQL_DIR
- - cd ~- 
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
