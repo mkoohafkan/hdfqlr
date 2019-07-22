@@ -167,7 +167,7 @@ hql_load = function(path) {
 hql_unload = function() {
 	if (hql_is_loaded()) {
 		dllpath = normalizePath(file.path(hql.paths$install,
-			paste0(hql.paths$dll, .Platform$dynlib.ext)), mustWork = TRUE)
+			hql.paths$dll), mustWork = TRUE)
 		lapply(dllpath, dyn.unload)
 		if (hql_is_loaded()) {
 			stop("HDFql DLLs could not be unloaded.")
