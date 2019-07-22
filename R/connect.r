@@ -145,6 +145,8 @@ hql_load = function(path) {
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
     hql.paths$dll), mustWork = TRUE)
+    message("Connecting to:\n  ",
+      paste(dllpath, collapse = "\n  "))
   wrapperpath = normalizePath(file.path(hql.paths$install,
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
