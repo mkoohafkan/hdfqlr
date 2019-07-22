@@ -37,6 +37,7 @@ before_install:
   - export HDFQL_DIR=${PWD}/hdfql-${HDFQL_VERSION}
   - echo $HDFQL_DIR
   - cd -
+  - [ ! -d "$HDFQL_DIR" ] && echo "HDFql directory does not exists."
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
