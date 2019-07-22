@@ -1,4 +1,12 @@
-﻿dist: xenial
+﻿dist: trusty
+sudo: required
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.9
 
 language: r
 r:
@@ -9,7 +17,6 @@ cache: packages
 
 r_packages:
   - covr
-
 
 # Be strict when checking our package
 warnings_are_errors: true
@@ -22,13 +29,14 @@ env:
 
 
 before_install:
-  - cd ~
+  - sudo update-alternatives
+  - cd ..
   - echo $PWD
   - wget http://www.hdfql.com/releases/${HDFQL_VERSION}/HDFql-${HDFQL_VERSION}_Linux64_GCC-4.9.zip
   - unzip HDFql-${HDFQL_VERSION}_Linux64_GCC-4.9.zip
-  - export HDFQL_DIR=~/hdfql-${HDFQL_VERSION}
+  - export HDFQL_DIR=${PWD}/hdfql-${HDFQL_VERSION}
   - echo $HDFQL_DIR
-  - cd ~- 
+  - cd -
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
