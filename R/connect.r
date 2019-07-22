@@ -155,7 +155,7 @@ hql_load = function(path) {
   writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
     wrapper.file)
   # load DLLs
-  lapply(dllpath, dyn.load, now = FALSE)
+  lapply(dllpath, dyn.load, local = FALSE, now = FALSE)
   wrapper = new.env(parent = .BaseNamespaceEnv)
   source(wrapper.file, local = wrapper)
   assign("wrapper", wrapper, envir = hql)
