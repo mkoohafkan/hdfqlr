@@ -169,7 +169,8 @@ hql_load = function(path) {
   wrapper = new.env(parent = .BaseNamespaceEnv)
   assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
-    sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
+#    sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
+    eval(parse(wrapper.file), envir = wrapper),
     error = function(e) {
       stop("Failed to execute HDFql R wrapper.\n Additional Information:\n",
        paste(e), call. = FALSE)
