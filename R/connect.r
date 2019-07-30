@@ -144,24 +144,29 @@ hql_load = function(path) {
   }
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
-    hql.paths$dll), mustWork = FALSE)
+    hql.paths$dll), mustWork = TRUE)
     message("Connecting to:\n  ",
       paste(dllpath, collapse = "\n  "))
   wrapperpath = normalizePath(file.path(hql.paths$install,
-    hql.paths$wrapper), mustWork = FALSE)
+    hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
+  wrapper.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
-  wrapper.lines = wrapper.lines[-grep("dyn\\.load", wrapper.lines)]
+  writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
+    wrapper.file)
   # load DLLs
-  oldwd = getwd()
-  on.exit(setwd(oldwd))
-  for (p in dllpath) {
-    setwd(dirname(p))
-    dyn.load(basename(p), local = FALSE, now = FALSE)
+  for (dll in dllpath) {
+    dyn.load(dll, local = FALSE, now = TRUE)
   }
   # load wrapper
   wrapper = new.env(parent = .BaseNamespaceEnv)
-  source(textConnection(wrapper.lines), local = wrapper)
+  tryCatch(
+    sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
+    error = function(e) {
+      stop("Failed to execute HDFql R wrapper.\n Additional Information:\n",
+       e)
+    }
+  )
   assign("wrapper", wrapper, envir = hql)
   invisible(NULL)
 }
