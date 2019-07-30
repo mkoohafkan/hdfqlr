@@ -157,6 +157,9 @@ hql_load = function(path) {
   # load DLLs
   for (dll in dllpath) {
     dyn.load(dll, local = FALSE, now = TRUE)
+    if (!dll %in% sapply(getLoadedDLLs(), function(x) normalizePath(x[["path"]], mustWork = FALSE))) {
+      stop("Error loading HDFql shared library object ", dll)
+    } 
   }
   # load wrapper
   wrapper = new.env(parent = .BaseNamespaceEnv)
