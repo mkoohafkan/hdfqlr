@@ -144,20 +144,19 @@ hql_load = function(path) {
   }
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
-    hql.paths$dll), mustWork = TRUE)
+    hql.paths$dll), mustWork = FALSE)
     message("Connecting to:\n  ",
       paste(dllpath, collapse = "\n  "))
   wrapperpath = normalizePath(file.path(hql.paths$install,
-    hql.paths$wrapper), mustWork = TRUE)
+    hql.paths$wrapper), mustWork = FALSE)
   # prepare wrapper code
-  wrapper.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
-  writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
-    wrapper.file)
+  wrapper.lines = wrapper.lines[-grep("dyn\\.load", wrapper.lines)]
   # load DLLs
   lapply(dllpath, dyn.load, local = FALSE, now = FALSE)
   wrapper = new.env(parent = .BaseNamespaceEnv)
-  source(wrapper.file, local = wrapper)
+  # run wrapper
+  source(textConnection(wrapper.lines), local = wrapper)
   assign("wrapper", wrapper, envir = hql)
   invisible(NULL)
 }
