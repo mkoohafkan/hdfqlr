@@ -72,7 +72,7 @@ path_from_options = function(startup = FALSE) {
 #'
 #' @keywords internal
 set_paths = function() {
-  hdfql_operating_system = Sys.info()["sysname"]
+  hdfql_operating_system = Sys.info()[["sysname"]]
   if (hdfql_operating_system == "Windows") {
     lib.names = c(
       "lib/HDFql_dll.dll",
@@ -159,6 +159,12 @@ hql_load = function(path) {
   wrapper.lines = readLines(wrapperpath)
   writeLines(wrapper.lines[-c(1:29)], wrapper.file)
   # load DLLs
+  if (Sys.info()[["sysname"]] != "Windows") {
+    Sys.setenv(LD_LIBRARY_PATH = paste(Sys.getenv("LD_LIBRARY_PATH"),
+      dirname(dllpath), sep = .Platform$path.sep,
+      collapse = .Platform$path.sep))
+      dllpath = basename(dllpath)
+  }
   for (dll in dllpath) {
     dyn.load(dll, local = FALSE, now = TRUE)
     if (!dll %in% sapply(getLoadedDLLs(), function(x) normalizePath(x[["path"]], mustWork = FALSE))) {
@@ -169,8 +175,8 @@ hql_load = function(path) {
   wrapper = new.env(parent = .BaseNamespaceEnv)
   assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
-#    sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
-    eval(parse(wrapper.file), envir = wrapper),
+    sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
+#    eval(parse(wrapper.file), envir = wrapper),
     error = function(e) {
       stop("Failed to execute HDFql R wrapper.\n Additional Information:\n",
        paste(e), call. = FALSE)
