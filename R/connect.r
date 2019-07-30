@@ -78,19 +78,23 @@ set_paths = function() {
       "lib/HDFql_dll.dll",
       "wrapper/R/HDFqlR.dll"
     )
+    hdfql_shared_library = "HDFqlR"
   } else if (hdfql_operating_system == "Linux") {
     lib.names = c(
       "lib/libHDFql.so",
       "wrapper/R/libHDFqlR.so"
     )
+    hdfql_shared_library = "libHDFqlR"
   } else # macOS
     {
     lib.names = c(
       "lib/libHDFql.dylib",
       "wrapper/R/libHDFqlR.dylib"
     )
+    hdfql_shared_library = "libHDFqlR.dylib"
   }
   assign("dll", lib.names, envir = hql.paths)
+  assign("sharedlib", hdfql_shared_library, envir = hql.paths)
 	assign("wrapper", "wrapper/R/HDFql.R", envir = hql.paths)
 	invisible(NULL)
 }
@@ -152,8 +156,7 @@ hql_load = function(path) {
   # prepare wrapper code
   wrapper.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
-  writeLines(wrapper.lines[-grep("dyn\\.load", wrapper.lines)],
-    wrapper.file)
+  writeLines(wrapper.lines[-c(1:29)], wrapper.file)
   # load DLLs
   for (dll in dllpath) {
     dyn.load(dll, local = FALSE, now = TRUE)
@@ -163,6 +166,7 @@ hql_load = function(path) {
   }
   # load wrapper
   wrapper = new.env(parent = .BaseNamespaceEnv)
+  assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
     error = function(e) {
