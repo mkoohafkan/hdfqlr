@@ -151,6 +151,7 @@ hql_load = function(path) {
     hql.paths$dll), mustWork = TRUE)
     message("Connecting to:\n  ",
       paste(dllpath, collapse = "\n  "))
+  message("  Shared library name: ", hql.paths$sharedlib)
   wrapperpath = normalizePath(file.path(hql.paths$install,
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
@@ -171,7 +172,7 @@ hql_load = function(path) {
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
     error = function(e) {
       stop("Failed to execute HDFql R wrapper.\n Additional Information:\n",
-       e)
+       paste(e), call. = FALSE)
     }
   )
   assign("wrapper", wrapper, envir = hql)
