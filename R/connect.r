@@ -132,7 +132,7 @@ stop_not_loaded = function() {
 #' @param path The path to the HDFql installation. 
 #' 
 #' @importFrom utils packageName tail
-#' @importFrom methods setRefClass
+#' @importFrom methods setRefClass cacheMetaData
 #' @export
 hql_load = function(path) {
   if (hql_is_loaded()) {
@@ -158,6 +158,10 @@ hql_load = function(path) {
   # prepare wrapper code
   wrapper.file = tempfile(fileext = ".r")
   wrapper.lines = readLines(wrapperpath)
+  wrapper.lines = gsub("setRefClass", "methods::setRefClass",
+    wrapper.lines)
+  wrapper.lines = gsub("cacheMetaData", "methods::cacheMetaData",
+    wrapper.lines)
   writeLines(wrapper.lines[-c(1:29)], wrapper.file)
   # load DLLs
   for (dll in dllpath) {
@@ -167,7 +171,7 @@ hql_load = function(path) {
     } 
   }
   # load wrapper
-  wrapper = new.env(parent = parent.env(hql))
+  wrapper = new.env(parent = baseenv())
   assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
