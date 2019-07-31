@@ -38,6 +38,7 @@ before_install:
   - echo $HDFQL_DIR
   - cd -
   - if [ ! -d "$HDFQL_DIR" ]; then echo  "HDFql directory does not exist."; fi
+  - export LD_LIBRARY_PATH = ${HDFQL_DIR}/lib:${HDFQL_DIR}/wrapper/R:${LD_LIBRARY_PATH}
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
