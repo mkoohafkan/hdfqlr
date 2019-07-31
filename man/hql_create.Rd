@@ -34,8 +34,10 @@ Create HDF files and groups.
 if(hql_is_loaded()) {
   tf = tempfile(fileext = ".h5")
   hql_create_file(tf)
+
   hql_use_file(tf)
   hql_create_group("group1")
+
   hql_close_file(tf)
 }
 

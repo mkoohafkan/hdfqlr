@@ -166,7 +166,12 @@ dtype_to_rtype = function(dtype) {
 #'
 #' @keywords internal
 rtype_to_dtype = function(rtype, stop.on.error = TRUE) {
-	dtype = get_key(rtype, hql_Rtypes(), TRUE)
+  if (rtype == "integer64") {
+    if (!requireNamespace("bit64")) {
+      stop("Support for ", rtype, 'requires package "bit64"')
+    }
+  }
+  dtype = get_key(rtype, hql_Rtypes(), TRUE)
 	# drop "var" types
 	dtype = dtype[!grepl("VAR.+$", dtype)]
 	# drop "tiny", small, and unsigned

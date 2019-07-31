@@ -5,6 +5,9 @@
 #' @examples
 #' if(hql_is_loaded()){
 #'   tf = tempfile(fileext = ".h5")
+#'   hql_create_file(tf)
+#'
+#'   hql_use_file(tf)
 #'   x = rnorm(10)
 #'   attr(x, "myattribute") = "some information"
 #'   hql_write_dataset(x, tf, "mygroup/mydataset")
@@ -12,6 +15,8 @@
 #'   hql_drop_attribute(tf, "mygroup/mydataset/myattribute")
 #'   hql_drop_dataset(tf, "mygroup/mydataset")
 #'   hql_drop_group(tf, "mygroup")
+#'   
+#'   hql_close_file(tf)
 #' }
 #'
 #' @name hql_drop

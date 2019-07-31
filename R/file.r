@@ -6,15 +6,10 @@
 #' if(hql_is_loaded()){
 #'   tf = tempfile(fileext = ".h5")
 #'   hql_create_file(tf)
+#'
 #'   hql_use_file(tf)
-#'   carsfile = tempfile(fileext = ".csv")
-#'   write.table(mtcars, file = carsfile, 
-#'     row.names = FALSE, col.names = FALSE)
-#'   hql_write_dataset(sapply(mtcars, identity), "mtcars", FALSE) 
-#'   carsfile2 = tempfile(fileext = ".csv")
-#'   file.create(carsfile2)
-#'   hql_export_dataset("mtcars", carsfile2)
-#'   identical(read.csv(carsfile), read.csv(carsfile2))
+#'   hql_flush()
+#'
 #'   hql_close_file(tf)
 #' }
 #'

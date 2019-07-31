@@ -6,6 +6,7 @@
 #' if(hql_is_loaded()){
 #'   tf = tempfile(fileext = ".h5")
 #'   hql_create_file(tf)
+#'
 #'   hql_use_file(tf)
 #'   x = matrix(rnorm(100), nrow = 20)
 #'   hql_write_dataset(x, "dataset0")
