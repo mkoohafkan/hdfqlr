@@ -18,7 +18,7 @@ test_that("group creation works", {
   hql_create_group(group1)
   hql_create_group(group2)
   expect_null(hql_flush())
-  expect_identical(hql_list_groups(recursive = FALSE), group1)
+  expect_identical(hql_list_groups(recursive = FALSE), c(group1, dirname(group2)))
   expect_identical(hql_list_groups("group2"), group2)
   })
 
