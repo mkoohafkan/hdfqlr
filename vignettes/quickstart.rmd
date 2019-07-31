@@ -1,7 +1,7 @@
 ---
 title: "Quick Start"
 author: "Michael Koohafkan"
-date: 2019-07-18
+date: 2019-07-31
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Quick Start}
@@ -12,7 +12,7 @@ vignette: >
 This document gets you up and running with `hdfqlr`, an R interface to
 [HDFql](http://www.hdfql.com/). In order to use this package, you will 
 need to [download HDFql](http://www.hdfql.com/#download) for your 
-system.
+system. 
 
 If you are going to be using HDFql regularly, it's a good idea to set
 a default HDFql directory for use with `hdfqlr`. You can do this 
@@ -33,6 +33,15 @@ Otherwise, you can load the HDFql library after package start with
 
 ```r
 hql_load('path/to/hdfql-x.x.x')
+```
+
+If you are on a Linux system, you will need to update
+the environment variable `LD_LIBRARY_PATH` to include the HDFql 
+directories prior to using the package:
+
+
+```bash
+export LD_LIBRARY_PATH=<hdfql_r_wrapper_directory>:<hdfql_lib_directory>:$LD_LIBRARY_PATH
 ```
 
 The `hdfqlr` package relies on the R wrapper provided by HDFql. 
