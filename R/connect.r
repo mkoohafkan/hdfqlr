@@ -132,6 +132,7 @@ stop_not_loaded = function() {
 #' @param path The path to the HDFql installation. 
 #' 
 #' @importFrom utils packageName tail
+#' @importFrom methods setRefClass
 #' @export
 hql_load = function(path) {
   if (hql_is_loaded()) {
