@@ -150,9 +150,8 @@ hql_load = function(path) {
   # get paths to DLLs and wrapper
   dllpath = normalizePath(file.path(hql.paths$install,
     hql.paths$dll), mustWork = TRUE)
-    message("Connecting to:\n  ",
-      paste(dllpath, collapse = "\n  "))
-  message("  Shared library name: ", hql.paths$sharedlib)
+#  message("Connecting to:\n  ", paste(dllpath, collapse = "\n  "))
+#  message("  Shared library name: ", hql.paths$sharedlib)
   wrapperpath = normalizePath(file.path(hql.paths$install,
     hql.paths$wrapper), mustWork = TRUE)
   # prepare wrapper code
@@ -162,7 +161,7 @@ hql_load = function(path) {
     wrapper.lines)
   wrapper.lines = gsub("cacheMetaData", "methods::cacheMetaData",
     wrapper.lines)
-  writeLines(wrapper.lines[-c(1:29)], wrapper.file)
+  writeLines(wrapper.lines[-grep("dyn.load", wrapper.lines)], wrapper.file)
   # load DLLs
   for (dll in dllpath) {
     dyn.load(dll, local = FALSE, now = TRUE)
@@ -172,7 +171,7 @@ hql_load = function(path) {
   }
   # load wrapper
   wrapper = new.env(parent = baseenv())
-  assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
+#  assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
 #    eval(parse(wrapper.file), envir = wrapper),
