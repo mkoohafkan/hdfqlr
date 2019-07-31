@@ -10,11 +10,11 @@
 #'   hql_use_file(tf)
 #'   x = rnorm(10)
 #'   attr(x, "myattribute") = "some information"
-#'   hql_write_dataset(x, tf, "mygroup/mydataset")
+#'   hql_write_dataset(x, "mygroup/mydataset")
 #'
-#'   hql_drop_attribute(tf, "mygroup/mydataset/myattribute")
-#'   hql_drop_dataset(tf, "mygroup/mydataset")
-#'   hql_drop_group(tf, "mygroup")
+#'   hql_drop_attribute("mygroup/mydataset/myattribute")
+#'   hql_drop_dataset("mygroup/mydataset")
+#'   hql_drop_group("mygroup")
 #'   
 #'   hql_close_file(tf)
 #' }
@@ -58,8 +58,8 @@ hql_drop_dataset = function(dataset) {
 hql_drop_group = function(group, recursive = FALSE) {
   stop_not_loaded()
   if (!recursive) {
-    sub.groups = list("GROUP", group)
-    sub.datasets = list("DATASET", group)
+    sub.groups = list_hdf("GROUP", group)
+    sub.datasets = list_hdf("DATASET", group)
     if (length(c(sub.groups, sub.datasets)) > 0L) {
       stop(group, 'contains groups or datasets but ',
       'argument "recursive" is FALSE.')
