@@ -170,7 +170,7 @@ hql_load = function(path) {
     } 
   }
   # load wrapper
-  wrapper = new.env(parent = hql)
+  wrapper = new.env(parent = globalenv())
 #  assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),
