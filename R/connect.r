@@ -192,10 +192,12 @@ hql_unload = function() {
 	if (hql_is_loaded()) {
 		dllpath = normalizePath(file.path(hql.paths$install,
 			hql.paths$dll), mustWork = TRUE)
-		lapply(dllpath, dyn.unload)
-		if (hql_is_loaded()) {
-			stop("HDFql DLLs could not be unloaded.")
-		}
+    for (dll in dllpath) {
+      dyn.unload(dll)
+      if (dll %in% sapply(getLoadedDLLs(), function(x) normalizePath(x[["path"]], mustWork = FALSE))) {
+        stop("Error unloading HDFql shared library object ", dll)
+      }
+    }
 		rm(list = "wrapper", envir = hql)
 	}
   invisible(NULL)

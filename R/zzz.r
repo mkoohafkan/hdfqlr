@@ -15,9 +15,15 @@
 }
 
 .onUnload = function(libpath) {
-  hql_unload()
+  tryCatch(hql_unload(),
+    error = function(e) {
+      warning(packageName(), " could not be unloaded cleanly\n", e$message)
+    })
 }
 
 .onDetach = function(libpath) {
-  hql_unload()
+  tryCatch(hql_unload(),
+    error = function(e) {
+      warning(packageName(), " could not be unloaded cleanly\n", e$message)
+    })
 }
