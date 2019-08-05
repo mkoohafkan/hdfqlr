@@ -132,7 +132,7 @@ stop_not_loaded = function() {
 #' @param path The path to the HDFql installation. 
 #' 
 #' @importFrom utils packageName tail
-#' @importFrom methods setRefClass cacheMetaData
+#' @importFrom methods setRefClass cacheMetaData new
 #' @export
 hql_load = function(path) {
   if (hql_is_loaded()) {
@@ -170,7 +170,7 @@ hql_load = function(path) {
     } 
   }
   # load wrapper
-  wrapper = new.env(parent = baseenv())
+  wrapper = new.env(parent = hql)
 #  assign("hdfql_shared_library", hql.paths$sharedlib, envir = wrapper)
   tryCatch(
     sys.source(wrapper.file, envir = wrapper, toplevel.env = packageName()),

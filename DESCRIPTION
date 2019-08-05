@@ -1,10 +1,10 @@
 Package: hdfqlr
 Title: Interface to 'HDFql' API
-Version: 0.6-0
+Version: 0.6-1
 Authors@R: person("Michael", "Koohafkan", email = "michael.koohafkan@gmail.com", role = c("aut", "cre"))
 Description: Provides an interface to 'HDFql' <http://www.hdfql.com/> 
     and helper functions for reading data from and writing data to 'HDF5' files. 'HDFql' 
-    provides a high-level language for managing HDF5 data that is platform independent.
+    provides a high-level language for managing 'HDF5' data that is platform independent.
     For more information, see the reference manual 
     <http://www.hdfql.com/resources/HDFqlReferenceManual.pdf>.
 Depends: R (>= 3.4)
