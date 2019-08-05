@@ -30,7 +30,7 @@ example code from `hdfql-2.1.0/example/HDFqlExample.R`
 is included below:
 
 ```{r}
-example.h5 = tempfile(fileext = ".h5")
+example.h5 = shQuote(tempfile(fileext = ".h5"))
 print(paste("HDFql version:", HDFQL_VERSION))
 
 # create an HDF5 file named "example.h5" and use (i.e. open) it
