@@ -49,6 +49,8 @@ test_that("wrapper works", {
   expect_type(hdfql_cursor_get_bigint(), "double")
   expect_equal(hdfql_execute(sprintf('CLOSE FILE "%s"', testfile)), 0)
 
+  expect_null(rm(my_cursor))
+  expect_silent(gc())
   expect_type(detach(hql$wrapper), "environment")
 })
 
