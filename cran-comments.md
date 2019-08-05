@@ -1,10 +1,10 @@
-Submission of hdfqlr 0.6-0
+Submission of hdfqlr 0.6-1
 
-This is a resubmission to address CRAN comments:
+This is a patch for the previous CRAN submission (hdfqlr 0.6-0).
 
-* Added web references for the 'HDFql' API in your
-  Description text in the form <http:...>. Note that
-  https is not currently supported on the HDFql web site.
+* An environment inheritance issue impacting the low-level API caused certain 
+  operations to fail under specific circumstances. This has been fixed 
+  and tests have been added.
 
 ## Test environments
 * local Windows 10 install, R 3.6.1
