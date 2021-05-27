@@ -15,7 +15,8 @@ Suggests:
     bit64 (>= 0.9),
     knitr (>= 1.22),
     ggplot2 (>= 3.2),
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    rmarkdown (>= 2.8)
 SystemRequirements: HDFql (>= 2.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
