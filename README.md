@@ -1,5 +1,7 @@
 ﻿# hdfqlr <a href='https://github.com/mkoohafkan/hdfqlr'><img src='man/figures/logo.png' align="right" height="139" /></a>
-[![Build Status](https://travis-ci.org/mkoohafkan/hdfqlr.svg?branch=master)](https://travis-ci.org/mkoohafkan/hdfqlr)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/mkoohafkan/hdfqlr/workflows/R-CMD-check/badge.svg)](https://github.com/mkoohafkan/hdfqlr/actions)
+<!-- badges: end -->
 
 The `hdfqlr` package for R provides an API for HDF file access using 
 [HDFql](http://www.hdfql.com/). In order to use this package, you will 

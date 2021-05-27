@@ -24,3 +24,4 @@ _not_implemented
 ^HDFQLINSTALLDIR$
 ^HDFql-mod.R$
 ^CRAN-RELEASE$
+^\.github$
