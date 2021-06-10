@@ -1,7 +1,7 @@
 ---
 title: "Low-level API"
 author: "Michael Koohafkan"
-date: 2019-08-05
+date: 2021-06-09
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Low-level API}
@@ -81,7 +81,7 @@ print(paste("File in use:", hdfql_cursor_get_char()))
 ```
 
 ```
-## [1] "File in use: C:\\Users\\mkoohafk\\AppData\\Local\\Temp\\RtmpwbdzZ8\\file450858325d1.h5"
+## [1] "File in use: C:\\Users\\michael\\AppData\\Local\\Temp\\RtmpmOnI9o\\file29b010bf4c78.h5"
 ```
 
 ```r

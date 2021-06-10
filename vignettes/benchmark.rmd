@@ -1,7 +1,7 @@
 ---
 title: "Benchmarking hdfqlr"
 author: "Michael Koohafkan"
-date: 2019-07-11
+date: 2021-06-09
 output: 
   rmarkdown::html_vignette:
     standalone: true
@@ -12,9 +12,10 @@ vignette: >
 ---
 
 This document provides some benchmarks for comparing the performance
-of hdfqlr to two other HDF file APIs available in R: The 
-[`hdf5r`](https://cran.r-project.org/package=hdf5r) package 
-and the now-deprecated
+of hdfqlr to the 
+[`hdf5r`](https://cran.r-project.org/package=hdf5r) package. This vignette
+previously included comparisons to the 
+now-deprecated
 [`h5`](https://cran.r-project.org/package=h5) package. 
 Other packages that provide read (but not write) support for HDF files
 were not tested.
@@ -25,7 +26,6 @@ were not tested.
 ```r
 library(hdfqlr)
 library(hdf5r)
-library(h5)
 library(microbenchmark)
 ```
 
@@ -54,18 +54,8 @@ write_hdf5r = function() {
 	h5file$close_all()
 }
 
-write_h5 = function() {
-	test.file = tempfile(fileext = ".h5")
-	f = h5::h5file(test.file)
-	for (i in paste0("vector", 1:6)) {
-		f[i] = runif(10000)
-	}
-	h5::h5close(f)
-}
-
 write.benchmark = microbenchmark(
 		"hdf5r" = write_hdf5r(),
-		"h5" = write_h5(),
 		"hdfqlr" = write_hdfqlr(),
 	times = 1000L,
 	unit = 'ms'
@@ -73,11 +63,10 @@ write.benchmark = microbenchmark(
 ```
 
 
-|expr   |       min|        lq|      mean|    median|        uq|      max| neval|
-|:------|---------:|---------:|---------:|---------:|---------:|--------:|-----:|
-|hdf5r  | 137.01529| 142.83631| 149.75298| 146.79678| 151.55699| 460.1412|  1000|
-|h5     |  27.72461|  29.08571|  30.89929|  29.85698|  31.29489| 156.5213|  1000|
-|hdfqlr |  26.27676|  27.78007|  29.81201|  28.59322|  30.40774| 139.9679|  1000|
+|expr   |      min|        lq|      mean|   median|        uq|      max| neval|
+|:------|--------:|---------:|---------:|--------:|---------:|--------:|-----:|
+|hdf5r  | 150.1851| 185.27945| 199.61208| 198.1042| 211.18990| 399.0265|  1000|
+|hdfqlr |  23.8104|  29.05005|  36.77295|  37.1426|  41.68425|  88.0541|  1000|
 
 ![plot of chunk write-benchmark](./write-benchmark-1.png)
 
@@ -110,16 +99,8 @@ read_hdf5r = function(file, sets) {
 	result
 }
 
-read_h5 = function(file, sets) {
-	h5file = h5::h5file(file, "r")
-	result = lapply(sets, function(i) h5file[i][])
-	h5::h5close(h5file)
-	result
-}
-
 read.benchmark = microbenchmark(
 	"hdf5r" = read_hdf5r(tf, sets),
-	"h5" = read_h5(tf, sets),
 	"hdfqlr" = read_hdfqlr(tf, sets),
 	times = 1000L,
 	unit = 'ms'
@@ -127,10 +108,9 @@ read.benchmark = microbenchmark(
 ```
 
 
-|expr   |        min|        lq|       mean|     median|         uq|       max| neval|
-|:------|----------:|---------:|----------:|----------:|----------:|---------:|-----:|
-|hdf5r  | 106.138066| 109.44580| 112.821884| 111.200560| 114.180845| 197.76754|  1000|
-|h5     |   7.334914|   7.91498|   8.332634|   8.117439|   8.350525|  29.06353|  1000|
-|hdfqlr |  13.928192|  14.95506|  15.652447|  15.264958|  15.749835|  55.47240|  1000|
+|expr   |      min|        lq|      mean|   median|       uq|      max| neval|
+|:------|--------:|---------:|---------:|--------:|--------:|--------:|-----:|
+|hdf5r  | 116.4230| 137.74210| 143.90668| 143.6394| 148.6843| 219.4179|  1000|
+|hdfqlr |  12.5036|  18.11385|  21.01237|  21.9278|  23.0107|  41.2884|  1000|
 
 ![plot of chunk read-benchmark](./read-benchmark-1.png)

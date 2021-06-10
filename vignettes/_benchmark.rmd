@@ -12,16 +12,16 @@ vignette: >
 ---
 
 This document provides some benchmarks for comparing the performance
-of hdfqlr to two other HDF file APIs available in R: The 
-[`hdf5r`](https://cran.r-project.org/package=hdf5r) package 
-and the now-deprecated
+of hdfqlr to the 
+[`hdf5r`](https://cran.r-project.org/package=hdf5r) package. This vignette
+previously included comparisons to the 
+now-deprecated
 [`h5`](https://cran.r-project.org/package=h5) package. 
 Other packages that provide read (but not write) support for HDF files
 were not tested.
 
 ```{r include = FALSE}
 library(hdf5r)
-library(h5)
 library(microbenchmark)
 library(ggplot2)
 knitr::opts_chunk$set(fig.path ="./")
@@ -30,7 +30,6 @@ knitr::opts_chunk$set(fig.path ="./")
 ```{r eval = FALSE}
 library(hdfqlr)
 library(hdf5r)
-library(h5)
 library(microbenchmark)
 ```
 
@@ -58,18 +57,8 @@ write_hdf5r = function() {
 	h5file$close_all()
 }
 
-write_h5 = function() {
-	test.file = tempfile(fileext = ".h5")
-	f = h5::h5file(test.file)
-	for (i in paste0("vector", 1:6)) {
-		f[i] = runif(10000)
-	}
-	h5::h5close(f)
-}
-
 write.benchmark = microbenchmark(
 		"hdf5r" = write_hdf5r(),
-		"h5" = write_h5(),
 		"hdfqlr" = write_hdfqlr(),
 	times = 1000L,
 	unit = 'ms'
@@ -112,16 +101,8 @@ read_hdf5r = function(file, sets) {
 	result
 }
 
-read_h5 = function(file, sets) {
-	h5file = h5::h5file(file, "r")
-	result = lapply(sets, function(i) h5file[i][])
-	h5::h5close(h5file)
-	result
-}
-
 read.benchmark = microbenchmark(
 	"hdf5r" = read_hdf5r(tf, sets),
-	"h5" = read_h5(tf, sets),
 	"hdfqlr" = read_hdfqlr(tf, sets),
 	times = 1000L,
 	unit = 'ms'
