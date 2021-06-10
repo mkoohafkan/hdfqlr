@@ -5,7 +5,7 @@ list following a change to `package:knitr` dependencies.
 
 ## Test environments
 * local Windows 10 install, R 4.1.0
-* ubuntu 14.04 (on travis-ci), R-oldrel, R-release, R-devel
+* R-CMD Check via GitHub Actions with macOS-latest 
 
 Because the package requires the external program HDFql, examples 
 are only run on build if HDFql is available. In my test environments, 
