@@ -13,7 +13,6 @@
 #'   hql_close_file(tf)
 #' }
 #'
-
 #' @name hql_file
 NULL
 
@@ -30,7 +29,6 @@ hql_use_file = function(file) {
 
 #' @describeIn hql_file Close an HDF file.
 #' 
-#' @inheritParams hql_use_file
 #' @param all If `TRUE`, close all open HDF files.
 #'
 #' @export

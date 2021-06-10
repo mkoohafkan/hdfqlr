@@ -4,7 +4,9 @@
 \name{hql}
 \alias{hql}
 \title{HDFql Wrapper Constants and Functions}
-\format{An object of class \code{environment} of length 1.}
+\format{
+An object of class \code{environment} of length 1.
+}
 \usage{
 hql
 }

@@ -7,14 +7,17 @@
 \alias{hql_write_all_attributes}
 \title{Write HDF Dataset or Attribute}
 \usage{
-hql_write_dataset(dataset, path, include.attributes = TRUE,
-  overwrite = FALSE, parallel = FALSE)
+hql_write_dataset(
+  dataset,
+  path,
+  include.attributes = TRUE,
+  overwrite = FALSE,
+  parallel = FALSE
+)
 
-hql_write_attribute(attribute, path, overwrite = FALSE,
-  parallel = FALSE)
+hql_write_attribute(attribute, path, overwrite = FALSE, parallel = FALSE)
 
-hql_write_all_attributes(attributes, path, overwrite = FALSE,
-  parallel = FALSE)
+hql_write_all_attributes(attributes, path, overwrite = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{dataset}{The dataset to write. The object must be coercible

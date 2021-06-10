@@ -76,8 +76,6 @@ hql_list_groups = function(path, recursive = FALSE) {
 
 #' @describeIn hql_list List datasets.
 #'
-#' @inheritParams hql_list_groups
-#'
 #' @export
 hql_list_datasets = function(path, recursive = FALSE) {
 	if (missing(path)) {
@@ -102,8 +100,6 @@ hql_list_datasets = function(path, recursive = FALSE) {
 }
 
 #' @describeIn hql_list List Attributes
-#'
-#' @inheritParams hql_list_groups
 #'
 #' @export
 hql_list_attributes = function(path) {

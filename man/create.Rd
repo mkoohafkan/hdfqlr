@@ -7,16 +7,32 @@
 \alias{create_attribute}
 \title{Create HDF Object}
 \usage{
-create(what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"), path,
-  data.type, size, overwrite = FALSE, parallel = FALSE)
+create(
+  what = c("FILE", "GROUP", "DATASET", "ATTRIBUTE"),
+  path,
+  data.type,
+  size,
+  overwrite = FALSE,
+  parallel = FALSE
+)
 
 create_group(group, overwrite = FALSE)
 
-create_dataset(dataset, data.type, size = NULL, overwrite = FALSE,
-  parallel = FALSE)
+create_dataset(
+  dataset,
+  data.type,
+  size = NULL,
+  overwrite = FALSE,
+  parallel = FALSE
+)
 
-create_attribute(attribute, data.type, size = NULL, overwrite = FALSE,
-  parallel = FALSE)
+create_attribute(
+  attribute,
+  data.type,
+  size = NULL,
+  overwrite = FALSE,
+  parallel = FALSE
+)
 }
 \arguments{
 \item{what}{The type of object to create.}

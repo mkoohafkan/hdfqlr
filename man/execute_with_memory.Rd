@@ -4,8 +4,13 @@
 \alias{execute_with_memory}
 \title{Execute With Memory}
 \usage{
-execute_with_memory(script, variable = NULL, direction = c("INTO",
-  "FROM"), suffix = NULL, stop.on.error = TRUE)
+execute_with_memory(
+  script,
+  variable = NULL,
+  direction = c("INTO", "FROM"),
+  suffix = NULL,
+  stop.on.error = TRUE
+)
 }
 \arguments{
 \item{script}{The HDFQL operation to execute.
