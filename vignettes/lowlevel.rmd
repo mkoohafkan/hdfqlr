@@ -27,6 +27,73 @@ environment to your workspace.
 attach(hql$wrapper)
 ```
 
+```
+## The following objects are masked from hql$wrapper (pos = 4):
+## 
+##     HDFQL_ARRAY, HDFQL_ASCII, HDFQL_ATTRIBUTE, HDFQL_BIG_ENDIAN,
+##     HDFQL_BIGINT, HDFQL_BITFIELD, HDFQL_CHAR, HDFQL_CHUNKED,
+##     HDFQL_COMPACT, HDFQL_COMPOUND, HDFQL_CONTIGUOUS, hdfql_cursor,
+##     hdfql_cursor_, hdfql_cursor_absolute, hdfql_cursor_clear,
+##     hdfql_cursor_clone, hdfql_cursor_first, hdfql_cursor_get_bigint,
+##     hdfql_cursor_get_char, hdfql_cursor_get_count,
+##     hdfql_cursor_get_data_type, hdfql_cursor_get_double,
+##     hdfql_cursor_get_float, hdfql_cursor_get_int,
+##     hdfql_cursor_get_position, hdfql_cursor_get_size,
+##     hdfql_cursor_get_smallint, hdfql_cursor_get_tinyint,
+##     hdfql_cursor_get_unsigned_bigint, hdfql_cursor_get_unsigned_int,
+##     hdfql_cursor_get_unsigned_smallint,
+##     hdfql_cursor_get_unsigned_tinyint, hdfql_cursor_initialize,
+##     hdfql_cursor_last, hdfql_cursor_next, hdfql_cursor_previous,
+##     hdfql_cursor_relative, hdfql_cursor_use, hdfql_cursor_use_default,
+##     HDFQL_DATASET, HDFQL_DIRECTORY, HDFQL_DISABLED, HDFQL_DOUBLE,
+##     HDFQL_EARLIEST, HDFQL_EARLY, HDFQL_ENABLED, HDFQL_ENUMERATION,
+##     HDFQL_ERROR_AFTER_LAST, HDFQL_ERROR_ALREADY_EXISTS,
+##     HDFQL_ERROR_BEFORE_FIRST, HDFQL_ERROR_DANGLING_LINK,
+##     HDFQL_ERROR_EMPTY, HDFQL_ERROR_FULL, hdfql_error_get_line,
+##     hdfql_error_get_message, hdfql_error_get_position,
+##     HDFQL_ERROR_INVALID_FILE, HDFQL_ERROR_INVALID_REGULAR_EXPRESSION,
+##     HDFQL_ERROR_NO_ACCESS, HDFQL_ERROR_NO_ADDRESS,
+##     HDFQL_ERROR_NOT_ENOUGH_MEMORY, HDFQL_ERROR_NOT_ENOUGH_SPACE,
+##     HDFQL_ERROR_NOT_FOUND, HDFQL_ERROR_NOT_OPEN,
+##     HDFQL_ERROR_NOT_REGISTERED, HDFQL_ERROR_NOT_SUPPORTED,
+##     HDFQL_ERROR_OUTSIDE_LIMIT, HDFQL_ERROR_PARSE,
+##     HDFQL_ERROR_UNEXPECTED_DATA_TYPE,
+##     HDFQL_ERROR_UNEXPECTED_STORAGE_TYPE, HDFQL_ERROR_UNEXPECTED_TYPE,
+##     HDFQL_ERROR_UNKNOWN, hdfql_execute, hdfql_execute_get_status,
+##     HDFQL_EXTERNAL_LINK, HDFQL_FILE, HDFQL_FILL_DEFAULT,
+##     HDFQL_FILL_UNDEFINED, HDFQL_FILL_USER_DEFINED, HDFQL_FLOAT,
+##     hdfql_get_canonical_path, HDFQL_GLOBAL, HDFQL_GROUP,
+##     HDFQL_INCREMENTAL, HDFQL_INDEXED, HDFQL_INT, HDFQL_LATE,
+##     HDFQL_LATEST, HDFQL_LITTLE_ENDIAN, HDFQL_LOCAL, hdfql_mpi_get_rank,
+##     hdfql_mpi_get_size, HDFQL_NO, HDFQL_OPAQUE, HDFQL_REFERENCE,
+##     hdfql_shared_library, HDFQL_SMALLINT, HDFQL_SOFT_LINK,
+##     hdfql_subcursor_absolute, hdfql_subcursor_first,
+##     hdfql_subcursor_get_bigint, hdfql_subcursor_get_char,
+##     hdfql_subcursor_get_count, hdfql_subcursor_get_double,
+##     hdfql_subcursor_get_float, hdfql_subcursor_get_int,
+##     hdfql_subcursor_get_position, hdfql_subcursor_get_size,
+##     hdfql_subcursor_get_smallint, hdfql_subcursor_get_tinyint,
+##     hdfql_subcursor_get_unsigned_bigint,
+##     hdfql_subcursor_get_unsigned_int,
+##     hdfql_subcursor_get_unsigned_smallint,
+##     hdfql_subcursor_get_unsigned_tinyint, hdfql_subcursor_last,
+##     hdfql_subcursor_next, hdfql_subcursor_previous,
+##     hdfql_subcursor_relative, HDFQL_SUCCESS, HDFQL_TINYINT,
+##     HDFQL_TRACKED, HDFQL_UNDEFINED, HDFQL_UNLIMITED,
+##     HDFQL_UNSIGNED_BIGINT, HDFQL_UNSIGNED_INT, HDFQL_UNSIGNED_SMALLINT,
+##     HDFQL_UNSIGNED_TINYINT, HDFQL_UNSIGNED_VARBIGINT,
+##     HDFQL_UNSIGNED_VARINT, HDFQL_UNSIGNED_VARSMALLINT,
+##     HDFQL_UNSIGNED_VARTINYINT, HDFQL_UTF8, HDFQL_VARBIGINT,
+##     HDFQL_VARCHAR, HDFQL_VARDOUBLE, HDFQL_VARFLOAT,
+##     hdfql_variable_get_count, hdfql_variable_get_data_type,
+##     hdfql_variable_get_dimension, hdfql_variable_get_dimension_count,
+##     hdfql_variable_get_number, hdfql_variable_get_size,
+##     hdfql_variable_register, hdfql_variable_transient_register,
+##     hdfql_variable_unregister, hdfql_variable_unregister_all,
+##     HDFQL_VARINT, HDFQL_VARSMALLINT, HDFQL_VARTINYINT, HDFQL_VERSION,
+##     HDFQL_VERSION_18, HDFQL_YES
+```
+
 The HDFql wrapper functions can now be accessed directly. The 
 example code from `hdfql-2.1.0/example/HDFqlExample.R`
 is included below:
@@ -81,7 +148,7 @@ print(paste("File in use:", hdfql_cursor_get_char()))
 ```
 
 ```
-## [1] "File in use: C:\\Users\\michael\\AppData\\Local\\Temp\\RtmpmOnI9o\\file29b010bf4c78.h5"
+## [1] "File in use: C:\\Users\\michael\\AppData\\Local\\Temp\\Rtmpyos7yO\\file2d6c30ba408e.h5"
 ```
 
 ```r

@@ -10,8 +10,8 @@ vignette: >
 ---
 
 This document gets you up and running with `hdfqlr`, an R interface to
-[HDFql](http://www.hdfql.com/). In order to use this package, you will 
-need to [download HDFql](http://www.hdfql.com/#download) for your 
+[HDFql](https://www.hdfql.com/). In order to use this package, you will 
+need to [download HDFql](https://www.hdfql.com/#download) for your 
 system. 
 
 If you are going to be using HDFql regularly, it's a good idea to set

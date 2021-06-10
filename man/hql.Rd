@@ -22,7 +22,7 @@ can directly use the HDFql wrapper functions.
 The intended method of use is to \code{\link[=attach]{attach()}} the environment
 to the search path. For more information on what is provided
 by the wrapper, consult the
-\href{http://www.hdfql.com/#documentation}{HDFql reference manual}.
+\href{https://www.hdfql.com/#documentation}{HDFql reference manual}.
 }
 \examples{
 \dontrun{

@@ -18,7 +18,7 @@ hql.paths = new.env()
 #'   The intended method of use is to [attach()] the environment
 #'   to the search path. For more information on what is provided
 #'   by the wrapper, consult the 
-#' [HDFql reference manual](http://www.hdfql.com/#documentation).
+#' [HDFql reference manual](https://www.hdfql.com/#documentation).
 #'
 #' @examples
 #'\dontrun{
