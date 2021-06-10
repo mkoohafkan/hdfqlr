@@ -15,6 +15,7 @@ Suggests:
     bit64 (>= 0.9),
     knitr (>= 1.22),
     ggplot2 (>= 3.2),
+    microbenchmark (>= 1.4),
     testthat (>= 2.1.0),
     rmarkdown (>= 2.8)
 SystemRequirements: HDFql (>= 2.1.0)
