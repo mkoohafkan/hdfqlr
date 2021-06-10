@@ -1,13 +1,10 @@
-Submission of hdfqlr 0.6-1
+Submission of hdfqlr 0.6-2
 
-This is a patch for the previous CRAN submission (hdfqlr 0.6-0).
-
-* An environment inheritance issue impacting the low-level API caused certain 
-  operations to fail under specific circumstances. This has been fixed 
-  and tests have been added.
+This patch release adds `package:rmarkdown` to the SUGGESTS
+list following a change to `package:knitr` dependencies.
 
 ## Test environments
-* local Windows 10 install, R 3.6.1
+* local Windows 10 install, R 4.1.0
 * ubuntu 14.04 (on travis-ci), R-oldrel, R-release, R-devel
 
 Because the package requires the external program HDFql, examples 

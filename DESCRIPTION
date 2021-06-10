@@ -1,6 +1,6 @@
 Package: hdfqlr
 Title: Interface to 'HDFql' API
-Version: 0.6-1
+Version: 0.6-2
 Authors@R: person("Michael", "Koohafkan", email = "michael.koohafkan@gmail.com", role = c("aut", "cre"))
 Description: Provides an interface to 'HDFql' <http://www.hdfql.com/> 
     and helper functions for reading data from and writing data to 'HDF5' files. 'HDFql' 
@@ -20,6 +20,6 @@ Suggests:
 SystemRequirements: HDFql (>= 2.1.0)
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
