@@ -1,7 +1,6 @@
-Submission of hdfqlr 0.6-2
+Resubmission of hdfqlr 0.6-2
 
-This patch release adds `package:rmarkdown` to the SUGGESTS
-list following a change to `package:knitr` dependencies.
+Updated URLs following CRAN feedback.
 
 ## Test environments
 * local Windows 10 install, R 4.1.0
