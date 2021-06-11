@@ -7,7 +7,7 @@
 \title{hdfqlr: an HDF API based on HDFql}
 \description{
 This package provides an R interface to HDF files using the
-\href{https://www.hdfql.com}{HDFql}.
+\href{https://www.hdfql.com/}{HDFql}.
 }
 \section{Package options}{
 
