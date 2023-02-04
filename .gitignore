@@ -259,3 +259,4 @@ __pycache__/
 *.pyc
 
 .rhistory
+docs

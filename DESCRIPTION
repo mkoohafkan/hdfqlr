@@ -24,3 +24,4 @@ Encoding: UTF-8
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+URL: http://hydroecology.net/hdfqlr/
