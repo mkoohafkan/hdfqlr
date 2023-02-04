@@ -1,6 +1,7 @@
-﻿# hdfqlr <a href='https://github.com/mkoohafkan/hdfqlr'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# hdfqlr <a href='https://github.com/mkoohafkan/hdfqlr'><img src='man/figures/logo.png' align="right" height="139" /></a>
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/mkoohafkan/hdfqlr/workflows/R-CMD-check/badge.svg)](https://github.com/mkoohafkan/hdfqlr/actions)
+![CRAN Release](https://www.r-pkg.org/badges/version-last-release/hdfqlr)
+[![R-CMD-check](https://github.com/mkoohafkan/hdfqlr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mkoohafkan/hdfqlr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `hdfqlr` package for R provides an API for HDF file access using 
