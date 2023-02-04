@@ -1,0 +1,12 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  benchmark: benchmark.html
+  lowlevel: lowlevel.html
+  quickstart: quickstart.html
+last_built: 2023-02-04T05:43Z
+urls:
+  reference: http://hydroecology.net/hdfqlr/reference
+  article: http://hydroecology.net/hdfqlr/articles
+
