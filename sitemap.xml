@@ -1,141 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://hydroecology.net/hdfqlr/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/articles/benchmark.html</loc>
+    <loc>/articles/benchmark.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/articles/lowlevel.html</loc>
+    <loc>/articles/lowlevel.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/articles/quickstart.html</loc>
+    <loc>/articles/quickstart.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/news/index.html</loc>
+    <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/as_hdfql_sequence.html</loc>
+    <loc>/reference/as_hdfql_sequence.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/create.html</loc>
+    <loc>/reference/create.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/drop.html</loc>
+    <loc>/reference/drop.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/dtype_to_rtype.html</loc>
+    <loc>/reference/dtype_to_rtype.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/execute_with_memory.html</loc>
+    <loc>/reference/execute_with_memory.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_attr_names.html</loc>
+    <loc>/reference/get_attr_names.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_char_data.html</loc>
+    <loc>/reference/get_char_data.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_charset.html</loc>
+    <loc>/reference/get_charset.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_cursor_values.html</loc>
+    <loc>/reference/get_cursor_values.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_data.html</loc>
+    <loc>/reference/get_data.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_data_type.html</loc>
+    <loc>/reference/get_data_type.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_dimension.html</loc>
+    <loc>/reference/get_dimension.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_key.html</loc>
+    <loc>/reference/get_key.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_object_type.html</loc>
+    <loc>/reference/get_object_type.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/get_size.html</loc>
+    <loc>/reference/get_size.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hdfqlr.html</loc>
+    <loc>/reference/hdfqlr.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql.html</loc>
+    <loc>/reference/hql.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql.paths.html</loc>
+    <loc>/reference/hql.paths.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_create.html</loc>
+    <loc>/reference/hql_create.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_drop.html</loc>
+    <loc>/reference/hql_drop.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_file.html</loc>
+    <loc>/reference/hql_file.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_flush.html</loc>
+    <loc>/reference/hql_flush.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_is_loaded.html</loc>
+    <loc>/reference/hql_is_loaded.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_list.html</loc>
+    <loc>/reference/hql_list.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_load.html</loc>
+    <loc>/reference/hql_load.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_read.html</loc>
+    <loc>/reference/hql_read.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/hql_write.html</loc>
+    <loc>/reference/hql_write.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/int_to_char.html</loc>
+    <loc>/reference/int_to_char.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/list_hdf.html</loc>
+    <loc>/reference/list_hdf.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/path_from_options.html</loc>
+    <loc>/reference/path_from_options.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/recurse_groups.html</loc>
+    <loc>/reference/recurse_groups.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/rtype_to_dtype.html</loc>
+    <loc>/reference/rtype_to_dtype.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/set_char_data.html</loc>
+    <loc>/reference/set_char_data.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/set_data.html</loc>
+    <loc>/reference/set_data.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/set_paths.html</loc>
+    <loc>/reference/set_paths.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/stop_not_loaded.html</loc>
+    <loc>/reference/stop_not_loaded.html</loc>
   </url>
   <url>
-    <loc>http://hydroecology.net/hdfqlr/reference/write.html</loc>
+    <loc>/reference/write.html</loc>
   </url>
 </urlset>
