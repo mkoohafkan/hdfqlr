@@ -68,6 +68,7 @@ jobs:
           elif [ "$RUNNER_OS" == "macOS" ]; then
             export DYLD_LIBRARY_PATH=$HDFQL_DIR/wrapper/R:$HDFQL_DIR/lib:$DYLD_LIBRARY_PATH
           fi
+          echo '$HDFQL_DIR'
           ls -R '$HDFQL_DIR'
         shell: bash
 
