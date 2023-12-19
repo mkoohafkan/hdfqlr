@@ -68,8 +68,7 @@ jobs:
           elif [ "$RUNNER_OS" == "macOS" ]; then
             export DYLD_LIBRARY_PATH=$HDFQL_DIR/wrapper/R:$HDFQL_DIR/lib:$DYLD_LIBRARY_PATH
           fi
-          echo '$HDFQL_DIR'
-          ls -R '${{ runner.temp }}/.hdfqlr'
+          ls -R '${{ runner.temp }}/.hdfqlr/hdfql-2.1.0'
         shell: bash
 
 #      - uses: r-lib/actions/check-r-package@v2
