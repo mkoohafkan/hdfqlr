@@ -61,10 +61,10 @@ jobs:
             exit 1
           fi
           7z e '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
-            -o'${{ runner.temp }}/.hdfqlr'
+            -o'${{ runner.temp }}/.hdfqlr' -y
           echo "HDFQL_DIR=${{ runner.temp }}/.hdfqlr/hdfql-2.1.0" >> $GITHUB_ENV
         shell: bash
-        
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
