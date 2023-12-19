@@ -63,7 +63,8 @@ jobs:
           7z e '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
             -o'${{ runner.temp }}/.hdfqlr' -y
           echo "HDFQL_DIR=${{ runner.temp }}/.hdfqlr/hdfql-2.1.0" >> $GITHUB_ENV
-          echo 'HDFQL_DIR'
+          echo '$HDFQL_DIR'
+          ls -R '$HDFQL_DIR'
         shell: bash
 
       - uses: r-lib/actions/check-r-package@v2
