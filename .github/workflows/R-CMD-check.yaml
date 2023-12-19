@@ -44,6 +44,25 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Download HDFql
+        run: |
+          mkdir -p '${{ runner.temp }}/.hdfqlr/'
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            curl -o '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
+              https://www.hdfql.com/releases/2.1.0/HDFql-2.1.0_Linux64_GCC-4.9.zip
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            curl -o '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
+              https://www.hdfql.com/releases/2.1.0/HDFql-2.1.0_Windows64_VS-2015.zip
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            curl -o '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
+              https://www.hdfql.com/releases/2.1.0/HDFql-2.1.0_Darwin64_GCC-4.9.zip 
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+          7z e '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
+            -o'${{ runner.temp }}/.hdfqlr'
+          echo "HDFQL_DIR=${{ runner.temp }}/.hdfqlr/hdfql-2.1.0" >> $GITHUB_ENV
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
