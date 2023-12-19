@@ -60,7 +60,7 @@ jobs:
             echo "$RUNNER_OS not supported"
             exit 1
           fi
-          7z e '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
+          7z x '${{ runner.temp }}/.hdfqlr/HDFql.zip' \
             -o'${{ runner.temp }}/.hdfqlr' -y
           echo "HDFQL_DIR=${{ runner.temp }}/.hdfqlr/hdfql-2.1.0" >> $GITHUB_ENV
           echo '${{ runner.temp }}/.hdfqlr'
