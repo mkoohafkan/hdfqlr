@@ -1,5 +1,9 @@
 check_hdfql = function() {
-  if (!hql_is_loaded()) {
-    skip("HDFql not available")
+  skip_on_cran()
+  if (isTRUE(as.logical(Sys.getenv("CI", "false")))) {
+    hql_load()
+  } else if (hql_is_loaded()) {
+    return(invisible(TRUE))
   }
+  skip("HDFql not available")
 }
