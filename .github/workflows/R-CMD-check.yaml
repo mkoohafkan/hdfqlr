@@ -74,6 +74,7 @@ jobs:
           fi
           echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
           echo "HDFQL_DIR: $HDFQL_DIR"
+          ls -l -R $HDFQL_DIR
         shell: bash
 
       - uses: r-lib/actions/check-r-package@v2
