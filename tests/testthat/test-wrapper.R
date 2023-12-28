@@ -1,6 +1,7 @@
 testfile = tempfile(fileext = ".h5")
 
 test_that("wrapper works", {
+  check_hdfql()
   expect_type(attach(hql$wrapper), "environment")
   expect_equal(hdfql_execute(sprintf('CREATE FILE "%s"', testfile)), 0)
   expect_equal(hdfql_execute(sprintf('USE FILE "%s"', testfile)), 0)
