@@ -25,11 +25,11 @@ Create HDF files and groups.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_create_file}: Create HDF file.
+\item \code{hql_create_file()}: Create HDF file.
 
-\item \code{hql_create_group}: Create HDF group.
+\item \code{hql_create_group()}: Create HDF group.
+
 }}
-
 \examples{
 if(hql_is_loaded()) {
   tf = tempfile(fileext = ".h5")

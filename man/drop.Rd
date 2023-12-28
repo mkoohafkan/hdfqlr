@@ -34,13 +34,13 @@ Drop HDF objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_drop_dataset}: Drop HDF dataset.
+\item \code{hql_drop_dataset()}: Drop HDF dataset.
 
-\item \code{hql_drop_group}: Drop HDF group.
+\item \code{hql_drop_group()}: Drop HDF group.
 
-\item \code{hql_drop_attribute}: Drop HDF attribute.
+\item \code{hql_drop_attribute()}: Drop HDF attribute.
 
-\item \code{hql_drop_all_attributes}: Drop all attributes from an HDF dataset or group.
+\item \code{hql_drop_all_attributes()}: Drop all attributes from an HDF dataset or group.
+
 }}
-
 \keyword{internal}

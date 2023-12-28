@@ -27,10 +27,10 @@ List groups, datasets or attribute in an HDF file.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_list_groups}: List groups.
+\item \code{hql_list_groups()}: List groups.
 
-\item \code{hql_list_datasets}: List datasets.
+\item \code{hql_list_datasets()}: List datasets.
 
-\item \code{hql_list_attributes}: List Attributes
+\item \code{hql_list_attributes()}: List Attributes
+
 }}
-

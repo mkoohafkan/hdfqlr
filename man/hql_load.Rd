@@ -17,6 +17,6 @@ Load the HDFql library.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_unload}: Unload HDFql Library.
-}}
+\item \code{hql_unload()}: Unload HDFql Library.
 
+}}

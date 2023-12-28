@@ -40,13 +40,13 @@ Write a dataset or attribute to an HDF file.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_write_dataset}: Write a dataset to an HDF file.
+\item \code{hql_write_dataset()}: Write a dataset to an HDF file.
 
-\item \code{hql_write_attribute}: Write an attribute to an HDF file.
+\item \code{hql_write_attribute()}: Write an attribute to an HDF file.
 
-\item \code{hql_write_all_attributes}: Write multiple attributes to an HDF file.
+\item \code{hql_write_all_attributes()}: Write multiple attributes to an HDF file.
+
 }}
-
 \examples{
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")

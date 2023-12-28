@@ -20,11 +20,11 @@ Open (use) and close HDF files.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_use_file}: Open (use) an HDF file.
+\item \code{hql_use_file()}: Open (use) an HDF file.
 
-\item \code{hql_close_file}: Close an HDF file.
+\item \code{hql_close_file()}: Close an HDF file.
+
 }}
-
 \examples{
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")

@@ -61,11 +61,11 @@ Generic helper for creating HDF objects.
 }
 \section{Functions}{
 \itemize{
-\item \code{create_group}: Create HDF group.
+\item \code{create_group()}: Create HDF group.
 
-\item \code{create_dataset}: Create HDF dataset.
+\item \code{create_dataset()}: Create HDF dataset.
 
-\item \code{create_attribute}: Create HDF attribute.
+\item \code{create_attribute()}: Create HDF attribute.
+
 }}
-
 \keyword{internal}

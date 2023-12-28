@@ -36,13 +36,13 @@ Generic helper for reading HDF objects into memory.
 }
 \section{Functions}{
 \itemize{
-\item \code{hql_read_dataset}: Read a dataset from an HDF file.
+\item \code{hql_read_dataset()}: Read a dataset from an HDF file.
 
-\item \code{hql_read_attribute}: Read a single attribute from an HDF file.
+\item \code{hql_read_attribute()}: Read a single attribute from an HDF file.
 
-\item \code{hql_read_all_attributes}: Read attributes from an HDF file.
+\item \code{hql_read_all_attributes()}: Read attributes from an HDF file.
+
 }}
-
 \examples{
 if(hql_is_loaded()){
   tf = tempfile(fileext = ".h5")

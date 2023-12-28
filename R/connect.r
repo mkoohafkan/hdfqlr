@@ -85,8 +85,7 @@ set_paths = function() {
       "wrapper/R/libHDFqlR.so"
     )
     hdfql_shared_library = "libHDFqlR"
-  } else # macOS
-    {
+  } else { # macOS
     lib.names = c(
       "lib/libHDFql.dylib",
       "wrapper/R/libHDFqlR.dylib"

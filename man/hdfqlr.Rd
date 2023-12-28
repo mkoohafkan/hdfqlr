@@ -21,6 +21,13 @@ Alternatively, the HDFql install directory can be saved to an
 environment variable \code{HDFQL_DIR}.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://hydroecology.net/hdfqlr/}
+}
+
+}
 \author{
 \strong{Maintainer}: Michael Koohafkan \email{michael.koohafkan@gmail.com}
 
